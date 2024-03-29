@@ -5,17 +5,27 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 
- <link rel="stylesheet" href="/resources/css/company/employeeSupervisePage/searchEmployeePage.css">
+<link rel="stylesheet" href="/resources/css/company/employeeSupervisePage/searchEmployeePage.css">
+<%
+    Date today = new Date(); // 오늘 날짜 가져오기
+%>
+<%
+    // SimpleDateFormat을 사용하여 날짜 포맷 지정
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	String todayStr = sdf.format(new Date());
+%>
 
 <body>
 
    <div id="pull-wrap">
    <h3> 직원조회 </h3>
       <div id="searchBar-select">
-         <div id="searchBar" style="position: relative;">
+         <div id="searchBar">
             <span>키워드</span>
+         </div>
+         <div id="searchbar">
             <input class="searchBar" type="text" name="search" placeholder="이름/팀명/이메일">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="position: absolute; top: 50%; transform: translateY(-50%); right: 20px;">
                   <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
               </svg>
          </div>
@@ -29,7 +39,9 @@
                <option value="상품"> 상품 </option>
             </select>
          </div>
-         <button id="excelBtn"> 엑셀로 내려받기 </button>
+     	 <div class="excelBtn">
+         	<button id="excelBtn"> 엑셀로 내려받기 </button>
+         </div>
       </div>
       <hr style="border : 0.5px solid gray; width: 98%; margin: 0 auto; margin-top: 10px; margin-bottom: 10px;">
       <div id="searchResult_table">

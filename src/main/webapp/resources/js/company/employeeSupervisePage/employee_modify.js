@@ -11,6 +11,15 @@ document.head.appendChild(linkEle);*/
 
 const f = document.forms[0];
 
+//데이트 피커 (달력 기능)
+flatpickr.localize(flatpickr.l10ns.ko);
+
+let datePick1 = document.querySelector('.datePick1');
+datePick1.flatpickr({
+    local: 'ko'
+
+});
+
 document.querySelectorAll('input[type="button"]').forEach( btn => {
 	btn.addEventListener( 'click', (event) => {
 		event.preventDefault(); 

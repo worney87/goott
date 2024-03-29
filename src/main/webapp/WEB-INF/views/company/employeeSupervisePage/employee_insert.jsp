@@ -93,7 +93,7 @@
 							<th>퇴사일</th>
 							<td><input class="input5" type="text" name="endDt"></td>
 							<th>계정상태</th>
-							<td><input class="input6" type="text" name="idStatus"></td>
+							<td><input class="input6" type="text" name="idStatus" value="활성" readonly></td>
 						</tr>
 					</table>
 				</div>

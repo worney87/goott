@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 	
 <%@ include file="../../navBar.jsp" %> 
 <link rel="stylesheet" href="/resources/css/company/employeeSupervisePage/employee_modify.css">
 
@@ -83,7 +84,10 @@
 							<th>입사일</th>
 							<td><input class="input5" type="text" name="hireDt" value="${vo.hireDt}" readonly></td>
 							<th>퇴사일</th>
-							<td><input class="input5" type="text" name="endDt" value="${empty vo.endDt ? '-' : vo.endDt }"></td>
+							<td>
+							<%-- <input class="input5" type="text" name="endDt" value="${empty vo.endDt ? '-' : vo.endDt }"> --%>
+							<input id="input5" class="datePick1 form-control" type="text" placeholder=" 날짜를 선택하세요" name="endDt" value="${empty vo.endDt ? '날짜를 선택하세요' : vo.endDt }">
+							</td>
 							<th>계정상태</th>
 							<td>
 								<select id="idStatus-select" name="idStatus">
