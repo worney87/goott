@@ -2,62 +2,109 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>replit</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@100;600&display=swap');
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>BirthDay Card</title>
+    <style>
+        /* GOOGLE FONTS */
+        @font-face {
+          font-family: "S-CoreDream-3Light";
+          src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff")
+            format("woff");
+        }
 
-    .card {
-      position: absolute;
-      width: 260px;
-      height: 530px;
-      border: 1px solid grey;
-      background-size: cover;
-      background-position: center;
-      align-items: flex-start;
-      font-family: 'Pretendard';
-      /* Pretendard 폰트 적용 */
-    }
+        /* VARIABLES CSS */
+        :root {
+          --nav--width: 60px;
 
-    .letter {
-      position: absolute;
-      width: 85%;
-      text-align: center;
-      margin: 30% auto 0;
-      /* 가로 중앙 정렬 */
-    }
+          /* Colores */
+          --bg-color: #fa0050;
+          --first-color: #ff5798;
+          --sub-color: #ff90da;
+          --white-color: #fff;
 
-    .link {
-      position: absolute;
-      width: 85%;
-      text-align: center;
-      margin: 450px auto 0;
-      /* 가로 중앙 정렬 */
-    }
+          /* Fuente y tipografia */
+          --body-font: "S-CoreDream-3Light";
+          --normal-font-size: 1rem;
+          --small-font-size: 0.875rem;
+          --font-regular: 400;
+          --font-medium: 500;
+          --font-bold: 700;
+          --font-black: 900;
 
-    .link a {
-      text-decoration: none;
-      color: blue;
-      font-weight: 700;
-    }
+          /* z index */
+          --z-fixed: 100;
+        }
 
-    /* 글자 두껍게 설정 */
-    .letter span {
-      font-weight: 600;
-    }
-  </style>
+        /* BASE */
+        *,
+        ::before,
+        ::after {
+          box-sizing: border-box;
+          font-family: var(--body-font);
+        }
+
+        .card {
+            width: 260px;
+            height: 500px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 3%;
+            border: 1px solid grey;
+            margin: auto;
+        }
+
+        table {
+            height: 80%;
+            font-weight: bold;
+            margin: auto;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        #cardBody {
+            width: 100%;
+            height: 80%;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        #cardLink {
+            height: 20%;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .card a {
+            width: 80%;
+            text-decoration: none;
+            color: white;
+            background-color: #ff00ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin: auto;
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
-  <div class="card" th:style="'background-image: url(' + ${theme} + ')'">
-    <div class="letter">
-      <span th:text="${content}"></span>
+    <div class="container">
+        <div class="card" th:style="'background-image: url(' + ${theme} + ')'">
+            <table>
+                <tr id="cardBody">
+                    <td>
+                        <span th:utext="${content}">생일을 축하합니다.</span>
+                    </td>
+                </tr>
+                <tr id="cardLink">
+                    <td>
+                        <a th:href="@{'http://localhost:8080/userAdminPage/userEmpGiftList/' + ${ordNo} +'/'+ ${spotNo}}"> ▶ 선물 고르러 가기</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <div class="link">
-      <a href="#">▶ 선물 선택하러 가기</a>
-    </div>
-  </div>
 </body>
 
 </html>
