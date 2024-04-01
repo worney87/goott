@@ -30,8 +30,8 @@ function close(){
 
 function insert(f) {
 	
-	if (!/^.{2,10}$/.test(f.eName.value)) {
-	    alert("이름은 최소 2글자에서 최대 10글자까지 입력해야 합니다.");
+	if (!/^[a-zA-Z가-힣]{2,10}$/.test(f.eName.value)) {
+	    alert("이름은 한글이나 영어로 최소 2글자에서 최대 10글자까지 입력해야 합니다.");
 	    return false;
     } else if (f.dName.value != '인사' && f.dName.value != '재무' && f.dName.value != '영업' && f.dName.value != '상품') {
         alert("부서명이 올바르지 않습니다. 인사, 재무, 영업, 상품 중 하나를 입력하세요.");
