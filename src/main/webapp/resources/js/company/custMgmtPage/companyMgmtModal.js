@@ -38,9 +38,10 @@ document.getElementById("imgBtnSearchComName").addEventListener('click', functio
         let msg = '';
         if (json.length > 0) {
             json.forEach(item => {
+       
                 msg += `
                     <tr class="list">
-                        <td><a href="#" class="companyLink" data-company="${item.csCompanyName}">${item.csCompanyName}</a></td>
+                        <td><a href="#" class="companyLink" data-company="${item.csCompanyName}" data-no="${item.consultNo}">${item.csCompanyName}</a></td>
                     </tr>
                 `;
             });
@@ -83,13 +84,15 @@ document.getElementById("searchBtn").addEventListener('click', function() {
     .then(json => {
     	
     	console.log(json);
+    	
  
         let msg = '';
         if (json.length > 0) {
         	json.forEach(item => {
+        		
                 msg += `
                     <tr class="list">
-                        <td><a href="#" class="companyLink" data-company="${item.csCompanyName}">${item.csCompanyName}</a></td>
+                         <td><a href="#" class="companyLink" data-company="${item.csCompanyName}" data-no="${item.consultNo}">${item.csCompanyName}</a></td>
                     </tr>
                 `;
             });
@@ -119,12 +122,17 @@ function changeComName(){
             event.preventDefault(); // 기본 링크 동작 방지
             let result = confirm("기업명을 변경하시겠습니까?");
             if(result){
-                // 선택한 기업명을 가져와서 comName input 요소에 할당
+               
                 let selectedCompanyName = this.dataset.company;
+                let selectedConsultNo = this.dataset.no;
                 document.querySelector('input[name="comName"]').value = selectedCompanyName;
+                document.querySelector('input[name="consultNo"]').value = selectedConsultNo;
+                console.log(selectedCompanyName);
+                console.log(selectedConsultNo);
             }
             document.querySelector('input[name="companyName"]').value = ''; 
             searchCompanyModal.style.display = 'none'; 
+            
         });
     });
 	

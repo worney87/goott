@@ -27,8 +27,7 @@
 			</div>
 
 
-			<form action="/companyRegisterInsert" method="post"
-				id="companyRegisterForm" enctype="multipart/form-data">
+			<form method="post" enctype="multipart/form-data">
 				<div class="companyMgmt_div">
 					<div align="left">
 						<div class="subject_title_div">●기업 등록
@@ -41,14 +40,16 @@
 								<td class="companyMgmt_tbl_title">기업명</td>
 								
 								<td><div class="input-with-image"><input type="text" name="comName" placeholder="기업명 찾기 / 직접 입력">
-								<a href="#" id="open_searchCompany_modal"><input
-										type="button" id="imgBtnSearchComName"> </a>
+								<a href="#" id="open_searchCompany_modal">
+								<input type="hidden" name="consultNo" value="">
+								<input
+								type="button" id="imgBtnSearchComName"> </a>
 								</div></td>
 								<td></td>
 								<td class="companyMgmt_tbl_title">기업 구분</td>
-								<td><input type="radio" name="bizType" value="법인"
+								<td><input type="radio" name="comBizType" value="법인"
 									id="corporateRadio">법인 <input type="radio"
-									name="bizType" value="개인" id="individualRadio">개인</td>
+									name="comBizType" value="개인" id="individualRadio">개인</td>
 								<td></td>
 							
 							</tr>
@@ -59,7 +60,7 @@
 								<div class="input-with-image" id="fileUpDown">
 								<input type="text" name="comBizLicenseFile" placeholder="사업자 등록증 업로드"  readonly>
 								<input type="file" name="file" id="fileInput" multiple="multiple"
-									style="display: none;" onchange="updateFileName()"> 
+									style="display: none;"> 
 								<label for="fileInput" id="imgBtnBizLicenseFileUpload"></label>
 								</div>
 								</td>
@@ -75,9 +76,15 @@
 
 
 							<tr>
-								<td id="uploadedFileName"></td>
-								<td></td>
+							    <td id="uploadedFileName">
+							        <div class="uploadResult">
+										<ul></ul>
+									
+									</div>
+							    </td>
+							    <td></td>
 							</tr>
+
 
 							<tr>
 								<td class="companyMgmt_tbl_title" rowspan="3">소재 지역</td>
@@ -242,9 +249,9 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script type="text/javascript"
-		src="/resources/js/company/custMgmtPage/companyRegister.js"></script>
-	<script type="text/javascript"
 		src="/resources/js/company/custMgmtPage/companyMgmtModal.js"></script>
+	<script type="text/javascript"
+		src="/resources/js/company/custMgmtPage/companyRegister.js"></script>
 
 
 </body>

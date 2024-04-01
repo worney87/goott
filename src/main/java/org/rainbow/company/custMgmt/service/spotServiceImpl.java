@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.rainbow.company.custMgmt.domain.cEmpListVO;
 import org.rainbow.company.custMgmt.domain.spotAndUserVO;
 import org.rainbow.company.custMgmt.domain.spotListVO;
 import org.rainbow.company.custMgmt.domain.spotVO;
@@ -149,9 +150,39 @@ public class spotServiceImpl implements spotService{
 		
 		
 	}
+	
+	@Override
 	public userVO getManagerInfo(int spotNo) {
 		
 		return spotMapper.getManagerInfo(spotNo);
 	}
+	
+	@Override
+	public int updateManagerInfo(userVO vo) {
+		log.info("updateManagerInfo...." + vo);
+		
+		int SpotNo = vo.getSpotNo();
+		String UserName = vo.getUserName();
+		String UserEmail = vo.getUserEmail();
+		String UserContact = vo.getUserContact();
+		String UserPw = vo.getUserPw();
+
+
+		// 가져온 값들을 출력
+		System.out.println("SpotNo: " + SpotNo);
+		System.out.println("UserName: " + UserName);
+		System.out.println("UserEmail: " + UserEmail);
+		System.out.println("UserContact: " + UserContact);
+		System.out.println("UserPw: " + UserPw);
+		
+		return spotMapper.updateManagerInfo(vo);
+		
+	}
+	
+		@Override
+		public List<cEmpListVO> getEmpList(int spotNo) {
+			
+			return spotMapper.getEmpList(spotNo);
+		}
 
 }
