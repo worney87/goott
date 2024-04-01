@@ -47,10 +47,12 @@
 	<!-- 직원 정보 등록 -->
 	<insert id="insert" parameterType="org.rainbow.company.employeeSupervisePage.domain.rain_EmpVO">
 	
-        	INSERT INTO RAIN_EMP_tbl ( deptNo, eName, ePhone, job, sal, email, eAddr, eAddr2, identyNum, salAccount, workType, idStatus, eBank, hireDt, endDt)
+        	INSERT INTO RAIN_EMP_tbl ( deptNo, eName, eId, ePw, ePhone, job, sal, email, eAddr, eAddr2, identyNum, salAccount, workType, idStatus, eBank, hireDt, endDt)
         		VALUES (
         			#{deptNo},
             		#{eName}, 
+            		#{eId},
+            		#{ePw},
             		#{ePhone}, 
             		#{job}, 
             		#{sal}, 
@@ -129,6 +131,11 @@
         	AND d.dName LIKE '%${dName}%'
         </if>
        ORDER BY e.eno
+	</select>
+	
+		<!-- SELECT COUNT(*) FROM RAIN_EMP_tbl WHERE email= #{email} -->
+	<select id="checkEmailExists" resultType="boolean" parameterType="String">
+		SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM RAIN_EMP_tbl WHERE email = #{email}
 	</select>
 	
 </mapper>

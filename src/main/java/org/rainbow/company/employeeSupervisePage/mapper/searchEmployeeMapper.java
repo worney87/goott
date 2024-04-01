@@ -35,4 +35,7 @@ public interface searchEmployeeMapper {
 	
 	// 사원 리스트 엑셀화
 	public List<EmployeeExcelDTO> excelDown(EmployeeSearchDTO empdto);
+	
+	// 가입된 이메일인지 체크
+	public boolean checkEmailExists(String email);
 }
