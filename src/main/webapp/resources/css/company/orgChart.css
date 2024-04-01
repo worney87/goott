@@ -1,0 +1,116 @@
+body{
+       margin : 0;
+	   padding : 0;
+	   position: relative;
+	}
+	div{
+	   display: block;
+	}
+	#navBar{
+	   position: fixed;
+	   width : 100%;
+	   top : 0;
+	}
+	#orgchart{
+		width : auto;
+		hegiht : auto;
+	}
+	#orgchart-form {
+       width: 100%;
+       text-align: center;
+    }
+    li {
+       list-style: none;
+    }
+    #orgTeam {
+       display: flex;
+       justify-content: center; 
+    }
+    .team {
+       padding : 50px; 
+    }
+    #title{
+       display : inline-block;
+       margin-top : 100px;
+       margin-left: 300px;
+    }
+    #orgHeader{
+       display : flex;
+       justify-content: center; 
+    }
+    .orgHeader{
+    	padding-right: 2rem;
+    }
+    #header{
+       background-color : skyblue;
+       height : 80px;
+       width : 260px;
+       border : none;
+       border-radius: 25%;
+    }
+    #reader-Name{
+       background-color : #0a58ca;
+       color : white;
+       height : 80px;
+       width : 260px;
+       border : 1px solid black;
+    }
+    #header p, #reader-Name p {
+       margin-top: 8px;
+    }
+    #team-member {
+       margin-top : 30px;
+       height : 150px;
+       background-color : skyblue;
+       border-radius: 25%;
+       padding: 40px;
+    }
+    #team-member p {
+       font-weight : bold;
+       font-size : 20px;
+    }
+    #team-member Strong {
+       font-size : 20px;
+       color: white;
+    }
+    #team-member1 {
+       height : 150px;
+       background-color : skyblue;
+       border-radius: 25%;
+       padding: 40px;
+    }
+    #team-member1 p {
+       font-weight : bold;
+       font-size : 20px;
+    }
+    #team-member1 Strong {
+       font-size : 20px;
+       color: white;
+    }
+     .connector {
+	   position: absolute;
+       width: 3px;
+       height: 170px; /* 선의 길이 */
+       background-color: black;
+       left: 40%; /* 가운데 정렬 */
+       top: 260px; /* 위에서 시작 */
+       transform: translateX(-100%) rotate(75deg); /* 선을 45도 기울임 */
+     }
+     .connector1 {
+       position: absolute;
+       width: 3px;
+       height: 50px; /* 선의 길이 */
+       background-color: black;
+       left: 50%; /* 가운데 정렬 */
+       top: 318px; /* 위에서 시작 */
+       transform: translateX(-50%); 
+     }
+     .connector2 {
+	   position: absolute;
+       width: 3px;
+       height: 170px; /* 선의 길이 */
+       background-color: black;
+       left: 60%; /* 가운데 정렬 */
+       top: 260px; /* 위에서 시작 */
+       transform: translateX(-100%) rotate(105deg); /* 선을  반대로 45도 기울임 */
+     }

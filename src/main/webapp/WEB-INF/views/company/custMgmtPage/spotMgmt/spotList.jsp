@@ -101,7 +101,7 @@
         <td>${vo.spStatus}</td>
         <td>${vo.spChangeDate}</td>
         <td><a href="#" data-spot-no="${vo.spotNo}" id="open_managerInpo_modal">${vo.userName}</a></td>
-        <td><a href="#" id="open_empList_modal">보기</a></td>
+        <td><a href="#" data-spot-no="${vo.spotNo}" id="open_empList_modal">보기</a></td>
     </tr>
 </c:forEach>
          </tbody>
@@ -129,7 +129,7 @@
     		<input type="button" id="searchBtn" value="검색">
  		</div>
  		<div class="list_div_modal">
-      <table class="list_div_tbl_modal">
+      <table class="list_div_tbl_modal" id="empList_tbl">
          <thead>
             <tr class="top_bar_of_list_modal">
                <th>임직원 등록 번호</th>
@@ -142,20 +142,11 @@
                <th>주문일자</th>
                <th>상품</th>  
             </tr>
- 			<tr>
-        	<td><a href="#" id="open_empInfo_modal">1</a></td>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-
-        </tr>
          </thead>
-
+         <tbody>
+ 			<tr>
+        </tr>
+	</tbody>
       </table>
 	</div>
 		<div class="modal-footer">	
@@ -178,7 +169,7 @@
 	<div class="list_div_modal">
       <table class="list_div_tbl_modal">
          <thead>
-            <tr class="top_bar_of_list_modal">
+            <tr class="top_bar_of_list_modal" id="">
                <th>임직원 등록 번호</th>
                <th>이름</th>
                <th>연락처</th>
@@ -189,18 +180,10 @@
                <th>주문일자</th>
                <th>상품</th>  
             </tr>
-			     <tr>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        	<td>test</td>
-        </tr>
          </thead>
+         <tbody>
+         
+         </tbody>
 
       </table>
 	</div>
@@ -216,7 +199,7 @@
 <div class="modal" id="managerInpo_modal"> 	
     <div class="modal-content">
         <div class="modal-top">
-            <span class="modal-title">지점 담당자 정보</span>
+            <span class="modal-title">지점 담당자</span>
         </div>
         <div class="list_div_modal" id="managerInpo_tbl">
             <table class="list_div_tbl_modal">

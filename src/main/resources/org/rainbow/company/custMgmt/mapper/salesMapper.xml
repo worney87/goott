@@ -50,7 +50,7 @@
 	    csEname = #{csEname},
 	    csResponseDate = #{csResponseDate},
 	    <!-- csFailReason과 csFailDetailReason가 모두 존재하는 경우에만 업데이트 -->
-	    <if test="csFailReason != null and csFailDetailReason != null">
+	    <if test="csFailReason != '' and csFailDetailReason != ''">
 	        csFailReason = #{csFailReason},
 	        csFailDetailReason = #{csFailDetailReason}
 	    </if>
@@ -59,7 +59,8 @@
   	
   <!-- 영업 히스토리 내용 저장하기 -->
 	<insert id="insertCsh" parameterType="java.util.Map">
-	    INSERT INTO RAIN_consultHistory_tbl (consultNo, cshDate1, cshContent1, cshDate2, cshContent2, cshDate3, cshContent3, cshDate4, cshContent4, cshDate5, cshContent5)
+	    INSERT INTO RAIN_consultHistory_tbl (consultNo, cshDate1, cshContent1, cshDate2, cshContent2, 
+	    cshDate3, cshContent3, cshDate4, cshContent4, cshDate5, cshContent5)
 	    VALUES (
 	    #{vo.consultNo}, 
 	    <if test="vo.cshDate1 != null and vo.cshContent1 != null">
@@ -112,19 +113,19 @@
 	
 	 <!-- 기업명 찾기 모달창 : 기업 리스트 가져오기 -->
 	<select id="searchCompanyListModal" resultType="org.rainbow.company.custMgmt.domain.consultVO">
-	    SELECT cs.csCompanyName
-	    FROM RAIN_cCompany_tbl com
-	    INNER JOIN RAIN_consult_tbl cs 
-	    WHERE cs.csStatus = '계약 완료' AND com.comName IS NULL
+	SELECT cs.consultNo,cs.csCompanyName
+	FROM RAIN_consult_tbl cs
+	WHERE cs.csStatus = '계약 완료'
+	AND cs.csCompanyName NOT IN (SELECT comName FROM RAIN_cCompany_tbl)
 	</select>
  	
  	
  	 <!-- 기업명 찾기(모달창)에서 기업명 검색 기능 -->
 	<select id="searchModalComName" resultType="org.rainbow.company.custMgmt.domain.consultVO" parameterType="string">
-		SELECT cs.csCompanyName
-		FROM RAIN_cCompany_tbl com
-		INNER JOIN RAIN_consult_tbl cs 
-		WHERE cs.csStatus = '계약 완료' AND com.comName IS NULL AND cs.csCompanyName LIKE CONCAT('%', #{companyName}, '%')
+		SELECT cs.consultNo, cs.csCompanyName
+		FROM RAIN_consult_tbl cs
+		WHERE cs.csStatus = '계약 완료'
+		AND cs.csCompanyName NOT IN (SELECT comName FROM RAIN_cCompany_tbl);
 
 	</select>
 	

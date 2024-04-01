@@ -37,6 +37,7 @@
 								<td><div class="input-with-image"><input type="text" name="comName"  value="${companyVO.comName }">
 								<a href="#" id="open_searchCompany_modal"><input
 										type="button" id="imgBtnSearchComName"> </a>
+								<input type="hidden" name="consultNo" value="">
 								</div></td>
 								<td></td>
 											<td class="companyMgmt_tbl_title">기업 구분</td>
@@ -70,11 +71,10 @@
 
 				
 							<tr>
-							    <c:forEach var="file" items="${companyVO.comBizLicenseFile}">
-							        <td id="uploadedFileName">${file}</td>
-							    </c:forEach>
-						
-					
+							   <td id="uploadedFileName">
+				        <a href="#" onclick="downloadFile('${companyVO.comBizLicenseFile}')">${companyVO.comBizLicenseFile}</a>
+				   			 </td>
+				    		<td></td>
 							   
 							</tr>
 

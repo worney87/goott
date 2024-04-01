@@ -73,29 +73,56 @@ public class salesController {
     public String saveSales(consultAndCshVO vo, RedirectAttributes rttr) {
         log.info("saveSales_success" + vo);
         
-        // consultHistoryNo가 0이 아니면 수정을 수행
-        if (vo.getConsultHistoryNo() != 0) {
-            salesService.updateSalesAndHistory(vo);
-        } else {
-            // consultHistoryNo가 0이면 저장을 수행
+        log.info(
+                "ConsultNo=" + vo.getConsultNo() + ", " + 
+                "CsStatus=" + vo.getCsStatus() + ", " + 
+                "CsEname=" + vo.getCsEname() + ", " + 
+                "CsFailReason=" + vo.getCsFailReason() + ", " +
+                "CsResponseDate=" + vo.getCsResponseDate()+ ", " +
+                "ConsultHistoryNo=" + vo.getConsultHistoryNo()+ ", " +
+                "CshContent1=" + vo.getCshContent1()+ ", " +
+                "CshDate1=" + vo.getCshDate1()
+        		
+        		);
+    
             salesService.saveSales(vo);
-        }
+
         
         rttr.addFlashAttribute("result","success");
         
         return "redirect:/salesList";
     }
-
+    
+    
+    /** 'salesView.jsp' : 영업 내용, 영업 히스토리 저장(수정)하기 */
+    @PostMapping("/updateSalesAndHistory")
+    public String updateSalesAndHistory(consultAndCshVO vo, RedirectAttributes rttr) {
+        log.info("updateSalesAndHistory_success" + vo);
+        
+     
+        salesService.updateSalesAndHistory(vo);
+        
+        rttr.addFlashAttribute("result","success");
+        
+        return "redirect:/salesList";
+    }
+    
+    
     /** 'companyViewView.jsp' : 기업명 찾기 - 기업명 리스트로 가져오기 */
-	@GetMapping(value = "/searchModal", produces = {
-			MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<List<consultVO>> searchModal() {
-	    log.info("searchCompanyListModal_success");
-	    List<consultVO> list = salesService.searchCompanyListModal();    
-	    log.info("리스트" + list);
-	    System.out.println("리스트" + list);
-	    return new ResponseEntity<List<consultVO>>(list, HttpStatus.OK);
-	}
+    @GetMapping(value = "/searchModal", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    public ResponseEntity<List<consultVO>> searchModal() {
+        List<consultVO> list = salesService.searchCompanyListModal();
+        
+        // consultVO 리스트의 consultNo 값 및 형식 확인
+        for (consultVO vo : list) {
+            Object consultNo = vo.getConsultNo();
+            System.out.println("consultNo의 형식: " + consultNo.getClass().getSimpleName());
+            System.out.println("consultNo의 값: " + consultNo);
+            System.out.println("CsCompanyName: " + vo.getCsCompanyName());
+        }
+        
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 	
 	/** 'companyView.jsp' : 기업명 찾기 - 기업명 검색 결과 가져오기*/
 	@PostMapping(value = "/searchModalComName", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})

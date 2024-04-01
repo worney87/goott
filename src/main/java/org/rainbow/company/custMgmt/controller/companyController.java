@@ -1,15 +1,14 @@
 package org.rainbow.company.custMgmt.controller;
 
+
 import java.io.File;
 import java.io.IOException;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +18,7 @@ import org.rainbow.company.custMgmt.domain.companyDownVO;
 import org.rainbow.company.custMgmt.domain.companyInputVO;
 
 import org.rainbow.company.custMgmt.domain.companyVO;
-
+import org.rainbow.company.custMgmt.domain.spotAndUserVO;
 import org.rainbow.company.custMgmt.service.companyServiceImpl;
 import org.rainbow.domain.ExcelDownloadUtil;
 import org.rainbow.domain.ExcelListener;
@@ -30,6 +29,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.log4j.Log4j;
 @CrossOrigin(origins = "<http://localhost:8080>")
@@ -113,84 +113,6 @@ public class companyController {
 	}
 	
 	
-	/** 사업자등록증 파일 업로드2 */
-	@ResponseBody 
-	@PostMapping(value="/uploadAsyncAction", produces = {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<List<spotAttachFileDTO>> uploadAsyncPost(MultipartFile[] uploadFile, Model model) {
-		List<spotAttachFileDTO> list = new ArrayList<spotAttachFileDTO>();
-		
-		//log.info(list);
-		
-		log.info("upload async post.........");
-		//make Folder--------------------------
-		
-		File uploadPath = new File("C:\\upload",getFolder());
-		log.info("uploadPath : " + uploadPath);
-		
-		if(!uploadPath.exists()) {
-			uploadPath.mkdirs();
-		}
-		
-		//make yyyy/MM/dd folder
-		for(MultipartFile file : uploadFile) {
-			
-			//파일 정보를 담을 AttachFileDTO 객체 생성
-			spotAttachFileDTO attachDTO = new spotAttachFileDTO();
-			
-			//log.info("upload Async post");
-			//log.info("upload File Name : " + file.getOriginalFilename());
-			//log.info("upload File Size : " + file.getSize());
-			
-			
-			String uploadFileName = file.getOriginalFilename();
-			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
-			log.info("only file name : " + uploadFileName);
-			
-			UUID uuid = UUID.randomUUID();
-			uploadFileName = uuid.toString() + "_" + uploadFileName;
-			//밀리초 단위를 랜덤값으로 사용함 = UUID
-			
-			//attachDTO에 저장
-			attachDTO.setFileName(file.getOriginalFilename());
-			attachDTO.setUploadPath(getFolder());
-			attachDTO.setUuid(uuid.toString());
-			
-		     //log.info(attachDTO.getFileName());
-			//log.info(attachDTO.getUploadPath());
-			//log.info(attachDTO.getUuid());
-			
-			
-			//-------------------여기까지 attachDTO에 저장
-			//attachDTO에 저장된 값을 list에 넣어주기
-			
-			
-			list.add(attachDTO);
-			//log.info("ㅎㅇ" + list);
-			
-			File saveFile = new File(uploadPath, uploadFileName);
-			
-			try {
-				
-				file.transferTo(saveFile);
-			}catch(Exception e) {
-				log.error(e.getMessage());
-			}
-			//여기까지 했을 때
-			//동일한 파일을 올렸을 때 덮어쓰기
-			//확장자 문제 가 있음
-			//그건 JS단에서 처리해야함
-			
-			//썸네일 같은 건 혼자해봐라
-			
-		}//end loop
-		
-
-
-	return new ResponseEntity<List<spotAttachFileDTO>>(list,HttpStatus.OK ); 
-	}//end uploadAsyncPost()
-
-	
-	
 
 
 	@ResponseBody
@@ -205,14 +127,6 @@ public class companyController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
-	
-	//오늘 날짜의 경로를 문자열로 생성
-	private String getFolder() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		String str = sdf.format(date);
-		return str.replace("-", File.separator);
-	}
 	
 	
 	 // 엑셀 파일 업로드 처리
@@ -290,40 +204,72 @@ public class companyController {
     }
     
  
-//    @PostMapping("/updateCompany")
-//    public String updateCompany(@RequestParam("file") MultipartFile file, companyVO vo, Model model) {
-//        if (!file.isEmpty()) {
-//            // 파일이 업로드된 경우
-//            String fileName = file.getOriginalFilename();
-//            log.info("파일명"+fileName);
-//            try {
-//                // 파일을 서버에 저장할 경로 설정
-//                String filePath = "src/main/webapp/comBizLicenseFile/" + fileName; // 파일을 저장할 실제 경로로 수정
-//                // 파일을 서버에 저장
-//                byte[] bytes = file.getBytes();
-//                Path path = Paths.get(filePath);
-//                Files.write(path, bytes);
-//                // 파일의 경로를 companyVO 객체에 설정
-//                vo.setComBizLicenseFile(filePath);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                // 파일 저장 중 오류 발생 시 처리
-//            }
-//        }
-//        
-//        log.info(vo);
-//      
-//        int companyUpdateResult = companyService.updateCompany(vo);
-//        String result = "";
-//        if (companyUpdateResult >= 1) {
-//            result = "companyUpdateSuccess";
-//        } else {
-//            result = "companyUpdateFail";
-//        }
-//        
-//        model.addAttribute("companyUpdateResult", result);
-//        return "redirect:/companyList"; 
-//    }
+    
+//   /** 기업 등록 하기*/
+//	@PostMapping(value = "/companyRegisterInsert")
+//	public String companyRegisterInsert(@RequestParam("file") MultipartFile file, companyVO vo, RedirectAttributes rttr) {
+//	    log.info("companyRegisterInsert..." + vo);
+//
+//	    // 파일 업로드 처리
+//	    if (!file.isEmpty()) {
+//	        try {
+//	            // 파일 업로드 경로 설정
+//	            String uploadDir = "/uploads/";
+//	            Path uploadPath = Paths.get(uploadDir);
+//	            
+//	            // 업로드 디렉토리가 없으면 생성
+//	            if (!Files.exists(uploadPath)) {
+//	                Files.createDirectories(uploadPath);
+//	            }
+//	            
+//	            // 파일명 중복 방지를 위한 고유한 파일명 생성
+//	            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//	            Path filePath = uploadPath.resolve(fileName);
+//	            Files.copy(file.getInputStream(), filePath);
+//	            
+//	            // 업로드된 파일 경로를 VO에 설정
+//	            vo.setFilePath(filePath.toString());
+//	        } catch (IOException e) {
+//	            e.printStackTrace();
+//	        }
+//	    }
+//
+//	    companyService.companyRegisterInsert(vo);
+//
+//	    rttr.addFlashAttribute("message", "기업 등록이 완료되었습니다.");
+//
+//	    return "redirect:/companyList";
+//	}
+    
+ // 기업 등록 처리
+    @PostMapping("/companyRegisterInsert")
+    public String register(companyVO vo, RedirectAttributes rttr) {
+        log.info("기업 등록하기 companyRegisterInsert..." + vo);
+        
+        // 기업 등록 서비스 호출
+        companyService.companyRegisterInsert(vo);
+        
+        // 등록된 파일 리스트 출력
+        log.info("파일 리스트 : " + vo.getAttachList());
+        
+        if(vo.getAttachList() != null) {
+            vo.getAttachList().forEach(attach -> log.info("파일 리스트 결과 : " + attach));
+        }
+        
+        // 기업 등록이 완료되었음을 사용자에게 알림
+        rttr.addFlashAttribute("message", "기업 등록이 완료되었습니다.");
+        
+        // 기업 목록 페이지로 Redirect
+        return "redirect:/companyList";
+    }
+    
+  //오늘 날짜의 경로를 문자열로 생성
+  	private String getFolder() {
+  		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+  		Date date = new Date();
+  		String str = sdf.format(date);
+  		return str.replace("-", File.separator);
+  	}
 
     
 

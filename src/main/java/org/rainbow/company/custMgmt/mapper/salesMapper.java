@@ -25,17 +25,20 @@ public interface salesMapper {
 	/** 'salesView.jsp' 에서 영업 히스토리 내용 가져오기  */
 	public cshVO getCshVO(int consultNo);
 	
+	
+	
 	/** 'salesView.jsp' 에서 영업 내용 저장(수정)하기 */
 	public void saveSales(consultAndCshVO vo);
 	
 	/** 'salesView.jsp' 에서 영업 히스토리 저장하기 */
 	public int insertCsh(Map<String, Object> params);
 
-	
 	/** 'salesView.jsp' 에서 영업 히스토리 수정하기 */
 	public int UpdateCsh(Map<String, Object> params);
 	
 
+	
+	
 	/** 기업명 찾기 모달창 : 기업 리스트 가져오기*/
 	public List<consultVO> searchCompanyListModal();
 	
