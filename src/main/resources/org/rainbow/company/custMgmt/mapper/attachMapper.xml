@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="org.rainbow.company.custMgmt.mapper.attachMapper">
+	
+	<!-- 사업자 등록증 파일 삽입 -->
+	<insert id="insertComBizLicenseFile" parameterType="org.rainbow.company.custMgmt.domain.attachVO">
+	insert into RAIN_attach_tbl (uuid, uploadPath, fileName, companyNo) values(#{uuid},#{uploadPath},#{fileName},#{companyNo} )
+	</insert>
+	
+	<!-- 사업자 등록증 파일 삭제 -->
+	<delete id="deleteComBizLicenseFile" parameterType="String">
+	 delete from RAIN_attach_tbl where uuid=#{uuid}
+	</delete>
+	
+	<!-- 사업자 등록증 파일 목록 가져오기 -->
+	<select id="findByCompanyNo" parameterType="int" resultType="org.rainbow.company.custMgmt.domain.attachVO">
+	 select * from RAIN_attach_tbl where companyNo=#{companyNo}
+	</select>
+	
+ 
+
+ 
+ 
+ </mapper>

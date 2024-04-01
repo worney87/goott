@@ -3,6 +3,7 @@ package org.rainbow.company.custMgmt.domain;
 
 
 import java.sql.Date;
+import java.util.List;
 
 
 
@@ -25,7 +26,8 @@ public class companyVO {
 	comBizCategory, comCEO, comContact, comEmail;
 	private Date comOpenningDate;
 	
-	
 
+	
+	private List<attachVO> attachList;
 
 }

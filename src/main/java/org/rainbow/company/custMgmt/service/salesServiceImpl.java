@@ -80,9 +80,9 @@ public class salesServiceImpl implements salesService {
 	    
 	    // 2. 이미 존재하는 ConsultNo 가져오기
 	    int consultHistoryNo = vo.getConsultHistoryNo();
-	    log.info("consultNo " + consultHistoryNo);
+	    log.info("consultHistoryNo " + consultHistoryNo);
 	    
-	    // 3. RAIN_consultHistory_tbl 테이블에 영업 히스토리 내용 저장
+	    // 3. RAIN_consultHistory_tbl 테이블에 영업 히스토리 내용 업데이트
 	    Map<String, Object> params = new HashMap<>();
 	      params.put("vo", vo);
 	      params.put("consultHistoryNo", consultHistoryNo);
@@ -100,6 +100,10 @@ public class salesServiceImpl implements salesService {
 		List<consultVO> list = salesMapper.searchCompanyListModal();
 		
 		log.info(list);
+		
+		for (consultVO vo : list) {
+		    System.out.println("consultNo 서비스 확인: " + vo.getConsultNo());
+		}
 		
 		return list;
 	}

@@ -73,7 +73,7 @@ function openAddressPopup() {
 
 }
 
-//사업자 등록증 파일 업로드 버튼에 파일 업로드 기능 추가
+//계약서 파일 업로드 버튼에 파일 업로드 기능 추가
 function updateFileName() {
     const fileInput = document.getElementById('fileInput'); 
     const fileListElement = document.getElementById('uploadedFileName'); 
@@ -92,7 +92,7 @@ function updateFileName() {
             // 파일 삭제 이미지 생성
             const deleteImage = document.createElement('img');
             deleteImage.src = '/resources/images/mt-cancel.svg'; // 삭제 이미지 URL 설정
-            deleteImage.width = 15;
+            deleteImage.width = 5;
             deleteImage.style.cursor = 'pointer'; // 마우스 커서를 포인터로 변경
             
             // 파일 삭제 이벤트 리스너 추가
@@ -114,32 +114,33 @@ function updateFileName() {
 }
 
 
+function downloadFile(filePath) {
+    // 파일 다운로드를 위한 URL 생성
+    var downloadUrl = '/download?filePath=' + filePath; // 다운로드를 처리하는 서버의 엔드포인트 URL을 적어주세요.
 
-/** 사업자 등록증 파일 db에 업로드 하기 */
-function uploadFile() {
-    const fileInput = document.getElementById('fileInput');
-    const file = fileInput.files[0];
+    // 임시 링크 생성
+    var link = document.createElement('a');
+    link.href = downloadUrl;
 
-    const formData = new FormData();
-    formData.append('file', file);
+    // 파일 다운로드를 위한 설정
+    link.setAttribute('download', '');
+    document.body.appendChild(link);
+    
+    // 클릭 이벤트를 발생시켜 파일 다운로드를 시작합니다.
+    link.click();
 
-    $.ajax({
-        url: '/uploadFile',
-        type: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (fileName) {
-            // 서버에서 받은 파일명을 사용하여 필요한 작업을 수행합니다.
-            console.log('File uploaded:', fileName);
-        },
-        error: function (error) {
-            console.error('File upload failed:', error.responseText);
-        }
-    });
+    // 임시 링크 삭제
+    document.body.removeChild(link);
 }
 
 
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    const fileList = event.target.files;
+    console.log('Selected file:', fileList[0].name);
+
+    // 선택한 파일 정보를 vo 객체에 저장
+    f.spAgreementFile.value = fileList[0].name;
+});
 
 /** 사업자등록번호 유효 API */
 document.getElementById("imgBtnSearchBizNum").addEventListener('click', () => {

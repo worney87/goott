@@ -42,16 +42,6 @@
 			ORDER BY companyNo ASC;
 			
 	</select>
-  
-  
-  
-  
-  
-  
-  <!-- 새로운 기업 등록하기-->
-<insert id="companyRegister" parameterType="org.rainbow.company.custMgmt.domain.companyVO">
-insert into  RAIN_cCompany_tbl(comCEO) values (#{comCEO})
-</insert>
 
  <!-- 기업 정보  가져오기-->
 <select id="companyView" resultType="org.rainbow.company.custMgmt.domain.companyVO" parameterType="int">
@@ -118,6 +108,49 @@ insert into  RAIN_cCompany_tbl(comCEO) values (#{comCEO})
 		FROM RAIN_cCompany_tbl
 		WHERE comName LIKE CONCAT('%', #{comName}, '%')
 
+	</select>
+	
+	
+	  <!-- 새로운 기업 등록하기-->
+		
+	<insert id="companyRegisterInsert" parameterType="org.rainbow.company.custMgmt.domain.companyVO">
+    INSERT INTO RAIN_cCompany_tbl (
+        <if test="consultNo != null">consultNo,</if>
+        comName,
+        <if test="comBizNum != null">comBizNum,</if>
+        comBizType,
+        comArea,
+        comAddr,
+        comDetailAddr,
+        comBizStatus,
+        comBizCategory,
+        <if test="comCEO != null">comCEO,</if>
+        <if test="comContact != null">comContact,</if>
+        <if test="comEmail != null">comEmail,</if>
+        <if test="comOpenningDate != null">comOpenningDate</if>
+    )
+    VALUES 
+    (
+        <if test="consultNo != null">#{consultNo},</if>
+        #{comName},
+        <if test="comBizNum != null">#{comBizNum},</if>
+        #{comBizType},
+        #{comArea},
+        #{comAddr},
+        #{comDetailAddr},
+        #{comBizStatus},
+        #{comBizCategory},
+        <if test="comCEO != null">#{comCEO},</if>
+        <if test="comContact != null">#{comContact},</if>
+        <if test="comEmail != null">#{comEmail},</if>
+        <if test="comOpenningDate != null">#{comOpenningDate}</if>
+    )
+</insert>
+
+
+<!-- 마지막 값 가져오기 -->
+	<select id="getCompanyNo" resultType="int">
+		SELECT LAST_INSERT_ID();
 	</select>
 
 </mapper>
