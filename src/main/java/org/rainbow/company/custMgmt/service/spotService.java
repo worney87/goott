@@ -2,6 +2,7 @@ package org.rainbow.company.custMgmt.service;
 
 import java.util.List;
 
+import org.rainbow.company.custMgmt.domain.cEmpListVO;
 import org.rainbow.company.custMgmt.domain.spotAndUserVO;
 import org.rainbow.company.custMgmt.domain.spotListVO;
 import org.rainbow.company.custMgmt.domain.spotVO;
@@ -30,5 +31,13 @@ public interface spotService {
 	
 	/**담당자 정보 모달창 : 담당자 정보 가져오기 */
 	public userVO getManagerInfo(int spotNo);
+	
+	/**담당자 정보 모달창 : 담당자 정보 수정 */
+	public int updateManagerInfo(userVO vo);
+	
+	/** 지점 임직원 리스트 모달창  : 지점 임직원 리스트 가져오기*/
+	public List<cEmpListVO> getEmpList(int spotNo);
+	
+
 
 }

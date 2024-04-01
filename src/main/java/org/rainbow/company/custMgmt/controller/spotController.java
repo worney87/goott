@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
+import org.rainbow.company.custMgmt.domain.cEmpListVO;
 import org.rainbow.company.custMgmt.domain.companyVO;
 import org.rainbow.company.custMgmt.domain.consultVO;
 import org.rainbow.company.custMgmt.domain.spotAndUserVO;
@@ -117,6 +118,39 @@ public class spotController {
 	        
 	        return new ResponseEntity<userVO>(userVO, HttpStatus.OK);
 	    }
+	    
+	    
+	    /** 담당자 정보 모달창 : 담당자 정보 수정하기 */
+	    @PostMapping(value = "/updateManagerInfo", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	    public ResponseEntity<String> updateManagerInfo(@RequestBody userVO vo, RedirectAttributes rttr) {
+	        log.info("updateManagerInfo_success: " + 
+	                 "userName=" + vo.getUserName() + ", " + 
+	                 "userContact=" + vo.getUserContact() + ", " + 
+	                 "userEmail=" + vo.getUserEmail() + ", " + 
+	                 "userPw=" + vo.getUserPw() + ", " +
+	                 "spotNo=" + vo.getSpotNo());
+	        
+	        int result = spotService.updateManagerInfo(vo);
+	        // 클라이언트가 JSON 형식의 응답을 기대하므로 JSON 형식으로 반환합니다.
+	        return new ResponseEntity<>("{\"message\": \"User information updated successfully\"}", HttpStatus.OK);
+	    }
+
+		/** 지점 임직원 리스트 모달창  : 지점 임직원 리스트 가져오기*/
+		@PostMapping(value = "/getEmpList", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE})
+	    public ResponseEntity<List<cEmpListVO>> getEmpList(@RequestBody Map<String, String> requestBody) {
+	    	 String spotNoStr = requestBody.get("spotNo");
+	    	 int spotNo = Integer.parseInt(spotNoStr);
+	    	 
+	    	 log.info("getEmpList_success");
+	    	 log.info(spotNo);
+	    	    
+	    	 List<cEmpListVO> cEmpListVO = spotService.getEmpList(spotNo);
+	        
+	        return new ResponseEntity<List<cEmpListVO>>(cEmpListVO, HttpStatus.OK);
+	    }
+
+	    
+	
 	
 	@GetMapping(value = "/takeComNameList", produces = {
 			MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})

@@ -281,8 +281,7 @@
 	</select>
 	
 	<select id="sendMail" parameterType="int" resultType="HashMap">
-		SELECT c.cEmpName, c.cEmpEmail, c.cEmpPosition, c.spotNo, b.selectedTheme, b.sendName, 
-			b.checkedValue, b.messegeContent, cCom.comName
+		SELECT b.spotNo, b.selectedTheme, b.sendName, b.messegeContent, c.cEmpName, c.cEmpEmail, c.cEmpPosition 
 		FROM 
 			RAIN_order_tbl AS r
 		JOIN 
@@ -296,5 +295,33 @@
 		WHERE 
 			r.ordNo = #{ordNo}
 	</select>
+	
+	<select id="validateGiftSelection" parameterType="int" resultType="String">
+		SELECT step FROM RAIN_order_tbl
+		WHERE ordNo = #{ordNo}
+	</select>
+	
+	<update id="updateStep" parameterType="int">
+		UPDATE RAIN_order_tbl
+		SET 
+			step = '선택중',
+			sentDate = NOW()
+		WHERE 
+			ordNo = #{ordNo}
+	</update>
+	
+	<update id="orderGift" parameterType="HashMap">
+		UPDATE RAIN_order_tbl
+		SET 
+			step = '선택완료',
+			prdNo = #{prdNo}, 
+			count = 1,
+			totalAmount = #{prdSal},
+			orderDate = NOW(),
+			orderStatus = 1
+		WHERE 
+			ordNo = #{ordNo} AND
+			step = '선택중'
+	</update>
 
 </mapper>

@@ -115,11 +115,35 @@
 </update>
 
 
-<!-- 지점 담당자 정보 가져오기-->
+<!-- 담당자 정보 모달창 : 담당자 정보 가져오기-->
 <select id="getManagerInfo" resultType="org.rainbow.company.custMgmt.domain.userVO" parameterType="int">
     SELECT * from RAIN_cUser_tbl where spotNo = #{spotNo}
  
 </select>
-	
+
+<!-- 담당자 정보 모달창 : 담당자 정보 수정 -->
+	<update id="updateManagerInfo" parameterType="org.rainbow.company.custMgmt.domain.userVO">
+    UPDATE RAIN_cUser_tbl
+    SET
+        userName = #{userName},
+        userEmail = #{userEmail},
+        userContact = #{userContact},
+        userPw = #{userPw}
+    WHERE
+        spotNo = #{spotNo}
+</update>
+
+
+<!-- 고객 임직원 리스트 모달창 : 고객 임직원 리스트 가져오기-->
+<select id="getEmpList" resultType="org.rainbow.company.custMgmt.domain.cEmpListVO" parameterType="int">
+   SELECT e.cEmpNo, e.cEmpName, e.cEmpTel, e.cEmpEmail, e.cEmpPosition, e.cEmpBirth, s.spBdgt, o.orderDate, p.prdName
+FROM RAIN_cEMP_tbl e
+INNER JOIN RAIN_cSpot_tbl s ON e.spotNo = s.spotNo
+INNER JOIN RAIN_order_tbl o ON e.cEmpNo = o.cEmpNo
+INNER JOIN RAIN_Products_tbl p ON o.prdNo = p.prdNo
+WHERE e.spotNo = #{spotNo}
+
+ 
+</select>
 
 </mapper>

@@ -73,7 +73,7 @@
             <button type="button" class="btn btn-primary" id="downloadButton">엑셀 다운로드</button>
 		</div>
 		<div class="viewAFew_div">
-			<select name="viewAFew" id="selectViewAFew">
+			<select name="viewAFew" id="selectViewAFew" style="border: 1px solid;">
 				<option value="10">10</option>
 				<option value="25">25</option>
 				<option value="50">50</option>

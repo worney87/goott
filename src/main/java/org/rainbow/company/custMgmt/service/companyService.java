@@ -19,9 +19,6 @@ public interface companyService {
 	/** 'companyList.jsp' 에서 기업 리스트 가져오기  */
 	public List<companyVO> companyList();
 	
-	/** 'companyRegister.jsp' 에서 새로운 기업 등록하기*/
-	public int companyRegister(companyVO vo);
-	
 	
 	/** 'companyList.jsp' 에서 기업 정보 가져오기  */
 	public companyVO companyView(int companyNo);
@@ -48,4 +45,8 @@ public interface companyService {
 	
 	/** 기업 연결 모달창 에서 검색한 기업명 가져오기 */
 	public List<companyVO> searchTakeComName(String comName);
+	
+	/** 기업 등록*/
+	public void companyRegisterInsert(companyVO vo);
+	
 }

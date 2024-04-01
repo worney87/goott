@@ -78,17 +78,6 @@ document.getElementById('imgBtnMinus').addEventListener('click', function() {
     }
 });
 
-function updateSalesHistoryVisibility() {
-    let salesHistoryEntries = document.getElementsByClassName('salesHistoryEntry');
-    for (let i = 0; i < salesHistoryEntries.length; i++) {
-        if (i < currentRowNumber) {
-            salesHistoryEntries[i].style.display = 'block';
-        } else {
-            salesHistoryEntries[i].style.display = 'none';
-        }
-    }
-}
-
 
 function updateSalesHistoryVisibility() {
     let salesHistoryEntries = document.getElementsByClassName('salesHistoryEntry');
@@ -100,8 +89,6 @@ function updateSalesHistoryVisibility() {
         }
     }
 }
-
-
 
 
 /** 영업 담당자에 세션에 저장된 이름 할당하기 */
@@ -116,9 +103,8 @@ function updateSalesHistoryVisibility() {
     } 
 
 
-    /** 내용 저장 및 수정 하기 */   
     document.getElementById('saveBtn').addEventListener('click', function() {
-    	alert(1);
+        alert(1);
         if (f.csEname.value === '') {
             alert("영업 담당자를 선택하세요.");
             return;
@@ -149,7 +135,8 @@ function updateSalesHistoryVisibility() {
             return;
         }
         
-        console.log(document.getElementsByName("consultHistoryNo")[0].value);
+        console.log("consultHistoryNo:", f.consultHistoryNo.value);
+        console.log(f.consultNo.value);
         console.log(f.csEname.value);
         console.log(f.csStatus.value);
         console.log(f.csResponseDate.value);
@@ -157,8 +144,16 @@ function updateSalesHistoryVisibility() {
         console.log(f.cshContent1.value);
         console.log(f.cshDate2.value);
         console.log(f.cshContent2.value);
-
+        console.log(f.csFailReason.value);
+        console.log(f.csFailDetailReason.value);
         
-        f.action = "/saveSales";
+
+        // consultHistoryNo 값에 따라 action 설정
+        if (f.consultHistoryNo.value === '') {
+            f.action = "/saveSales"; // consultHistoryNo가 비어있으면 신규 저장
+        } else {
+            f.action = "/updateSalesAndHistory"; // consultHistoryNo가 비어있지 않으면 업데이트
+        }
+        
         f.submit();
     });
