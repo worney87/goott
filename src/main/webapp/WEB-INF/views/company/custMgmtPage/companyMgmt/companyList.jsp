@@ -119,6 +119,6 @@
 <script type="text/javascript" src="/resources/js/company/custMgmtPage/companyFilter.js"></script>
 <script type="text/javascript" src="/resources/js/company/custMgmtPage/companySearch.js"></script>
 <script type="text/javascript" src="/resources/js/company/custMgmtPage/companyMgmt.js"></script>
-<script type="text/javascript" src="/resources/js/company/custMgmtPage/companyUpDownLoad.js"></script>
+<script type="text/javascript" src="/resources/js/company/custMgmtPage/companyUpDownload.js"></script>
 </body>
 </html>

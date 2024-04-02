@@ -30,6 +30,42 @@
 	</select>
 	
 	
+		<!-- 엑셀 파일 리스트로 받아서 인서트  -->
+	<insert id= "spotExcelInput" parameterType="org.rainbow.company.custMgmt.domain.spotInputVO">
+		insert into RAIN_cSpot_tbl values
+		(
+			#{spotNo}, #{companyNo}, #{spName} ,#{spAddr},
+			#{spDetailAddr} ,#{spContact} ,#{spAgreementFile} ,#{spAgreementDate},	
+			#{spAgreementTerm}, #{spAutoExtension}, #{spPayMethod}, #{spEmpNum} ,#{spBdgt}, 
+			#{spDefaultGift}, #{spEditGift},#{spStatus},#{spChangeDate},#{spCancelEname},#{spCancelReason},#{spCancelDetailReason},#{spEmpUpdate}
+		)
+	</insert>
+
+
+		
+	<select id="downloadSpotExcel" parameterType="org.rainbow.company.custMgmt.domain.spotSearchDTO" resultType="org.rainbow.company.custMgmt.domain.spotDownVO">
+			
+			  SELECT  *
+		FROM RAIN_cSpot_tbl cs
+		INNER JOIN RAIN_cCompany_tbl cc ON cc.companyNo = cs.companyNo
+		INNER JOIN RAIN_cUser_tbl cu ON cs.spotNo = cu.spotNo
+		WHERE 
+		    cs.spStatus IN
+			<foreach item="item" collection="checkedValues" open="(" separator="," close=")">
+		        #{item}
+		    </foreach>
+			<if test="keyword != null and keyword != ''">
+			    AND (
+			        cc.comName LIKE CONCAT('%', #{keyword}, '%') OR
+		    cs.spName LIKE CONCAT('%', #{keyword}, '%') OR
+		    cs.spAddr LIKE CONCAT('%', #{keyword}, '%') OR
+		    cu.userName LIKE CONCAT('%', #{keyword}, '%')
+			    )
+			</if>
+			</select>
+			
+		
+	
 	 <!-- 지점 정보  가져오기-->
 	<select id="spotView" resultType="org.rainbow.company.custMgmt.domain.spotVO" parameterType="int">
 	SELECT s.*, c.comName

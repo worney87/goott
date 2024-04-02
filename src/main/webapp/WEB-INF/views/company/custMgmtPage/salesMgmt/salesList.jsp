@@ -69,7 +69,6 @@
 		</div>
 		<div class="download_to_excel_btn_div">
 			<input type="file" class="custom-file-input" id="excelUpload" name="EXCEL" multiple="multiple" style="display: none;">
-            <button type="button" class="btn btn-primary" id="uploadBtn">엑셀 업로드</button>
             <button type="button" class="btn btn-primary" id="downloadButton">엑셀 다운로드</button>
 		</div>
 		<div class="viewAFew_div">
@@ -126,5 +125,6 @@
 <script type="text/javascript" src="/resources/js/company/custMgmtPage/salesFilter.js"></script>
 <script type="text/javascript" src="/resources/js/company/custMgmtPage/salesSearch.js"></script>
 <script type="text/javascript" src="/resources/js/company/custMgmtPage/salesMgmt.js"></script>
+<script type="text/javascript" src="/resources/js/company/custMgmtPage/salesUpDownload.js"></script>
 </body>
 </html>

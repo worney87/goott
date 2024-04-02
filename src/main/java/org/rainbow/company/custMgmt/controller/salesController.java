@@ -1,14 +1,26 @@
 package org.rainbow.company.custMgmt.controller;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.rainbow.company.custMgmt.domain.companyDownVO;
+import org.rainbow.company.custMgmt.domain.companyInputVO;
+import org.rainbow.company.custMgmt.domain.companySearchDTO;
 import org.rainbow.company.custMgmt.domain.consultAndCshVO;
 import org.rainbow.company.custMgmt.domain.consultSearchDTO;
 import org.rainbow.company.custMgmt.domain.consultVO;
 import org.rainbow.company.custMgmt.domain.cshVO;
+import org.rainbow.company.custMgmt.domain.salesDeptDTO;
+import org.rainbow.company.custMgmt.domain.salesDownVO;
+import org.rainbow.company.custMgmt.domain.userVO;
 import org.rainbow.company.custMgmt.service.salesServiceImpl;
+import org.rainbow.company.employeeSupervisePage.domain.rain_EmpVO;
+import org.rainbow.domain.ExcelDownloadUtil;
+import org.rainbow.domain.ExcelListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +31,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.log4j.Log4j;
@@ -68,6 +82,25 @@ public class salesController {
         return "/company/custMgmtPage/salesMgmt/salesView";
     }
     
+    /** 엑셀 데이터 다운로드 처리*/
+    @ResponseBody
+    @PostMapping("/downloadSalesExcel")
+    public void downloadSalesExcel(HttpServletResponse response, @RequestBody consultSearchDTO filterResult) throws IOException 
+    {
+    	log.info(filterResult);
+
+    	
+    	List<salesDownVO> downlist = salesService.downloadSalesExcel(filterResult);
+    	System.out.println("다운 리스트" + downlist);
+    	log.info("다운 리스트" + downlist);
+    	
+    
+      //리스트를 넣어서 엑셀화
+      ExcelDownloadUtil.dowonloadUtill(response, downlist);
+    }
+    
+ 
+    
 	/** 'salesView.jsp' : 영업 내용, 영업 히스토리 저장(수정)하기 */
     @PostMapping("/saveSales")
     public String saveSales(consultAndCshVO vo, RedirectAttributes rttr) {
@@ -107,6 +140,49 @@ public class salesController {
         return "redirect:/salesList";
     }
     
+	/** 영업부 사원 검색 모달창 : 영업부 사원 정보 가져오기*/
+    @GetMapping(value = "/getCsEnameListModal", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<List<rain_EmpVO>> getCsEnameListModal() {
+    	
+    	 
+    	    
+    	List<rain_EmpVO> list = salesService.getCsEnameListModal();
+        
+    	return new ResponseEntity<List<rain_EmpVO>>(list, HttpStatus.OK);
+    }
+    
+    /** 영업부 사원 검색 모달창 : 영업부 사원 검색 결과 가져오기*/
+
+    @PostMapping(value = "/searchModalCsEname", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<List<rain_EmpVO>> searchModalCsEname(@RequestBody Map<String, Object> jsonData) {
+        log.info("searchModalCsEname_success");
+
+        Object keywordObject = jsonData.get("keyword"); // jsonData에서 "keyword" 키에 해당하는 값 가져오기
+
+        String keyword;
+
+        if (keywordObject instanceof String) {
+            keyword = (String) keywordObject;
+        } else if (keywordObject instanceof Integer) {
+            keyword = String.valueOf(keywordObject);
+        } else {
+            // 기타 경우 처리 (예: 예외 처리 등)
+            // 예를 들어, 잘못된 요청 형식에 대한 에러 메시지를 반환할 수 있음
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        log.info("영업부 사원 검색: " + keyword);
+
+        List<rain_EmpVO> list = salesService.searchModalCsEname(keyword); 
+
+        log.info("리스트: " + list);
+        System.out.println("리스트: " + list);
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+   
+
     
     /** 'companyViewView.jsp' : 기업명 찾기 - 기업명 리스트로 가져오기 */
     @GetMapping(value = "/searchModal", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })

@@ -7,6 +7,9 @@ import org.rainbow.company.custMgmt.domain.consultAndCshVO;
 import org.rainbow.company.custMgmt.domain.consultSearchDTO;
 import org.rainbow.company.custMgmt.domain.consultVO;
 import org.rainbow.company.custMgmt.domain.cshVO;
+import org.rainbow.company.custMgmt.domain.salesDeptDTO;
+import org.rainbow.company.custMgmt.domain.salesDownVO;
+import org.rainbow.company.employeeSupervisePage.domain.rain_EmpVO;
 
 
 
@@ -19,11 +22,21 @@ public interface salesMapper {
 	/** 'salesList.jsp' 에서 상담 요청 리스트 가져오기  */
 	public List<consultVO> salesList();
 	
+	/** 체크박스 벨류를 받아서 필터링된 전체 데이터를 리스트로 가져온다. */
+	public List<salesDownVO> downloadSalesExcel(consultSearchDTO filterResult); // 파라미터 이름 수정
+
+	
 	/** 'salesView.jsp' 에서 상담 신청 내용 가져오기  */
 	public consultVO salesView(int consultNo);
 	
 	/** 'salesView.jsp' 에서 영업 히스토리 내용 가져오기  */
 	public cshVO getCshVO(int consultNo);
+	
+	/** 영업부 사원 검색(모달창) : 영업부 사원 리스트 가져오기  */
+	public List<rain_EmpVO> getCsEnameListModal();
+	
+	/** 영업부 사원 검색(모달창) : 영업부 사원  검색 결과 가져오기 */
+	public List<rain_EmpVO> searchModalCsEname(Object keyword);
 	
 	
 	

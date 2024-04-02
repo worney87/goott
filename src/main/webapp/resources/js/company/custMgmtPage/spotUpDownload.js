@@ -29,7 +29,7 @@ document.getElementById("excelUpload").addEventListener("change", function() {
     
     if(confirm("파일 을 업로드 하시 것슴까!?"))
 	{
-    	fetch('/companyExcelInput', {
+    	fetch('/spotExcelInput', {
     		  method: 'POST',
     		  body: formData
     		})
@@ -76,7 +76,7 @@ function download()
 			    "checkedValues": [] //
 	    };
 	    
-	    document.querySelectorAll('input[type=checkbox][data-filter="td-Business"]:checked').forEach(function(checkbox) {
+	    document.querySelectorAll('input[type=checkbox][data-filter="spotList-serviceStatus"]:checked').forEach(function(checkbox) {
 	        if(checkbox.value != '전체')
 			{
 	        	filterResult.checkedValues.push(checkbox.value);
@@ -87,7 +87,7 @@ function download()
 
 		
     // 서버로 데이터 전송
-    fetch('/downloadCompanyExcel', {
+    fetch('/downloadSpotExcel', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(filterResult)

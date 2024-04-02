@@ -31,6 +31,24 @@
    </if>
 </select>
 
+<select id="downloadSalesExcel" parameterType="org.rainbow.company.custMgmt.domain.consultSearchDTO" resultType="org.rainbow.company.custMgmt.domain.salesDownVO">
+		  	SELECT * 
+		    FROM RAIN_consult_tbl 
+		    WHERE 
+		     csStatus IN
+			<foreach item="item" collection="checkedValues" open="(" separator="," close=")">
+		        #{item}
+		    </foreach>
+			<if test="keyword != null and keyword != ''">
+			    AND (
+			       csCompanyName = '${keyword}' 
+         OR csName LIKE CONCAT('%', #{keyword}, '%')
+         OR csEmail = '${keyword}'
+         OR csEname = '${keyword}'    
+			    )
+			</if>
+			</select>
+
 
 	 <!-- 상담 요청 내용 가져오기-->
 	  <select id="salesView" resultType="org.rainbow.company.custMgmt.domain.consultVO" parameterType="int">
@@ -107,6 +125,20 @@
 </update>
 
 
+	 <!-- 영업부 사원 검색 모달창 : 영업부 사원 리스트 가져오기 -->
+	<select id="getCsEnameListModal" resultType="org.rainbow.company.employeeSupervisePage.domain.rain_EmpVO">
+	SELECT eno,eName,job
+	FROM RAIN_EMP_tbl where deptNo = 3
+
+	</select>
+	
+	 <!-- 영업부 사원 검색 모달창 : 영업부 사원  검색 결과 가져오기 -->
+
+<select id="searchModalCsEname" parameterType="java.lang.String" resultType="org.rainbow.company.employeeSupervisePage.domain.rain_EmpVO">
+    SELECT e.eno, e.eName, e.job
+    FROM RAIN_EMP_tbl e 
+    WHERE e.deptNo = 3 AND (e.eName LIKE CONCAT('%', #{keyword}, '%') OR e.eno = #{keyword})
+</select>
 
 
 
