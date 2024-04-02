@@ -95,7 +95,7 @@ input[type=text]
 		        		<td><input type="text" id="recDedCst" class="form-control" readonly placeholder="자동계산" <c:if test="${not empty edit.recDedName or edit.recSortation eq '결제완료'}">disabled</c:if>></td>
 		        		<td><input type="text" id="recDedCstSup" class="form-control" value="0" <c:if test="${not empty edit.recDedName or edit.recSortation eq '결제완료'}">disabled</c:if>></td>
 		        		<td><input type="text" id="recDedCstTax" class="form-control" value="0" <c:if test="${not empty edit.recDedName or edit.recSortation eq '결제완료'}">disabled</c:if>></td>
-		        		<td><button type="button" class="btn btn-primary dedbtn" onclick="inputDedCal()" <c:if test="${not empty edit.recDedName or edit.recSortation eq '결제완료'}">disabled</c:if>>버튼</button></td>
+		        		<td><button type="button" class="btn btn-primary dedbtn" onclick="inputDedCal()" <c:if test="${not empty edit.recDedName or edit.recSortation eq '결제완료'}">disabled</c:if>>추가</button></td>
 		        	</tr>
 	        	</tbody>
 	        </table> 
@@ -125,7 +125,7 @@ input[type=text]
 		        		<td><input type="text" id="recAddCst" class="form-control" readonly placeholder="자동계산" <c:if test="${not empty edit.recAddName or edit.recSortation eq '결제완료'}">disabled</c:if>></td>
 		        		<td><input type="text" id="recAddCstSup" class="form-control" value="0" <c:if test="${not empty edit.recAddName or edit.recSortation eq '결제완료'}">disabled</c:if>></td>
 		        		<td><input type="text" id="recAddCstTax" class="form-control" value="0" <c:if test="${not empty edit.recAddName or edit.recSortation eq '결제완료'}">disabled</c:if>></td>
-		        		<td><button type="button" class="btn btn-primary addbtn" onclick="inputAddCal()" <c:if test="${not empty edit.recAddName or edit.recSortation eq '결제완료'}">disabled</c:if>>버튼</button></td>
+		        		<td><button type="button" class="btn btn-primary addbtn" onclick="inputAddCal()" <c:if test="${not empty edit.recAddName or edit.recSortation eq '결제완료'}">disabled</c:if>>추가</button></td>
 		        	</tr>
 	        	</tbody>	
 	        </table> 

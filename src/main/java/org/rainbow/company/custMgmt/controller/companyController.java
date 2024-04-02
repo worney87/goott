@@ -5,20 +5,19 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 
 import javax.servlet.http.HttpServletResponse;
 
 
-import org.rainbow.company.custMgmt.domain.spotAttachFileDTO;
+
 import org.rainbow.company.custMgmt.domain.companyDownVO;
 import org.rainbow.company.custMgmt.domain.companyInputVO;
-
+import org.rainbow.company.custMgmt.domain.companySearchDTO;
 import org.rainbow.company.custMgmt.domain.companyVO;
-import org.rainbow.company.custMgmt.domain.spotAndUserVO;
+
 import org.rainbow.company.custMgmt.service.companyServiceImpl;
 import org.rainbow.domain.ExcelDownloadUtil;
 import org.rainbow.domain.ExcelListener;
@@ -29,7 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -129,10 +128,10 @@ public class companyController {
 	
 	
 	
-	 // 엑셀 파일 업로드 처리
+	// 엑셀 파일 업로드 처리
     @ResponseBody
     @PostMapping(value = "/companyExcelInput", produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> ExcelUpload(@RequestParam("EXCEL") MultipartFile file) 
+    public ResponseEntity<String> companyExcelInput(@RequestParam("EXCEL") MultipartFile file) 
     {	
     	log.info(file);
     	int result = 0;
@@ -142,13 +141,12 @@ public class companyController {
             try 
             {
                 // 엑셀 파일 처리를 위한 리스너로 데이터 추출
-                List<companyInputVO> dataList = listener.companyExcelListner(file.getInputStream());
-                log.info(dataList);
-                System.out.println(dataList);
-                log.info(dataList.get(0).getCompanyNo()); 
-                System.out.println(dataList.get(0).getCompanyNo()); 
+                List<companyInputVO> companyDataList = listener.companyExcelListner(file.getInputStream());
+                log.info(companyDataList);
+                System.out.println(companyDataList);
+
                 // 데이터베이스에 엑셀 데이터 저장
-                for(companyInputVO vo : dataList) 
+                for(companyInputVO vo : companyDataList) 
                 {
                 	 log.error(vo.getComName());
                 	 result = companyService.insertCompanyExcel(vo);
@@ -172,39 +170,26 @@ public class companyController {
         }
     }
     
+    
     /** 엑셀 데이터 다운로드 처리*/
     @ResponseBody
-    @PostMapping("/companyListDownloadExcel")
-    public void companyListDownloadExcel(HttpServletResponse response, @RequestBody List<String> filteredValues) throws IOException 
+    @PostMapping("/downloadCompanyExcel")
+    public void downloadCompanyExcel(HttpServletResponse response, @RequestBody companySearchDTO filterResult) throws IOException 
     {
-    	
-    	System.out.println("엑셀로 다운로드 메서드 탐");
-    	log.info("엑셀로 다운로드 메서드 탐");
-    	//System.out.println("필터"+filteredValues);
+    	log.info(filterResult);
 
-    	Map<String, Object> filteredValue = new HashMap<>();
     	
-    	filteredValue.put("filteredValues", filteredValues);
+    	List<companyDownVO> downlist = companyService.downloadCompanyExcel(filterResult);
+    	System.out.println("다운 리스트" + downlist);
+    	log.info("다운 리스트" + downlist);
     	
-    	List<companyDownVO> downlist = companyService.downExcelList(filteredValue);
-    	//System.out.println("다운리스트" + downlist);
-    	
-    	
-        // 리스트를 넣으면 엑셀화됨.
-        ExcelDownloadUtil.dowonloadUtill(response, downlist);
+    
+      //리스트를 넣어서 엑셀화
+      ExcelDownloadUtil.dowonloadUtill(response, downlist);
     }
     
-    /** 파일 다운로드*/
-    @PostMapping("/getCompanyLicenseFileURL")
-    public void getCompanyLicenseFileURL() {
-    	
-    	
-    	
-    	
-    }
     
- 
-    
+
 //   /** 기업 등록 하기*/
 //	@PostMapping(value = "/companyRegisterInsert")
 //	public String companyRegisterInsert(@RequestParam("file") MultipartFile file, companyVO vo, RedirectAttributes rttr) {

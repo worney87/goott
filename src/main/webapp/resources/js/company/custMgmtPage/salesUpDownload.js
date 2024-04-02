@@ -1,63 +1,3 @@
-
-document.getElementById("uploadBtn").addEventListener("click", function() {
-  document.getElementById("excelUpload").click();
-});
-
-// 선택된 파일 이름 표시
-document.getElementById("excelUpload").addEventListener("change", function() {
-	if(deptNo != 0 && deptNo != 4)
-	{
-		alert("불허된 접근입니다.")
-		return;
-	}
-	let input = this;
-	let files = input.files;
-	let fileName = input.files[0].name;
-	console.log(files[0]);
-	console.log(input);
-	console.log(fileName);
-	
-	// 파일이 없거나 1개 이상인 경우
-    if (files.length !== 1) {
-        alert("하나의 파일을 선택해주세요.");
-        input.value = '';
-        
-        return;
-    }
-    let formData = new FormData();
-	formData.append("EXCEL", files[0]);
-    
-    if(confirm("파일 을 업로드 하시 것슴까!?"))
-	{
-    	fetch('/companyExcelInput', {
-    		  method: 'POST',
-    		  body: formData
-    		})
-    		.then(response => response.text())
-    		.then(data => 
-    		{
-    		  console.log('서버 응답:', data);
-    		  if(data === 'success'){
-    			  alert("인풋 성공");
-    			  location.reload();
-    		  }
-    		  else alert("인풋 실패");
-    		  
-    		})
-    		.catch(error => 
-    		{
-    		  console.error('오류 발생:', error);
-    		  alert("엑셀 업로드 실패!!");
-    		});
-	}
-    else
-	{
-    	return false;
-	}
-	
-});
-
-
 // 다운로드 버튼 눌러서 함수호출
 document.getElementById('downloadButton').addEventListener('click', ()=>{
 	download();
@@ -76,7 +16,7 @@ function download()
 			    "checkedValues": [] //
 	    };
 	    
-	    document.querySelectorAll('input[type=checkbox][data-filter="td-Business"]:checked').forEach(function(checkbox) {
+	    document.querySelectorAll('input[type=checkbox][data-filter="salesList-csStatus"]:checked').forEach(function(checkbox) {
 	        if(checkbox.value != '전체')
 			{
 	        	filterResult.checkedValues.push(checkbox.value);
@@ -87,7 +27,7 @@ function download()
 
 		
     // 서버로 데이터 전송
-    fetch('/downloadCompanyExcel', {
+    fetch('/downloadSalesExcel', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(filterResult)

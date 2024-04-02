@@ -8,7 +8,10 @@ import org.rainbow.company.custMgmt.domain.consultAndCshVO;
 import org.rainbow.company.custMgmt.domain.consultSearchDTO;
 import org.rainbow.company.custMgmt.domain.consultVO;
 import org.rainbow.company.custMgmt.domain.cshVO;
+import org.rainbow.company.custMgmt.domain.salesDeptDTO;
+import org.rainbow.company.custMgmt.domain.salesDownVO;
 import org.rainbow.company.custMgmt.mapper.salesMapper;
+import org.rainbow.company.employeeSupervisePage.domain.rain_EmpVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -36,6 +39,12 @@ public class salesServiceImpl implements salesService {
 	public List<consultVO> salesList() {
 		
 		return salesMapper.salesList();
+	}
+	
+	@Override
+	public List<salesDownVO> downloadSalesExcel(consultSearchDTO filterResult) {
+		
+		return salesMapper.downloadSalesExcel(filterResult);
 	}
 	@Override
 	public consultVO salesView(int consultNo) {
@@ -124,6 +133,18 @@ public class salesServiceImpl implements salesService {
 		public List<consultVO> searchTakeCsName(String csName) {
 			
 			return salesMapper.searchTakeCsName(csName);
+		}
+		
+		@Override
+		public List<rain_EmpVO> getCsEnameListModal() {
+			
+			return salesMapper.getCsEnameListModal();
+		}
+		
+		@Override
+		public List<rain_EmpVO> searchModalCsEname(Object keyword) {
+			
+			return salesMapper.searchModalCsEname(keyword);
 		}
 
 

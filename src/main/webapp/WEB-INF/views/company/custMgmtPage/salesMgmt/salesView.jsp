@@ -6,7 +6,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/resources/css/company/custMgmtPage/salesMgmt.css">
 <title>newSalesViewDetails.jsp</title>
 </head>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -258,9 +257,46 @@
 		<input type="hidden" name="consultHistoryNo" value="${cshVO.consultHistoryNo }">
 		</div>
 </form>
+
+
+
+			<!--------------------------------------- 영업부 사원 검색 모달창-->
+			<div class="modal" id="searchCsEname_modal">
+    <div class="modal-content">
+        <div class="modal-top">
+            <table>
+                <tr class="bordered-row">
+                    <td><input type="text" name="keyword" size="20" placeholder="영업부 사원" style="border: 1px solid black;"></td>
+                    <td><input type="button" id="searchBtn" value="검색"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="list_div_modal">
+            <table class="list_div_tbl_modal" id="searchCsEnameModal_tbl">
+                <thead>
+                    <tr class="top_bar_of_list_modal">
+                    	<td>사원번호</td>
+                        <td>성명</td>
+                        <td>직급</td>
+                        
+                    </tr>
+                </thead>
+                	<tbody>
+						
+					</tbody>
+            </table>
+        </div>
+    <div class="modal-bottom">
+    	<input type="button" id="close_searchEname_modal" value="닫기">
+
+    </div>
+    </div>
+</div>
 	</div>
 
 </div>
 <script type="text/javascript" src="/resources/js/company/custMgmtPage/salesView.js"></script>
+<script type="text/javascript" src="/resources/js/company/custMgmtPage/salesViewModal.js"></script>
+
 </body>
 </html>
