@@ -57,5 +57,11 @@ public interface userAdminMapper {
 	public List<HashMap<String, Object>> getDetailUsage(HashMap<String, Object> inputMap);
 	
 	public HashMap<String, String> sendMail(int ordNo);
+
+	public String validateGiftSelection(int ordNo);
+	
+	public int updateStep(int ordNo);
+	
+	public boolean orderGift(HashMap<String, Object> orderInfo);
 	
 }

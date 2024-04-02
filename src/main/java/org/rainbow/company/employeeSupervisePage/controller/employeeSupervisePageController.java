@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,6 +77,26 @@ public class employeeSupervisePageController {
 		
 		  rain_EmpVO vo = new rain_EmpVO();
 		  
+		// 이메일 값을 받아옵니다.
+		  String email = request.getParameter("email");
+		// 이메일을 아이디로 설정
+		  String id = email; 
+		  
+	    // 데이터베이스에서 해당 이메일이 이미 등록되어 있는지 확인합니다. 
+		boolean emailExists = service.checkEmailExists(email);
+		  
+		// 이미 등록된 이메일이라면 등록을 중단하고 에러 메시지를 반환합니다. 
+		if (emailExists) {
+		rttr.addFlashAttribute("error", "이미 등록된 이메일입니다."); 
+		return "redirect:/employee_insert"; // 이동할 페이지로 설정하세요. }
+		} 
+		  
+		// 전화번호 값을 받아옵니다.
+		String ePhone = request.getParameter("ePhone");
+
+		// 전화번호에서 뒤에서 4자리를 비밀번호로 설정합니다.
+		  String ePw = ePhone.substring(Math.max(0, ePhone.length() - 4)); // 뒤에서 4자리를 가져옵니다.
+		  
 		// dName 값을 받아옵니다.
 		  String dName = request.getParameter("dName");
 
@@ -105,11 +126,13 @@ public class employeeSupervisePageController {
 
 		  vo.setDeptNo(deptNo);
 		  vo.setEName(request.getParameter("eName"));
-		  vo.setEmail(request.getParameter("email"));
+		  vo.setEmail(email); // 전체 이메일 주소를 설정합니다.
+		  vo.setEId(id); // 이메일에서 얻은 아이디를 설정합니다.
+		  vo.setEPw(ePw);
 		  vo.setJob(request.getParameter("job"));
 		  vo.setEAddr(request.getParameter("eAddr"));
 		  vo.setEAddr2(request.getParameter("eAddr2"));
-		  vo.setEPhone(request.getParameter("ePhone"));
+		  vo.setEPhone(ePhone);
 		  vo.setWorkType(request.getParameter("workType"));
 		  vo.setEBank(request.getParameter("eBank"));
 		  vo.setIdentyNum(request.getParameter("identyNum"));
@@ -118,13 +141,12 @@ public class employeeSupervisePageController {
 		  vo.setIdStatus(request.getParameter("idStatus"));
 		  		
 		log.info("insert..." + vo);
-		System.out.println("ssssss");
 		service.insert(vo);
 		
 		rttr.addFlashAttribute("result" , "success");
 		
 		return "redirect:/searchEmployee";
-	}
+    }
 	
 	// 직원 정보 편집 페이지
 	@GetMapping("/employee_modify")

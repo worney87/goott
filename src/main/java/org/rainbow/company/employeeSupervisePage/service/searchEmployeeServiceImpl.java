@@ -73,4 +73,10 @@ public class searchEmployeeServiceImpl implements searchEmployeeService {
 	public List<EmployeeExcelDTO> excelDown(EmployeeSearchDTO empdto) {
 		return mapper.excelDown(empdto);
 	}
+	
+	// 가입된 이메일인지 체크
+	@Override
+	public boolean checkEmailExists(String email) {
+	    return mapper.checkEmailExists(email);
+	}
 }
