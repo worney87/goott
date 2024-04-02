@@ -52,16 +52,30 @@ function insert(f) {
     	alert("전화번호 양식에 맞지 않습니다");
     	return false;
     }
-	
+	fetch('/checkEmailExists?email=' + encodeURIComponent(f.email.value))
+    .then(response => response.json())
+    .then(data => {
+        if (data.exists) {
+            alert("이미 등록된 이메일입니다.");
+        } else {
+            // 서버에 이메일이 존재하지 않는 경우 폼을 서버에 제출합니다.
+        	
     console.log(f);
 	f.action = '/employee_insert';
 	f.submit();
 
 	return true;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("서버에서 에러가 발생했습니다. 다시 시도해주세요.");
+    });
 }
-
 document.getElementById('searchIcon').addEventListener('click', function() {
     // sample6_execDaumPostcode() 함수 실행
     sample6_execDaumPostcode();
 	
 });
+
+

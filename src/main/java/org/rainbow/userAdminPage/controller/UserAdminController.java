@@ -515,4 +515,31 @@ public class UserAdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+    
+    @GetMapping("/userEmpGiftList/{ordNo}/{spotNo}")
+    public String moveuserEmpGiftList(@PathVariable int ordNo, @PathVariable int spotNo, Model model) {
+    	List<HashMap<String, Object>> result = userService.getCustomGift(spotNo);
+    	model.addAttribute("giftList", result);
+    	model.addAttribute("ordNo", ordNo);
+    	return "/userAdminPage/userEmpGiftList";
+    }
+    
+    @ResponseBody
+    @PostMapping("/orderGift")
+    public String orderGift(@RequestBody HashMap<String, Object> orderInfo){
+    	try {
+			boolean result = userService.orderGift(orderInfo);
+			log.info(result);
+
+			if (result) {
+				return "success";
+			} else {
+				return "error";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+    }
+    
 }

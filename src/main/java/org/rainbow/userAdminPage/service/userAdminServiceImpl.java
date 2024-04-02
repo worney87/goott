@@ -181,6 +181,28 @@ public class userAdminServiceImpl implements userAdminService {
 		return userMapper.sendMail(ordNo);
 	}
 	
+	@Override
+	public String validateGiftSelection(int ordNo) {
+		return userMapper.validateGiftSelection(ordNo);
+	}
+	
+	@Override
+	public int updateStep(int ordNo) {
+		return userMapper.updateStep(ordNo);
+	}
+	
+	@Override
+	public boolean orderGift(HashMap<String, Object> orderInfo) {
+		try {
+			userMapper.orderGift(orderInfo);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
 	
 
 
