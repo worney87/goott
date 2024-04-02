@@ -398,7 +398,7 @@
 					
 					let recNo = tdList[1].textContent.trim(); 
 					let recPayMth = tdList[12].textContent.trim();
-					if(recPayMth == '계산서미발행')
+					if(recPayMth == '계산서미발행' || recPayMth == '결제완료')
 					{
 						return;
 					}
