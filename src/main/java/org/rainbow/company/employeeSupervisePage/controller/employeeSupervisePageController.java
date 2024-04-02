@@ -74,7 +74,7 @@ public class employeeSupervisePageController {
 	// 직원 정보 등록
 	@PostMapping(value = "/employee_insert")
 	public String insert(HttpServletRequest request, RedirectAttributes rttr ) {
-		
+		System.out.println(request.getParameter("salAccount"));
 		  rain_EmpVO vo = new rain_EmpVO();
 		  
 		// 이메일 값을 받아옵니다.
@@ -88,7 +88,7 @@ public class employeeSupervisePageController {
 		// 이미 등록된 이메일이라면 등록을 중단하고 에러 메시지를 반환합니다. 
 		if (emailExists) {
 		rttr.addFlashAttribute("error", "이미 등록된 이메일입니다."); 
-		return "redirect:/employee_insert"; // 이동할 페이지로 설정하세요. }
+		return "redirect:/employee_insert";
 		} 
 		  
 		// 전화번호 값을 받아옵니다.
