@@ -15,6 +15,7 @@ import org.rainbow.company.ProductManagement.domain.suppliersVO;
 import org.rainbow.company.ProductManagement.domain.supsDownVO;
 import org.rainbow.company.ProductManagement.service.productPageServiceImpl;
 import org.rainbow.company.calculateManagement.domain.TradeDetailSearchDTO;
+import org.rainbow.company.salesManagement.domain.salesPrdVO;
 import org.rainbow.domain.ExcelDownloadUtil;
 import org.rainbow.domain.ExcelListener;
 import org.rainbow.domain.ImageUploader1;
@@ -216,6 +217,12 @@ public class ProductPageController
 
     	
     	List<prdDownVO> downlist = pService.downExcelList(sdto);
+    	if (downlist == null || downlist.isEmpty()) {
+	        // 예를 들어, 적절한 응답을 클라이언트에게 보낼 수 있습니다.
+    		prdDownVO nvo = new prdDownVO();
+	        downlist.add(nvo);
+	        return;
+	    }
     	System.out.println(downlist);
     	
     	
@@ -404,6 +411,11 @@ public class ProductPageController
     	log.info(sdto);
 
     	List<supsDownVO> downlist = pService.supsExcelDown(sdto);
+    	
+    	if (downlist == null || downlist.isEmpty()) {
+    	    supsDownVO nvo = new supsDownVO();
+    	    downlist.add(nvo);
+    	}
     	
     	System.out.println(downlist);
     	

@@ -98,10 +98,10 @@
 			        <tr>
                         <th>공급처명<button type="button" class="sort-btn" data-column="supsCo">🔽</button></th>
 			            <th>상품코드<button type="button" class="sort-btn" data-column="prdNo">🔽</button></th>
-			            <th>표준유통코드<button type="button" class="sort-btn" data-column="prdSdc">🔽</button></th>
+			            <th width="150px;">표준유통코드<button type="button" class="sort-btn" data-column="prdSdc">🔽</button></th>
 			            <th>대분류<button type="button" class="sort-btn" data-column="prdMajorCtg">🔽</button></th>
-			            <th>소분류<button type="button" class="sort-btn" data-column="prdSubCtg">🔽</button></th>
-			            <th width="490px;">상품명<button type="button" class="sort-btn" data-column="prdName">🔽</button></th>
+			            <th width="210px;">소분류<button type="button" class="sort-btn" data-column="prdSubCtg">🔽</button></th>
+			            <th width="470px;">상품명<button type="button" class="sort-btn" data-column="prdName">🔽</button></th>
 			            <th>원가<button type="button" class="sort-btn" data-column="prdCstPri">🔽</button></th>
 			            <th>판매가<button type="button" class="sort-btn" data-column="prdSal">🔽</button></th>
 			            <th>마진율<button type="button" class="sort-btn" data-column="prdMargin">🔽</button></th>

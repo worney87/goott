@@ -397,9 +397,11 @@
 					let tdList = row.querySelectorAll('td');
 					
 					let recNo = tdList[1].textContent.trim(); 
-					let recPayMth = tdList[12].textContent.trim();
-					if(recPayMth == '계산서미발행' || recPayMth == '결제완료')
+					let recSortation = tdList[12].textContent.trim();
+					console.log(recSortation);
+					if(recSortation == '계산서미발행' || recSortation == '결제완료')
 					{
+						alert("잘못된 처리입니다.");
 						return;
 					}
 					checkedDataList.push(recNo);

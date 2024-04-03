@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.rainbow.company.calculateManagement.domain.TradeDetailSearchDTO;
+import org.rainbow.company.calculateManagement.domain.tdDownVO;
 import org.rainbow.company.salesManagement.domain.monthChartVO;
 import org.rainbow.company.salesManagement.domain.salasTotalVO;
 import org.rainbow.company.salesManagement.domain.salesComVO;
@@ -86,7 +87,12 @@ public class SalesMgtController
     	log.info(sdto);
     	 
     	List<salesComVO> downlist = sms.salesComDown(sdto);
-    	
+    	if (downlist == null || downlist.isEmpty()) {
+	        // 예를 들어, 적절한 응답을 클라이언트에게 보낼 수 있습니다.
+    		salesComVO nvo = new salesComVO();
+	        downlist.add(nvo);
+	        return;
+	    }
     	log.info(downlist);
     	
         // 리스트를 넣으면 엑셀화됨.
@@ -147,6 +153,12 @@ public class SalesMgtController
     	log.info(sdto);
     	 
     	List<salesPrdVO> downlist = sms.salesPrdDown(sdto);
+    	if (downlist == null || downlist.isEmpty()) {
+	        // 예를 들어, 적절한 응답을 클라이언트에게 보낼 수 있습니다.
+    		salesPrdVO nvo = new salesPrdVO();
+	        downlist.add(nvo);
+	        return;
+	    }
     	
     	log.info(downlist);
     	
