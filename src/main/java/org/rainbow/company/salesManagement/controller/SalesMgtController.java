@@ -100,10 +100,18 @@ public class SalesMgtController
 	{
     	log.info(sdto);
 		salasTotalVO list = sms.salesVatTotal(sdto);
+		
+	    if (list == null) {
+	        list = new salasTotalVO();
+	        list.setRecAdTotal(0);
+	        list.setSalePrd(0);
+	        list.setTotalBuy(0);
+	        list.setTotalSum(0);
+	    }
+		
 		log.info(list);
 		
 		return new ResponseEntity<salasTotalVO>(list, HttpStatus.OK);
-				
 	}	
     
     /** 기업통계 서치  */

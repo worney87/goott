@@ -37,7 +37,7 @@ function fetchSearchResults(keyword) {
             	vmsg += '<td>'+list.salePrd+'</td>';
             	vmsg += '<td>'+(list.totalSum + list.recAdTotal).toLocaleString('ko-KR')+'</td>'; 
             	vmsg += '<td>'+list.totalBuy.toLocaleString('ko-KR')+'</td>';
-            	vmsg += '<td>'+((list.recAdTotal + list.totalSum - list.totalBuy)/(list.recAdTotal +list.totalBuy)).toFixed(2)+'</td>';
+            	vmsg += '<td>' + (isNaN(((list.recAdTotal + list.totalSum - list.totalBuy) / (list.recAdTotal + list.totalSum))) ? 0 : ((list.recAdTotal + list.totalSum - list.totalBuy) / (list.recAdTotal + list.totalSum)).toFixed(2)) + '</td>';
             	vmsg += '</tr>';
             	vmsg += '<tr>';
             	vmsg += '<td>VAT 포함</td>';
@@ -45,10 +45,12 @@ function fetchSearchResults(keyword) {
             	vmsg += '<td>' + parseInt((list.recAdTotal + (list.recAdTotal * 0.1)) + (list.totalSum + (list.totalSum * 0.1))).toLocaleString('ko-KR') + '</td>';
             	vmsg += '<td>'+parseInt(list.totalBuy + (list.totalBuy * 0.1)).toLocaleString('ko-KR')+'</td>';
             	vmsg += '<td>' + (
-            		    ((list.recAdTotal + (list.recAdTotal * 0.1)) + (list.totalSum + (list.totalSum * 0.1)) - (list.totalBuy + (list.totalBuy * 0.1)))
-            		    /
-            		    ((list.recAdTotal + (list.recAdTotal * 0.1)) + (list.totalSum + (list.totalSum * 0.1)))
-            		).toFixed(2) + '</td>';
+            		    isNaN(((list.recAdTotal + (list.recAdTotal * 0.1)) + (list.totalSum + (list.totalSum * 0.1)) - (list.totalBuy + (list.totalBuy * 0.1))) /
+            		    ((list.recAdTotal + (list.recAdTotal * 0.1)) + (list.totalSum + (list.totalSum * 0.1)))) ?
+            		    0 :
+            		    (((list.recAdTotal + (list.recAdTotal * 0.1)) + (list.totalSum + (list.totalSum * 0.1)) - (list.totalBuy + (list.totalBuy * 0.1))) /
+            		    ((list.recAdTotal + (list.recAdTotal * 0.1)) + (list.totalSum + (list.totalSum * 0.1)))).toFixed(2)
+            		) + '</td>';
 
             	vmsg += '</tr>';
             resetCheckboxes();

@@ -37,14 +37,17 @@ function fetchSearchResults(keyword) {
             	vmsg += '<td>'+list.salePrd+'</td>';
             	vmsg += '<td>'+list.totalSum.toLocaleString('ko-KR')+'</td>';
             	vmsg += '<td>'+list.totalBuy.toLocaleString('ko-KR')+'</td>';
-            	vmsg += '<td>'+((list.recAdTotal+list.totalSum - list.totalBuy)/list.totalBuy).toFixed(2)+'</td>';
+                vmsg += '<td>' + ((!isNaN(list.recAdTotal) && !isNaN(list.totalSum) && !isNaN(list.totalBuy)) ? 
+                        ((list.recAdTotal + (list.totalSum ? list.totalSum : 0) - (list.totalBuy ? list.totalBuy : 0)) / (list.totalBuy ? list.totalBuy : 1)).toFixed(2) : 0) + '</td>';
             	vmsg += '</tr>';
             	vmsg += '<tr>';
             	vmsg += '<td>VAT 포함</td>';
             	vmsg += '<td>'+list.salePrd+'</td>';
             	vmsg += '<td>'+parseInt(list.totalSum + (list.totalSum * 0.1)).toLocaleString('ko-KR')+'</td>';
             	vmsg += '<td>'+parseInt(list.totalBuy + (list.totalBuy * 0.1)).toLocaleString('ko-KR')+'</td>';
-            	vmsg += '<td>'+((list.recAdTotal+list.totalSum - list.totalBuy)/list.totalBuy).toFixed(2)+'</td>';
+            	vmsg += '<td>' + ((!isNaN(list.recAdTotal) && !isNaN(list.totalSum) && !isNaN(list.totalBuy)) ? 
+                        ((list.recAdTotal + (list.totalSum ? list.totalSum : 0) - (list.totalBuy ? list.totalBuy : 0)) / (list.totalBuy ? list.totalBuy : 1)).toFixed(2) : 0) + '</td>';
+                vmsg += '</tr>';
             	vmsg += '</tr>';
             resetCheckboxes();
             const vatBody = document.querySelector('.vat');
