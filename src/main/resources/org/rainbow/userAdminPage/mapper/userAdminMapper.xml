@@ -88,22 +88,11 @@
 	<!-- 최근 6개월 사용금액 가져오기 -->
 	<select id="getMonthlyData" parameterType="int"
 		resultType="HashMap">
-		SELECT
-		YEAR(recDate) AS year,
-		MONTH(recDate) AS month,
-		SUM(recSum) AS total_recSum
-		FROM
-		RAIN_receipt_tbl
-		WHERE
-		spotNo = #{spotNo}
-		AND recDate BETWEEN DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL 6
-		MONTH)), INTERVAL 1 DAY) AND LAST_DAY(CURDATE())
-		GROUP BY
-		YEAR(recDate),
-		MONTH(recDate)
-		ORDER BY
-		year DESC,
-		month DESC;
+		SELECT YEAR(recDate) AS year, MONTH(recDate) AS month, SUM(recSum) AS total_recSum
+		FROM RAIN_receipt_tbl
+		WHERE spotNo = #{spotNo} AND recDate BETWEEN DATE_ADD(LAST_DAY(DATE_SUB(CURDATE(), INTERVAL 6 MONTH)), INTERVAL 1 DAY) AND LAST_DAY(CURDATE())
+		GROUP BY YEAR(recDate), MONTH(recDate)
+		ORDER BY year DESC, month DESC;
 	</select>
 
 	<!-- 직원정보 가져오기 -->

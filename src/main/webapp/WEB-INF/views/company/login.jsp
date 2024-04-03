@@ -23,7 +23,7 @@
 					</div>
 					
 					<!-- 아이디 input -->
-					<input type="text" class="eId" name="eId" placeholder="Username">
+					<input type="text" class="eId" name="eId" placeholder="이메일 주소를 입력하세요">
 				</div>
 				
 				<div id="userpwBar">
@@ -34,7 +34,7 @@
 					</div>
 					
 					<!-- 비밀번호 input -->
-					<input type="text" class="ePw" name="ePw" placeholder="●●●●">
+					<input type="text" class="ePw" name="ePw" placeholder="전화번호 뒤에 4자리를 입력하세요">
 				</div>
 				
 				<div>

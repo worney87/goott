@@ -125,6 +125,22 @@ public class salesController {
 
     
     
+<<<<<<< HEAD
+=======
+    /** 'salesView.jsp' : 영업 내용, 영업 히스토리 저장(수정)하기 */
+    @PostMapping("/updateSalesAndHistory")
+    public String updateSalesAndHistory(consultAndCshVO vo, RedirectAttributes rttr) {
+        
+    	log.info("updateSalesAndHistory_success" + vo);
+     
+        salesService.updateSalesAndHistory(vo);
+        
+        rttr.addFlashAttribute("result","success");
+        
+        return "redirect:/salesList";
+    }
+    
+>>>>>>> 4d047169760efc38fc576d3afa08f5f7fbbe6cc2
 	/** 영업부 사원 검색 모달창 : 영업부 사원 정보 가져오기*/
     @GetMapping(value = "/getCsEnameListModal", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<rain_EmpVO>> getCsEnameListModal() {
