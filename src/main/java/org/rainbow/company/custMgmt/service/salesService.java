@@ -6,7 +6,6 @@ import org.rainbow.company.custMgmt.domain.consultAndCshVO;
 import org.rainbow.company.custMgmt.domain.consultSearchDTO;
 import org.rainbow.company.custMgmt.domain.consultVO;
 import org.rainbow.company.custMgmt.domain.cshVO;
-import org.rainbow.company.custMgmt.domain.salesDeptDTO;
 import org.rainbow.company.custMgmt.domain.salesDownVO;
 import org.rainbow.company.employeeSupervisePage.domain.rain_EmpVO;
 
@@ -23,7 +22,7 @@ public interface salesService {
 	public List<salesDownVO> downloadSalesExcel(consultSearchDTO filterResult); // 파라미터 이름 수정
 
 	/** 'salesView.jsp' 에서 상담 신청 내용 가져오기  */
-	public consultVO salesView(int consultNo);
+	public consultAndCshVO salesView(int consultNo);
 	
 	/** 'salesView.jsp' 에서 영업 히스토리 내용 가져오기  */
 	public cshVO getCshVO(int consultNo);
@@ -35,11 +34,9 @@ public interface salesService {
 	public List<rain_EmpVO> searchModalCsEname(Object keyword);
 
 	
-	/** 'salesView.jsp' 에서 영업 내용 저장(수정)하기 */
-	public void saveSales(consultAndCshVO vo);
+	/** 'salesView.jsp' 에서 영업 내용 저장(수정)하기  새로*/
+	public void saveOrUpdateSales(consultAndCshVO vo);
 	
-	/** 'salesView.jsp' 에서 영업 내용 수정하기 */
-	public void updateSalesAndHistory(consultAndCshVO vo);
 	
 	
 	/** 기업명 찾기 모달창 : 기업 리스트 가져오기*/

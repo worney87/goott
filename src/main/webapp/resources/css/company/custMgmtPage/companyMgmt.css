@@ -274,6 +274,10 @@ input[type="text"],input[type="email"] {
 
 /** ----------기업 등록,기업 수정 페이지 시작 ---------------*/
 
+li {
+    list-style-type: none;
+}
+
 .companyMgmt_div {
 
 	box-sizing: border-box;

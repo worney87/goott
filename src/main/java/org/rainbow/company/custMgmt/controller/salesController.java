@@ -29,6 +29,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,13 +72,8 @@ public class salesController {
     public String salesView(int consultNo, Model model) {
         log.info("salesView_success" + consultNo);
         
-        // consultVO 가져오기
-        consultVO consultVO = salesService.salesView(consultNo);
-        model.addAttribute("consultVO", consultVO);
-        
-        // cshVO 가져오기
-        cshVO cshVO = salesService.getCshVO(consultNo); 
-        model.addAttribute("cshVO", cshVO);
+        consultAndCshVO consultAndCshVO = salesService.salesView(consultNo);
+        model.addAttribute("consultAndCshVO", consultAndCshVO);
         
         return "/company/custMgmtPage/salesMgmt/salesView";
     }
@@ -101,10 +97,12 @@ public class salesController {
     
  
     
-	/** 'salesView.jsp' : 영업 내용, 영업 히스토리 저장(수정)하기 */
-    @PostMapping("/saveSales")
-    public String saveSales(consultAndCshVO vo, RedirectAttributes rttr) {
-        log.info("saveSales_success" + vo);
+
+
+    /** 'salesView.jsp' : 영업 내용, 영업 히스토리 저장(수정)하기 */
+    @PostMapping("/saveOrUpdateSales") // 컨트롤러 메서드 통합 및 이름 변경
+    public String saveOrUpdateSales(@RequestBody consultAndCshVO vo, RedirectAttributes rttr) { // @RequestBody 어노테이션 추가
+        log.info("saveOrUpdateSales_success" + vo);
         
         log.info(
                 "ConsultNo=" + vo.getConsultNo() + ", " + 
@@ -117,28 +115,28 @@ public class salesController {
                 "CshDate1=" + vo.getCshDate1()
         		
         		);
-    
-            salesService.saveSales(vo);
 
-        
+        salesService.saveOrUpdateSales(vo); // 저장 또는 업데이트 처리를 수행하는 서비스 메서드 호출
+
         rttr.addFlashAttribute("result","success");
         
         return "redirect:/salesList";
     }
+
     
     
-    /** 'salesView.jsp' : 영업 내용, 영업 히스토리 저장(수정)하기 */
-    @PostMapping("/updateSalesAndHistory")
-    public String updateSalesAndHistory(consultAndCshVO vo, RedirectAttributes rttr) {
-        log.info("updateSalesAndHistory_success" + vo);
-        
-     
-        salesService.updateSalesAndHistory(vo);
-        
-        rttr.addFlashAttribute("result","success");
-        
-        return "redirect:/salesList";
-    }
+//    /** 'salesView.jsp' : 영업 내용, 영업 히스토리 저장(수정)하기 */
+//    @PostMapping("/updateSalesAndHistory")
+//    public String updateSalesAndHistory(consultAndCshVO vo, RedirectAttributes rttr) {
+//        
+//    	log.info("updateSalesAndHistory_success" + vo);
+//     
+//        salesService.updateSalesAndHistory(vo);
+//        
+//        rttr.addFlashAttribute("result","success");
+//        
+//        return "redirect:/salesList";
+//    }
     
 	/** 영업부 사원 검색 모달창 : 영업부 사원 정보 가져오기*/
     @GetMapping(value = "/getCsEnameListModal", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE})

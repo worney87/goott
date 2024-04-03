@@ -34,6 +34,7 @@ document.getElementById("imgBtnSearchComName").addEventListener('click', functio
     // 모달 창 열기
     let modal = document.getElementById('open_takeComName_modal');
     modal.style.display = "block";
+    document.querySelector('input[name="searchComName"]').value = ''
 
     // 기업명 리스트 가져오기
     fetch('/takeComNameList')
@@ -76,6 +77,65 @@ function paginateCompanies(json) {
     goToPage(1); // 첫 페이지로 이동
 }
 
+//기업명 찾기 및 기업명 변경(모달창)에서 기업명 검색 기능 
+//기업명 검색 기능 및 결과 표시
+document.getElementById("searchTakeComNameBtn").addEventListener('click', function() {
+    let comName = document.querySelector('input[name="searchComName"]').value;
+    let jsonData = JSON.stringify({ comName: comName });
+    
+    fetch('/searchTakeComName', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: jsonData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to search company');
+        }
+        return response.json();
+    })
+    .then(json => {
+        let msg = '';
+        if (json.length > 0) {
+            json.forEach(item => {
+                msg += `
+                    <tr class="list">
+                        <td><a href="#" class="companyLink" data-company="${item.comName}" data-no="${item.companyNo}">${item.comName}</a></td>
+                    </tr>
+                `;
+            });
+        } else {
+            msg = `
+                <tr>
+                    <td>검색 결과가 없습니다.</td>
+                </tr>
+            `;
+        }
+        
+        // HTML을 원하는 위치에 추가 또는 변경
+        const tableBody = document.querySelector('#takeComName_tbl tbody');
+        tableBody.innerHTML = msg;
+
+        changeComName();
+
+        // 검색 결과에 따라 페이징 정보 업데이트
+        paginateCompanies(json);
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+// 페이징 정보 업데이트 함수
+function paginateCompanies(json) {
+    const totalItems = json.length;
+    totalPages = Math.ceil(totalItems / amount);
+    drawPagination();
+    goToPage(1); // 첫 페이지로 이동
+}
+
+
+
 // 기업명 변경하기
 function changeComName() {
     document.querySelectorAll('.companyLink').forEach(link => {
@@ -90,6 +150,7 @@ function changeComName() {
                 document.querySelector('input[name="comName"]').value = selectedCompanyName;
                 document.querySelector('input[name="companyNo"]').value = selectedCompanyNo;
             }
+            document.querySelector('input[name="searchComName"]').value = ''
             takeComNameModal.style.display = 'none';
         });
     });

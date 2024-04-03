@@ -325,8 +325,8 @@ public class ProductPageController
     @GetMapping("/exPrdExcel")
     public void exPrdExcel(HttpServletResponse response) throws IOException
     {
-    	List<prdDownVO> downlist = new ArrayList<>();
-    	prdDownVO vo = new prdDownVO();
+    	List<prdInputVO> downlist = new ArrayList<>();
+    	prdInputVO vo = new prdInputVO();
     	downlist.add(vo);
     	
     	System.out.println(downlist);
@@ -501,8 +501,8 @@ public class ProductPageController
     @GetMapping("/exSupsExcel")
     public void exSupsExcel(HttpServletResponse response) throws IOException
     {
-    	List<supsDownVO> downlist = new ArrayList<>();
-    	supsDownVO vo = new supsDownVO();
+    	List<suppliersVO> downlist = new ArrayList<>();
+    	suppliersVO vo = new suppliersVO();
     	downlist.add(vo);
     	
     	System.out.println(downlist);

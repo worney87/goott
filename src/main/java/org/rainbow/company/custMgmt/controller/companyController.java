@@ -1,14 +1,15 @@
 package org.rainbow.company.custMgmt.controller;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import java.io.IOException;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
-
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -17,7 +18,6 @@ import org.rainbow.company.custMgmt.domain.companyDownVO;
 import org.rainbow.company.custMgmt.domain.companyInputVO;
 import org.rainbow.company.custMgmt.domain.companySearchDTO;
 import org.rainbow.company.custMgmt.domain.companyVO;
-
 import org.rainbow.company.custMgmt.service.companyServiceImpl;
 import org.rainbow.domain.ExcelDownloadUtil;
 import org.rainbow.domain.ExcelListener;
@@ -31,7 +31,6 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -42,6 +41,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.log4j.Log4j;
+
 @CrossOrigin(origins = "<http://localhost:8080>")
 @Log4j
 @Controller
@@ -189,73 +189,53 @@ public class companyController {
     }
     
     
-
-//   /** 기업 등록 하기*/
-//	@PostMapping(value = "/companyRegisterInsert")
-//	public String companyRegisterInsert(@RequestParam("file") MultipartFile file, companyVO vo, RedirectAttributes rttr) {
-//	    log.info("companyRegisterInsert..." + vo);
-//
-//	    // 파일 업로드 처리
-//	    if (!file.isEmpty()) {
-//	        try {
-//	            // 파일 업로드 경로 설정
-//	            String uploadDir = "/uploads/";
-//	            Path uploadPath = Paths.get(uploadDir);
-//	            
-//	            // 업로드 디렉토리가 없으면 생성
-//	            if (!Files.exists(uploadPath)) {
-//	                Files.createDirectories(uploadPath);
-//	            }
-//	            
-//	            // 파일명 중복 방지를 위한 고유한 파일명 생성
-//	            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//	            Path filePath = uploadPath.resolve(fileName);
-//	            Files.copy(file.getInputStream(), filePath);
-//	            
-//	            // 업로드된 파일 경로를 VO에 설정
-//	            vo.setFilePath(filePath.toString());
-//	        } catch (IOException e) {
-//	            e.printStackTrace();
-//	        }
-//	    }
-//
-//	    companyService.companyRegisterInsert(vo);
-//
-//	    rttr.addFlashAttribute("message", "기업 등록이 완료되었습니다.");
-//
-//	    return "redirect:/companyList";
-//	}
     
- // 기업 등록 처리
+// // 기업 등록 처리
+//    @PostMapping("/companyRegisterInsert")
+//    public String registerCompany(@RequestBody companyVO vo, RedirectAttributes rttr) {
+//        // 기업 등록 서비스 호출
+//        companyService.companyRegisterInsert(vo);
+//
+//        // 기업 등록이 완료되었음을 사용자에게 알림
+//        rttr.addFlashAttribute("message", "기업 등록이 완료되었습니다.");
+//
+//        // 기업 목록 페이지로 Redirect
+//        return "redirect:/companyList";
+//    }
+    
+    
+
+
+//    @ResponseBody
+//    @PostMapping(value = "/companyRegisterInsert", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE,
+//			MediaType.APPLICATION_XML_VALUE })
+//    public String companyRegisterInsert(@RequestParam("files") MultipartFile[] files, companyVO vo, @RequestParam("companyNo") int companyNo, @RequestParam("consultNo") int consultNo, RedirectAttributes rttr) {
+//        
+//        log.info("companyRegisterInsert" + vo);
+//        // 기업 정보 및 업로드된 파일 처리
+//        // companyVO 객체와 files 배열에 데이터가 전달됨
+//        // 여기서 데이터를 처리하여 데이터베이스에 저장하거나 추가적인 작업을 수행할 수 있음
+//        companyService.companyRegisterInsert(vo);
+//        // 예시로 파일의 메타데이터 출력
+//        for (MultipartFile file : files) {
+//            System.out.println("Uploaded file name: " + file.getOriginalFilename());
+//            System.out.println("Uploaded file size: " + file.getSize());
+//        }
+//
+//        // 성공 메시지 반환 (추가적인 작업이 필요한 경우에는 해당 결과를 반환)
+//        return "Company registration successful!";
+//    }
+
+    
     @PostMapping("/companyRegisterInsert")
-    public String register(companyVO vo, RedirectAttributes rttr) {
-        log.info("기업 등록하기 companyRegisterInsert..." + vo);
-        
-        // 기업 등록 서비스 호출
-        companyService.companyRegisterInsert(vo);
-        
-        // 등록된 파일 리스트 출력
-        log.info("파일 리스트 : " + vo.getAttachList());
-        
-        if(vo.getAttachList() != null) {
-            vo.getAttachList().forEach(attach -> log.info("파일 리스트 결과 : " + attach));
-        }
-        
-        // 기업 등록이 완료되었음을 사용자에게 알림
-        rttr.addFlashAttribute("message", "기업 등록이 완료되었습니다.");
-        
-        // 기업 목록 페이지로 Redirect
-        return "redirect:/companyList";
+    public String handleCompanyRegisterInsert(MultipartFile[] files, companyVO vo) {
+        // 클라이언트로부터 받은 데이터를 이용하여 로직 수행
+        // 파일 업로드 처리, 데이터베이스에 저장 등의 작업 수행
+    	log.info("companyRegisterInsert" + vo);
+    	companyService.companyRegisterInsert(vo);
+        // 성공적인 응답 반환
+        return "Company registration successful!";
     }
-    
-  //오늘 날짜의 경로를 문자열로 생성
-  	private String getFolder() {
-  		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-  		Date date = new Date();
-  		String str = sdf.format(date);
-  		return str.replace("-", File.separator);
-  	}
-
     
 
 }
