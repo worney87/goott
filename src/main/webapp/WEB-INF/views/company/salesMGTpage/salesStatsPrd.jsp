@@ -13,7 +13,7 @@
 				<td colspan="10"><h2>상품별 매출통계</h2></td>
 			</tr>
 			<tr>
-				<td> 기업 구분 </td>
+				<td> 상품 분류 </td>
 				<td> 
 					<input class="form-check-input" type="checkbox" id="td-BusinessAll" value="전체" checked> 전체
 					<input class="form-check-input filter-checkbox" type="checkbox" data-filter="td-Business" value="상품권" checked> 상품권   
@@ -25,7 +25,7 @@
 			</tr>
 			<tr>
 				<td> 키워드   </td> 
-				<td colspan="2"> <input type="text" placeholder="기업관리번호/기업명" style="width: 318px;" id="tdKeyword" class="form-control"> </td>
+				<td colspan="2"> <input type="text" placeholder="상품코드/대분류/소분류/상품명" style="width: 318px;" id="tdKeyword" class="form-control"> </td>
 				<td><input type="button" class="btn btn-primary" value="검색" id="search"></td>
 				<td><input type="button" class="btn btn-primary" value="초기화" id="reset"></td>	
 			</tr>

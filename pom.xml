@@ -274,6 +274,7 @@
 			<version>1.6.2</version>
 		</dependency>
 		<!-- Mail end -->
+		
 		<!-- 인증번호 email 보내기 위한 템플릿 -->
 		<dependency>
 			<groupId>org.thymeleaf</groupId>

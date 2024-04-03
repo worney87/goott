@@ -130,8 +130,8 @@ public class salesController {
     /** 'salesView.jsp' : 영업 내용, 영업 히스토리 저장(수정)하기 */
     @PostMapping("/updateSalesAndHistory")
     public String updateSalesAndHistory(consultAndCshVO vo, RedirectAttributes rttr) {
-        log.info("updateSalesAndHistory_success" + vo);
         
+    	log.info("updateSalesAndHistory_success" + vo);
      
         salesService.updateSalesAndHistory(vo);
         
