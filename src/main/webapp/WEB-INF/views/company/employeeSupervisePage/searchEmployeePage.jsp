@@ -6,14 +6,6 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 
 <link rel="stylesheet" href="/resources/css/company/employeeSupervisePage/searchEmployeePage.css">
-<%
-    Date today = new Date(); // 오늘 날짜 가져오기
-%>
-<%
-    // SimpleDateFormat을 사용하여 날짜 포맷 지정
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	String todayStr = sdf.format(new Date());
-%>
 
 <body>
 
@@ -69,7 +61,8 @@
                      <td>${vo.EPhone }</td>
                      <td>${vo.DName }</td>
                      <td>${vo.job }</td>
-                     <td>${empty vo.endDt ? '재직 중' : '퇴사'}</td>
+                     <%-- <td>${empty vo.endDt ? '재직 중' : '퇴사'}</td> --%>
+                     <td id="status_${vo.eno}">${empty vo.endDt ? '재직 중' : vo.endDt }</td> 
                      <td>${vo.hireDt }</td>
                      <td>${empty vo.endDt ? '-' : vo.endDt }</td>
                      <td>${vo.idStatus }</td>   

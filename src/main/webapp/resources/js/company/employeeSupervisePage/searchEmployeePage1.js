@@ -11,6 +11,33 @@ document.querySelectorAll('button').forEach( btn => {
 	})
 })
 
+ // id가 'status_'로 시작하는 모든 요소를 선택
+ var statusElements = document.querySelectorAll("[id^=status_]");
+   //각각의 status 요소에 대해 반복
+   statusElements.forEach(statusElement => {
+      var endDt = statusElement.textContent.trim();
+      var status = "";
+      
+      if (!endDt || endDt === '재직 중') {
+         status = "재직 중";
+      } else {
+    	 // 현재 날짜를 가져온다	
+         var currentDate = new Date();
+         // 퇴사일을 Date 객체로 변환
+         var endDtDate = new Date(endDt);
+         
+         // 퇴사일이 현재 날짜보다 이전인 경우, '퇴사' 상태로 설정
+         if (endDtDate < currentDate) {
+            status = "퇴사";
+         } else {
+        	// 그렇지 않으면 '퇴사 예정' 상태로 설정
+            status = "퇴사 예정";
+         }
+      }
+      // 해당 status 요소의 텍스트 콘텐츠를 새로운 상태로 설정합니다.
+      statusElement.textContent = status;
+   });
+
 function insert(){
 	
 	location.href = '/employee_insert';
