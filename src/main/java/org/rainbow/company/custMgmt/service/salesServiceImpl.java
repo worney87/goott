@@ -1,14 +1,13 @@
 package org.rainbow.company.custMgmt.service;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 import org.rainbow.company.custMgmt.domain.consultAndCshVO;
 import org.rainbow.company.custMgmt.domain.consultSearchDTO;
 import org.rainbow.company.custMgmt.domain.consultVO;
 import org.rainbow.company.custMgmt.domain.cshVO;
-import org.rainbow.company.custMgmt.domain.salesDeptDTO;
 import org.rainbow.company.custMgmt.domain.salesDownVO;
 import org.rainbow.company.custMgmt.mapper.salesMapper;
 import org.rainbow.company.employeeSupervisePage.domain.rain_EmpVO;
@@ -47,7 +46,7 @@ public class salesServiceImpl implements salesService {
 		return salesMapper.downloadSalesExcel(filterResult);
 	}
 	@Override
-	public consultVO salesView(int consultNo) {
+	public consultAndCshVO salesView(int consultNo) {
 		
 		return salesMapper.salesView(consultNo);
 	}
@@ -58,50 +57,35 @@ public class salesServiceImpl implements salesService {
 		return salesMapper.getCshVO(consultNo);
 	}
 	
-	@Transactional
-	@Override
-	public void saveSales(consultAndCshVO vo) {
-	    log.info("saveSales...." + vo);
-	    
-	    // 1. RAIN_consult_tbl 테이블에 항목 내용 업데이트
-	    salesMapper.saveSales(vo);
-	    
-	    // 2. 이미 존재하는 ConsultNo 가져오기
-	    int consultNo = vo.getConsultNo();
-	    log.info("consultNo " + consultNo);
-	    
-	    // 3. RAIN_consultHistory_tbl 테이블에 영업 히스토리 내용 저장
-	    Map<String, Object> params = new HashMap<>();
-	      params.put("vo", vo);
-	      params.put("consultNo", consultNo);
-	    
-	    salesMapper.insertCsh(params);
-	}
+
+
+	 	@Override
+	    @Transactional
+	    public void saveOrUpdateSales(consultAndCshVO vo) {
+	        if (vo.getConsultHistoryNo() == 0) {
+	            // 새로운 상담 히스토리인 경우
+
+	        	// 영업 내용 저장(수정)
+	        	salesMapper.saveSales(vo);
+	            // 상담 히스토리 저장
+	            salesMapper.insertCsh(vo.toMap());
+
+	        } else {
+	            // 기존 상담 히스토리의 경우 업데이트 로직 구현
+	            // 상담 히스토리 수정
+	        	// 영업 내용 저장(수정)
+	        	salesMapper.saveSales(vo);
+	            salesMapper.updateCsh(vo.toMap());
+	        }
+	    }
+
+
+
+
 	
-	@Transactional
-	@Override
-	public void updateSalesAndHistory(consultAndCshVO vo) {
-		
-		log.info("updateSalesAndHistory...." + vo);
-	    
-	    // 1. RAIN_consult_tbl 테이블에 항목 내용 업데이트
-	    salesMapper.saveSales(vo);
-	    
-	    // 2. 이미 존재하는 ConsultNo 가져오기
-	    int consultHistoryNo = vo.getConsultHistoryNo();
-	    log.info("consultHistoryNo " + consultHistoryNo);
-	    
-	    // 3. RAIN_consultHistory_tbl 테이블에 영업 히스토리 내용 업데이트
-	    Map<String, Object> params = new HashMap<>();
-	      params.put("vo", vo);
-	      params.put("consultHistoryNo", consultHistoryNo);
-	    
-	    salesMapper.UpdateCsh(params);
-		
-		
-	}
-
-
+	
+	
+	
 	@Override
 	public List<consultVO> searchCompanyListModal() {
 		log.info("searchCompanyListModal...." );

@@ -28,7 +28,11 @@
 
 			<form action="/updateCompany" method="post" id="companyRegisterForm" enctype="multipart/form-data">
 				<div class="companyMgmt_div">
-					<h5 class="companyMgmt_title" align="left">●기업 편집</h5>
+					<div align="left">
+						<div class="subject_title_div">●기업 편집
+						</div>
+					</div>
+				
 					<table class="companyMgmt_tbl">
 						<thead>
 							<tr>
@@ -71,10 +75,16 @@
 
 				
 							<tr>
-							   <td id="uploadedFileName">
-				        <a href="#" onclick="downloadFile('${companyVO.comBizLicenseFile}')">${companyVO.comBizLicenseFile}</a>
+							   <td id="uploadedFileName" colspan="2">
+							     <div class="uploadResult">
+							 	<ul>  										
+				       			<li> <a href="#" onclick="downloadFile('${companyVO.comBizLicenseFile}')">${companyVO.comBizLicenseFile}</a></li>
+								</ul>
+																			
+									</div>
 				   			 </td>
-				    		<td></td>
+				   			 
+				    		
 							   
 							</tr>
 

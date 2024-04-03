@@ -7,7 +7,6 @@ import org.rainbow.company.custMgmt.domain.consultAndCshVO;
 import org.rainbow.company.custMgmt.domain.consultSearchDTO;
 import org.rainbow.company.custMgmt.domain.consultVO;
 import org.rainbow.company.custMgmt.domain.cshVO;
-import org.rainbow.company.custMgmt.domain.salesDeptDTO;
 import org.rainbow.company.custMgmt.domain.salesDownVO;
 import org.rainbow.company.employeeSupervisePage.domain.rain_EmpVO;
 
@@ -27,7 +26,7 @@ public interface salesMapper {
 
 	
 	/** 'salesView.jsp' 에서 상담 신청 내용 가져오기  */
-	public consultVO salesView(int consultNo);
+	public consultAndCshVO salesView(int consultNo);
 	
 	/** 'salesView.jsp' 에서 영업 히스토리 내용 가져오기  */
 	public cshVO getCshVO(int consultNo);
@@ -41,13 +40,13 @@ public interface salesMapper {
 	
 	
 	/** 'salesView.jsp' 에서 영업 내용 저장(수정)하기 */
-	public void saveSales(consultAndCshVO vo);
+	public int saveSales(consultAndCshVO vo);
 	
 	/** 'salesView.jsp' 에서 영업 히스토리 저장하기 */
 	public int insertCsh(Map<String, Object> params);
 
 	/** 'salesView.jsp' 에서 영업 히스토리 수정하기 */
-	public int UpdateCsh(Map<String, Object> params);
+	public int updateCsh(Map<String, Object> params);
 	
 
 	

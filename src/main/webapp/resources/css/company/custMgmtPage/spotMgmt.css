@@ -275,6 +275,12 @@ input[type="text"],input[type="email"] {
 
 /** ------------지점 등록, 수정 페이지 시작 --*/
 
+
+li {
+    list-style-type: none;
+}
+
+
 .subject_title_div {
 		margin-top:30px;
 		margin-bottom :10px;

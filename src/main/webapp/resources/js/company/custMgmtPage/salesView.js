@@ -77,26 +77,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 /** 영업 히스토리에서 + 버튼 누르면 영업 히스토리 날짜 와 영업 히스토리 내용 작성란 새로 추가 (최대 5개 까지) */
-let currentRowNumber = 0;
+let currentRowNumber = 0; // 초기값을 0으로 설정하거나 필요에 따라 다른 값으로 설정합니다.
+
 
 document.getElementById('imgBtnPlus').addEventListener('click', function() {
-    if (currentRowNumber < 4) {
+    if (currentRowNumber < 4) { // 최대 5개까지 생성 가능
         currentRowNumber++;
         updateSalesHistoryVisibility();
     } else {
         alert('최대 5개의 영업 히스토리 항목까지만 추가할 수 있습니다.');
     }
 });
-
-document.getElementById('imgBtnMinus').addEventListener('click', function() {
-    if (currentRowNumber > 0) {
-        currentRowNumber--;
-        updateSalesHistoryVisibility();
-    } else {
-        alert('최소 1개의 영업 히스토리 항목이 필요합니다.');
-    }
-});
-
 
 function updateSalesHistoryVisibility() {
     let salesHistoryEntries = document.getElementsByClassName('salesHistoryEntry');
@@ -108,6 +99,7 @@ function updateSalesHistoryVisibility() {
         }
     }
 }
+
 
 
 /** 영업 담당자에 세션에 저장된 이름 할당하기 */
@@ -122,59 +114,101 @@ function updateSalesHistoryVisibility() {
     } 
 
 
-    document.getElementById('saveBtn').addEventListener('click', function() {
-        alert(1);
-        if (f.csEname.value === '') {
-            alert("영업 담당자를 선택하세요.");
-            return;
-        }
+ // 저장 버튼 클릭 시
+    document.getElementById('saveBtn').addEventListener('click', function(event) {
+        event.preventDefault(); // 폼 제출의 기본 동작인 페이지 새로 고침 방지
         
-        if (f.csStatus.value === '최초 인입') {
-            alert("영업 상태를 수정하세요.");
-            return;
-        }
-        
-        if (f.csResponseDate.value === '') {
-            alert("응대일을 선택하세요.");
-            return;
-        }
-        
-        if (f.cshDate1.value === '') {
-            alert("영업 히스토리 날짜를 선택하세요.");
-            return;
-        }
-        
-        if (f.cshContent1.value === '') {
-            alert("영업 히스토리 내용을 입력하세요.");
-            return;
-        }
-        
-        if (f.csStatus.value === '계약 실패' && f.csFailDetailReason.value === '') {
-            alert("계약 실패 상세 사유를 작성해주세요.");
-            return;
-        }
-        
-        console.log("consultHistoryNo:", f.consultHistoryNo.value);
-        console.log(f.consultNo.value);
-        console.log(f.csEname.value);
-        console.log(f.csStatus.value);
-        console.log(f.csResponseDate.value);
-        console.log(f.cshDate1.value);
-        console.log(f.cshContent1.value);
-        console.log(f.cshDate2.value);
-        console.log(f.cshContent2.value);
-        console.log(f.csFailReason.value);
-        console.log(f.csFailDetailReason.value);
-        console.log(f.consultHistoryNo.value);
+        // 필요한 데이터 수집
+        var csStatus = document.getElementById('selectSalesStatus').value;
+        var csResponseDate = document.getElementsByName('csResponseDate')[0].value;
+        var cshDate1 = document.getElementsByName('cshDate1')[0].value;
+        var cshContent1 = document.getElementsByName('cshContent1')[0].value;
 
-        // consultHistoryNo 값에 따라 action 설정
-        if (f.consultHistoryNo.value === '' || f.consultHistoryNo.value == null) {
-            f.action = "/saveSales"; // consultHistoryNo가 비어있으면 신규 저장
-            f.submit();
-        } else {
-            f.action = "/updateSalesAndHistory";
-            f.submit();// consultHistoryNo가 비어있지 않으면 업데이트
-        }
+        // 새로 추가된 입력란 데이터 수집
+        var cshDate2 = document.getElementsByName('cshDate2')[0].value;
+        var cshContent2 = document.getElementsByName('cshContent2')[0].value;
+        var cshDate3 = document.getElementsByName('cshDate3')[0].value;
+        var cshContent3 = document.getElementsByName('cshContent3')[0].value;
+        var cshDate4 = document.getElementsByName('cshDate4')[0].value;
+        var cshContent4 = document.getElementsByName('cshContent4')[0].value;
+        var cshDate5 = document.getElementsByName('cshDate5')[0].value;
+        var cshContent5 = document.getElementsByName('cshContent5')[0].value;
         
-        
+        var csFailReason = document.getElementById('selectCsFailReason').value;
+        var csFailDetailReason = document.getElementById('csFailDetailReason').value;
+        var consultHistoryNo = document.getElementsByName('consultHistoryNo')[0].value;
+        var consultNo = document.getElementsByName('consultNo')[0].value;
+        var csEname = document.getElementsByName('csEname')[0].value;
+
+     // Ajax 요청 전송
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/saveOrUpdateSales', true); // 하나의 컨트롤러 메서드로 통합
+        xhr.setRequestHeader('Content-Type', 'application/json'); // JSON 형식으로 데이터 전송
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                alert('저장되었습니다.');
+                location.reload(); // 저장 후 페이지 새로고침
+            } else {
+                alert('저장에 실패했습니다.');
+            }
+        };
+
+        // 데이터를 JSON 형식으로 변환하여 전송
+        var data = JSON.stringify({
+            consultNo: consultNo,
+            consultHistoryNo: consultHistoryNo,
+            csStatus: csStatus,
+            csEname: csEname,
+            csResponseDate: csResponseDate,
+            cshDate1: cshDate1,
+            cshContent1: cshContent1,
+            cshDate2: cshDate2, // 새로 추가된 입력란
+            cshContent2: cshContent2, // 새로 추가된 입력란
+            cshDate3: cshDate3, // 새로 추가된 입력란
+            cshContent3: cshContent3, // 새로 추가된 입력란
+            cshDate4: cshDate4, // 새로 추가된 입력란
+            cshContent4: cshContent4, // 새로 추가된 입력란
+            cshDate5: cshDate5, // 새로 추가된 입력란
+            cshContent5: cshContent5, // 새로 추가된 입력란
+            csFailReason: csFailReason,
+            csFailDetailReason: csFailDetailReason
+        });
+        xhr.send(data);
     });
+    
+    
+ // 새로 추가된 입력란 데이터 수집
+    var cshDate2 = document.getElementsByName('cshDate2')[0].value;
+    var cshContent2 = document.getElementsByName('cshContent2')[0].value;
+    var cshDate3 = document.getElementsByName('cshDate3')[0].value;
+    var cshContent3 = document.getElementsByName('cshContent3')[0].value;
+    var cshDate4 = document.getElementsByName('cshDate4')[0].value;
+    var cshContent4 = document.getElementsByName('cshContent4')[0].value;
+    var cshDate5 = document.getElementsByName('cshDate5')[0].value;
+    var cshContent5 = document.getElementsByName('cshContent5')[0].value;
+
+    // 영업 히스토리 입력란들과 각 입력란에 해당하는 테이블 로우를 가져옵니다.
+    var salesHistoryEntries = document.querySelectorAll('.salesHistoryEntry');
+    var salesHistoryRows = document.querySelectorAll('.salesHistoryEntry > table');
+
+    // 각 입력란의 값이 존재하는지 확인하고, 값이 있으면 해당 로우를 보이도록 합니다.
+    if (cshDate2 || cshContent2) {
+        salesHistoryEntries[0].style.display = 'block';
+    }
+    if (cshDate3 || cshContent3) {
+        salesHistoryEntries[1].style.display = 'block';
+    }
+    if (cshDate4 || cshContent4) {
+        salesHistoryEntries[2].style.display = 'block';
+    }
+    if (cshDate5 || cshContent5) {
+        salesHistoryEntries[3].style.display = 'block';
+    }
+
+    // 새로 추가된 입력란이 모두 보이면 + 버튼을 숨깁니다.
+    if (salesHistoryEntries.length === currentRowNumber + 1) {
+        document.getElementById('imgBtnPlus').style.display = 'none';
+    }
+
+
+
