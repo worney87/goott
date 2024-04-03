@@ -1,7 +1,5 @@
 package org.rainbow.company.custMgmt.domain;
 
-import java.sql.Date;
-
 import com.alibaba.excel.annotation.ExcelProperty;
 
 import lombok.AllArgsConstructor;
@@ -11,8 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class consultExcelDownloadVO {
-	
+public class salesDownVO {
 	
 	@ExcelProperty("상담 신청 관리 번호")
 	private int consultNo;
@@ -20,8 +17,6 @@ public class consultExcelDownloadVO {
 	private int  csBdgt;
 	@ExcelProperty("직원 수")
 	private int csEmpNum;
-
-
 	@ExcelProperty("기업명")
 	private String csCompanyName;
 	@ExcelProperty("지역")
@@ -42,11 +37,5 @@ public class consultExcelDownloadVO {
 	private String csFailReason;
 	@ExcelProperty("계약 실패 사유 상세 기재")
 	private String csFailDetailReason;
-
-
-	@ExcelProperty("신청일")	
-	private Date  csDate;
-	@ExcelProperty("응대일")
-	private Date csResponseDate;
 
 }

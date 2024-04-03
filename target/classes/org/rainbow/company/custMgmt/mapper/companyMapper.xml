@@ -62,24 +62,22 @@
 	</insert>
 
 
-
-		<select id="downExcelList" resultType="org.rainbow.company.custMgmt.domain.companyDownVO">
+		
+			<select id="downloadCompanyExcel" parameterType="org.rainbow.company.custMgmt.domain.companySearchDTO" resultType="org.rainbow.company.custMgmt.domain.companyDownVO">
 		  	SELECT * 
 		    FROM RAIN_cCompany_tbl 
 		    WHERE 
-		     comArea IN
-		    <foreach item="item" collection="filteredValues" open="(" separator="," close=")">
+		     comBizType IN
+			<foreach item="item" collection="checkedValues" open="(" separator="," close=")">
 		        #{item}
 		    </foreach>
-		    AND comBizType IN
-		    <foreach item="item" collection="filteredValues" open="(" separator="," close=")">
-		        #{item}
-		    </foreach>
-		    AND  comBizStatus IN
-		    <foreach item="item" collection="filteredValues" open="(" separator="," close=")">
-		        #{item}
-		    </foreach>
-		</select>
+			<if test="keyword != null and keyword != ''">
+			    AND (
+			       comName LIKE CONCAT('%', #{keyword}, '%') OR comBizNum = #{keyword} OR comAddr LIKE CONCAT('%', #{keyword}, '%') OR comContact = #{keyword}   
+			    )
+			</if>
+			</select>
+		
 		
 		
 	<!--  db에 저장된 파일들 가져오기 및 파일 다운로드-->

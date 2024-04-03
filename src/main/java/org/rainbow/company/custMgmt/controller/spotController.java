@@ -7,16 +7,26 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.rainbow.company.custMgmt.domain.cEmpListVO;
+import org.rainbow.company.custMgmt.domain.companyDownVO;
+import org.rainbow.company.custMgmt.domain.companyInputVO;
+import org.rainbow.company.custMgmt.domain.companySearchDTO;
 import org.rainbow.company.custMgmt.domain.companyVO;
 import org.rainbow.company.custMgmt.domain.consultVO;
 import org.rainbow.company.custMgmt.domain.spotAndUserVO;
+import org.rainbow.company.custMgmt.domain.spotDownVO;
+import org.rainbow.company.custMgmt.domain.spotInputVO;
 import org.rainbow.company.custMgmt.domain.spotListVO;
+import org.rainbow.company.custMgmt.domain.spotSearchDTO;
 import org.rainbow.company.custMgmt.domain.spotVO;
 import org.rainbow.company.custMgmt.domain.userVO;
 import org.rainbow.company.custMgmt.service.companyServiceImpl;
 import org.rainbow.company.custMgmt.service.salesServiceImpl;
 import org.rainbow.company.custMgmt.service.spotServiceImpl;
+import org.rainbow.domain.ExcelDownloadUtil;
+import org.rainbow.domain.ExcelListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -100,6 +110,64 @@ public class spotController {
 		 
 	}
 	
+	// 엑셀 파일 업로드 처리
+    @ResponseBody
+    @PostMapping(value = "/spotExcelInput", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> spotExcelInput(@RequestParam("EXCEL") MultipartFile file) 
+    {	
+    	log.info(file);
+    	int result = 0;
+        ExcelListener listener = new ExcelListener();
+        if (!file.isEmpty()) 
+        {
+            try 
+            {
+                // 엑셀 파일 처리를 위한 리스너로 데이터 추출
+                List<spotInputVO> spotDataList = listener.spotExcelListner(file.getInputStream());
+                log.info(spotDataList);
+                System.out.println(spotDataList);
+
+                // 데이터베이스에 엑셀 데이터 저장
+                for(spotInputVO vo : spotDataList) 
+                {
+                	 log.error(vo.getComName());
+                	 result = spotService.spotExcelInput(vo);
+                }
+                
+                System.out.println("result = " + result);
+                return result >= 1 ? new ResponseEntity<String>("success",HttpStatus.OK) :
+                new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+                
+            } 
+            catch (IOException e) 
+            {
+                e.printStackTrace();
+                return  new ResponseEntity<String>("error",HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } 
+        else 
+        {
+        	System.out.println("파일 정보가 안들어옴");
+        	return  new ResponseEntity<String>("no file",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+			
+    /** 엑셀 데이터 다운로드 처리*/
+    @ResponseBody
+    @PostMapping("/downloadSpotExcel")
+    public void downloadSpotExcel(HttpServletResponse response, @RequestBody spotSearchDTO filterResult) throws IOException 
+    {
+    	log.info(filterResult);
+
+    	
+    	List<spotDownVO> downlist = spotService.downloadSpotExcel(filterResult);
+    	System.out.println("다운 리스트" + downlist);
+    	log.info("다운 리스트" + downlist);
+    	
+    
+      //리스트를 넣어서 엑셀화
+      ExcelDownloadUtil.dowonloadUtill(response, downlist);
+    }
 	
 	@GetMapping("/spotRegister")
 	public String spotRegister( ) {

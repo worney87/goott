@@ -23,5 +23,7 @@ public class consultSearchDTO {
 	private Date firDate;
 	
 	private Date secDate;
+	
+	private String[] checkedValues;
 
 }

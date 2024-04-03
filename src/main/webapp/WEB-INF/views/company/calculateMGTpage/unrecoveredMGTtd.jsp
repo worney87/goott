@@ -45,7 +45,7 @@
 			</tr>
 			<tr>
 				<td> 키워드   </td> 
-				<td colspan="2"> <input type="text" placeholder="기업관리번호/기업명" style="width: 318px;" id="tdKeyword" class="form-control"> </td>
+				<td colspan="2"> <input type="text" placeholder="거래명세번호/기업명/지점명" style="width: 318px;" id="tdKeyword" class="form-control"> </td>
 				<td><input type="button" class="btn btn-primary" value="검색" id="search"></td>
 				<td><input type="button" class="btn btn-primary" value="초기화" id="reset"></td>	
 			</tr>

@@ -12,6 +12,25 @@ datePickAll.forEach(function(input) {
 //form 객체 가져오기
 const f = document.forms[0];
 
+
+const CSS_FILE_PATH = ['/resources/css/company/custMgmtPage/salesMgmt.css','/resources/css/company/custMgmtPage/salesMgmtModal.css' ];
+cssBinding(CSS_FILE_PATH);
+function cssBinding(cssFiles) {
+	cssFiles.forEach(css => {
+		
+		//2. link 태그 생성
+		let linkEle = document.createElement('link');
+		linkEle.rel = 'stylesheet';
+		linkEle.type = 'text/css';
+		linkEle.href = css;
+		
+		
+		//3.  head 태그에 link 엘리먼트 추가 (여기서 head 태그에 동적으로 바인딩 된다)
+		document.head.appendChild(linkEle);
+	})
+}
+
+
 /** 공통 부분 끝*/
 
 
@@ -146,14 +165,16 @@ function updateSalesHistoryVisibility() {
         console.log(f.cshContent2.value);
         console.log(f.csFailReason.value);
         console.log(f.csFailDetailReason.value);
-        
+        console.log(f.consultHistoryNo.value);
 
         // consultHistoryNo 값에 따라 action 설정
-        if (f.consultHistoryNo.value === '') {
+        if (f.consultHistoryNo.value === '' || f.consultHistoryNo.value == null) {
             f.action = "/saveSales"; // consultHistoryNo가 비어있으면 신규 저장
+            f.submit();
         } else {
-            f.action = "/updateSalesAndHistory"; // consultHistoryNo가 비어있지 않으면 업데이트
+            f.action = "/updateSalesAndHistory";
+            f.submit();// consultHistoryNo가 비어있지 않으면 업데이트
         }
         
-        f.submit();
+        
     });

@@ -5,8 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.rainbow.company.custMgmt.domain.cEmpListVO;
+import org.rainbow.company.custMgmt.domain.companyInputVO;
 import org.rainbow.company.custMgmt.domain.spotAndUserVO;
+import org.rainbow.company.custMgmt.domain.spotDownVO;
+import org.rainbow.company.custMgmt.domain.spotInputVO;
 import org.rainbow.company.custMgmt.domain.spotListVO;
+import org.rainbow.company.custMgmt.domain.spotSearchDTO;
 import org.rainbow.company.custMgmt.domain.spotVO;
 import org.rainbow.company.custMgmt.domain.userVO;
 import org.rainbow.company.custMgmt.mapper.spotMapper;
@@ -32,6 +36,16 @@ public class spotServiceImpl implements spotService{
 	public List<spotListVO> giveKeyword(String keyword) {
 		
 		return spotMapper.giveKeyword(keyword);
+	}
+	@Override
+	public int spotExcelInput(spotInputVO vo) {
+		
+		return spotMapper.spotExcelInput(vo);
+	}
+	@Override
+	public List<spotDownVO> downloadSpotExcel(spotSearchDTO filterResult) {
+		
+		return spotMapper.downloadSpotExcel(filterResult);
 	}
 	@Override
 	public spotVO spotView(int spotNo) {

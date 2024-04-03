@@ -2,12 +2,11 @@ package org.rainbow.company.custMgmt.service;
 
 
 import java.util.List;
-import java.util.Map;
 
 import org.rainbow.company.custMgmt.domain.attachVO;
 import org.rainbow.company.custMgmt.domain.companyDownVO;
 import org.rainbow.company.custMgmt.domain.companyInputVO;
-
+import org.rainbow.company.custMgmt.domain.companySearchDTO;
 import org.rainbow.company.custMgmt.domain.companyVO;
 import org.rainbow.company.custMgmt.mapper.attachMapper;
 import org.rainbow.company.custMgmt.mapper.companyMapper;
@@ -89,10 +88,11 @@ public class companyServiceImpl implements companyService{
 		
 		return companyMapper.insertCompanyExcel(vo);
 	}
+
 	@Override
-	public List<companyDownVO> downExcelList(Map<String, Object> filteredValue) {
+	public List<companyDownVO> downloadCompanyExcel(companySearchDTO filterResult) {
 		
-		return companyMapper.downExcelList(filteredValue);
+		return companyMapper.downloadCompanyExcel(filterResult);
 	}
 	@Override
 	public List<companyVO> getCompanyLicenseFileURL(String jsonData) {

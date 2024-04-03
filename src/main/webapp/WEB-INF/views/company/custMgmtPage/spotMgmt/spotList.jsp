@@ -230,5 +230,7 @@
 <script type="text/javascript" src="/resources/js/company/custMgmtPage/spotSearch.js"></script>
 <script type="text/javascript" src="/resources/js/company/custMgmtPage/spotMgmtModal.js"></script>
 <script type="text/javascript" src="/resources/js/company/custMgmtPage/spotMgmt.js"></script>
+<script type="text/javascript" src="/resources/js/company/custMgmtPage/spotUpDownload.js"></script>
+
 </body>
 </html>

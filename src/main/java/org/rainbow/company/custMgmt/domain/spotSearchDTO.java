@@ -1,6 +1,5 @@
 package org.rainbow.company.custMgmt.domain;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -12,20 +11,13 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class companySearchDTO {
-	
-	
+public class spotSearchDTO {
 	
 	// 검색어
-	private String keyword;
-	
-	private String comBizStatus;
-	
-	private String comBizType;
-	
-	private String[] checkedValues;
-	
-
-
+		private String keyword;
+		
+		private String spStatus;
+		
+		private String[] checkedValues;
 
 }
