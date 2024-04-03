@@ -27,14 +27,15 @@ body{
        justify-content: center; 
     }
     .team {
-       padding : 50px; 
+       padding : 0 50px 50px 50px; 
     }
     #title{
        display : inline-block;
-       margin-top : 100px;
+       margin-top : 60px;
        margin-left: 300px;
     }
     #orgHeader{
+   	   padding-bottom : 30px;
        display : flex;
        justify-content: center; 
     }
@@ -87,30 +88,46 @@ body{
        font-size : 20px;
        color: white;
     }
-     .connector {
+      ul{
+        margin: 0;
+      }
+      .lines{
+        display: flex;
+        justify-content: center;
+      }
+      .line-table{
+        border-collapse: collapse;
+        width: 760px;
+        height: 85px;
+      }
+      .line-table tr, td{
+        border-left: 2px solid black;
+        border-right: 2px solid black;
+        border-top: 2px solid black;
+      }
+      .connector {
 	   position: absolute;
-       width: 3px;
-       height: 170px; /* 선의 길이 */
+       width: 1px;
+       height: 31px; 
        background-color: black;
-       left: 40%; /* 가운데 정렬 */
-       top: 260px; /* 위에서 시작 */
-       transform: translateX(-100%) rotate(75deg); /* 선을 45도 기울임 */
+       left: 49.95%; 
+       top: 263px; 
      }
-     .connector1 {
+     /* .connector1 {
        position: absolute;
        width: 3px;
-       height: 50px; /* 선의 길이 */
+       height: 50px; 선의 길이
        background-color: black;
-       left: 50%; /* 가운데 정렬 */
-       top: 318px; /* 위에서 시작 */
+       left: 50%; 가운데 정렬
+       top: 318px; 위에서 시작
        transform: translateX(-50%); 
      }
      .connector2 {
 	   position: absolute;
        width: 3px;
-       height: 170px; /* 선의 길이 */
+       height: 170px; 선의 길이
        background-color: black;
-       left: 60%; /* 가운데 정렬 */
-       top: 260px; /* 위에서 시작 */
-       transform: translateX(-100%) rotate(105deg); /* 선을  반대로 45도 기울임 */
-     }
+       left: 60%; 가운데 정렬
+       top: 260px; 위에서 시작
+       transform: translateX(-100%) rotate(105deg); 선을  반대로 45도 기울임
+     } */

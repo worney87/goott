@@ -24,6 +24,14 @@
 						</li>
 					</ul>
 				</div>
+					<div class="lines">
+          				<table class="line-table">
+             				<tr>
+								<td style="width: 50%;"> </td>
+              					<td></td>
+             				</tr>
+          				</table>
+        			</div>
 				<div id="orgTeam">
 					<ul class="team">
 						<li id="reader-Name">
@@ -58,7 +66,7 @@
 								<c:if test="${vo.job == '팀장' && vo.DName == '인사'}">
 									<p> 운영본분 </p>
 									<strong> ${vo.EName } </strong>
-									<div class="connector1"></div>
+									<!-- <div class="connector1"></div> -->
 								</c:if>
 							</c:forEach>
 						</li>
@@ -91,7 +99,7 @@
 						<li id="reader-Name">
 							<p> 개발본분 </p>
 							<strong> 리자몽 </strong>
-							<div class="connector2"></div>
+							<!-- <div class="connector2"></div> -->
 						</li>
 						<li id="team-member">
 							<p>개발팀</p>
