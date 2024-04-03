@@ -222,7 +222,6 @@ fetch('/deleteFile', {
 
 /** 지점 등록 */
 document.getElementById("spotRegisterInsertBtn").addEventListener('click', () => {
-    alert(1);
     
     // JavaScript를 사용하여 폼 요소에 접근
     const companyNoInput = document.querySelector('input[name="companyNo"]');

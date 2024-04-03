@@ -264,6 +264,7 @@
             <table class="list_div_tbl_modal" id="takeCsName_tbl">
                 <thead>
                     <tr class="top_bar_of_list_modal">
+                    	<th>기업명</th>
                         <th>담당자명</th>
                     </tr>
                 </thead>

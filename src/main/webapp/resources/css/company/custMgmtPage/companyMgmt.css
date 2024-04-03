@@ -483,7 +483,14 @@ li {
 		border: 1px solid #007bff;
 	}
 
+.validation-result {
+    font-size: 12px; /* 글자 크기를 작게 조정합니다. */
+    color: green; /* 기본적으로는 초록색으로 표시하도록 설정합니다. */
+}
 
+.validation-result.error {
+    color: red; /* 실패 시에는 빨간색으로 변경합니다. */
+}
 /** ----------기업 등록,기업 수정 페이지 끝---------------*/
 
 

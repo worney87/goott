@@ -183,31 +183,44 @@ function showUploadedFiles(files) {
 
 /** 사업자등록번호 유효 API */
 document.getElementById("imgBtnSearchBizNum").addEventListener('click', () => {
-    const bizNum = document.querySelector('input[name="comBizNum"]').value;
-    console.log(bizNum);
-    searchBizNum([bizNum]); // 배열로 감싸서 전달
-});
 
-function searchBizNum(bizNumArray) {
-	var data = {
-	        "b_no": bizNumArray
-	    };
+	    	 $("#comBizNum").val($("#comBizNum").val().replace(/[^0-9]/g, ""));
+	    	 comBizNum = $("#comBizNum").val();
 
-    $.ajax({
-        url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=RcQTidl2gdgS/jYwj9Nwfy1D7bKtcwekloVeGJ+U4NxpCVbVTrc/dueJNvAJoSgWSe9fvIGz/JzX4Y/aOFkkHA==",
-        type: "POST",
-        data: JSON.stringify(data),
-        dataType: "JSON",
-        contentType: "application/json",
-        accept: "application/json",
-        success: function(result) {
-        	alert(JSON.stringify(result, null, 2));
-        },
-        error: function(result) {
-            alert(result.responseText);
-        }
-    });
-}
+	    	   
+	    	    var data = {
+	    	        "b_no": [comBizNum]
+	    	    };
+	    	    
+	    	    $.ajax({
+	    	        url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=RcQTidl2gdgS%2FjYwj9Nwfy1D7bKtcwekloVeGJ%2BU4NxpCVbVTrc%2FdueJNvAJoSgWSe9fvIGz%2FJzX4Y%2FaOFkkHA%3D%3D",  // serviceKey 값을 xxxxxx에 입력
+	    	        type: "POST",
+	    	        data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+	    	        dataType: "JSON",
+	    	        traditional: true,
+	    	        contentType: "application/json; charset:UTF-8",
+	    	        accept: "application/json",
+	    	        success: function(result) {
+	    	            console.log(result);
+	    	            if(result.match_cnt == "1") {
+	    	            	// 성공
+	    	            	// 성공
+	    	                $("#bizNumValidationResult").text("국세청에 등록된 사업자등록번호입니다.");
+	    	                $("#bizNumValidationResult").removeClass("error");
+	    	            } else {
+	    	            	  $("#bizNumValidationResult").text("국세청에 등록되지 않은 사업자등록번호입니다. 다시 확인바랍니다.");
+	    	                  $("#bizNumValidationResult").addClass("error");
+	    	                //alert(result.data[0]["tax_type"]);
+	    	            }
+	    	        },
+	    	        error: function(result) {
+	    	            console.log("error");
+	    	            console.log(result.responseText); //responseText의 에러메세지 확인
+	    	        }
+	    	    });
+
+	});
+
 
 
 

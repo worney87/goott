@@ -67,10 +67,12 @@
 								<td></td>
 								<td class="companyMgmt_tbl_title" rowspan="2">사업자등록번호</td>
 								<td rowspan="2">
-								<div class="input-with-image">
-								<input type="text" name="comBizNum" id="comBizNum" placeholder="사업자등록번호 확인">
-								<input type="button"
-									id="imgBtnSearchBizNum"></div></td>
+						    <div class="input-with-image">
+						        <input type="text" name="comBizNum" id="comBizNum" placeholder="사업자등록번호 확인">
+						        <input type="button" id="imgBtnSearchBizNum">
+						    </div>
+						    <span id="bizNumValidationResult" class="validation-result"></span> 
+						</td>
 								
 							</tr>
 
@@ -252,7 +254,7 @@
 		src="/resources/js/company/custMgmtPage/companyMgmtModal.js"></script>
 	<script type="text/javascript"
 		src="/resources/js/company/custMgmtPage/companyRegister.js"></script>
-
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	
 </body>
 </html>
