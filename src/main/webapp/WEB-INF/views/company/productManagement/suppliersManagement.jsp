@@ -38,7 +38,7 @@
                 <td>
                     <div class="section">
                     	<div class="flex-div" style="">
-                        <label>상품 상태</label>
+                        <label>거래 상태</label>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="전체" id="sups-statusAll" checked="checked">
                             <label class="form-check-label" for="sups-statusAll">전체</label>

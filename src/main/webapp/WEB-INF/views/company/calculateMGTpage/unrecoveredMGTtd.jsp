@@ -21,7 +21,7 @@
 				</td>	
 			</tr>
 			<tr>
-				<td> 상품 분류 </td>
+				<td> 정산 구분 </td>
 				<td colspan="4">
 					<input class="form-check-input" type="checkbox" id="td-calculateAll" value="전체" checked> 전체 
 					<input class="form-check-input filter-checkbox" type="checkbox" data-filter="td-calculate" value="계산서발행" checked> 계산서 발행
