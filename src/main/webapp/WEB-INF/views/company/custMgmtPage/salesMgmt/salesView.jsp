@@ -29,18 +29,18 @@
 	<tr>
 						<td class="tbl_subtitle">기업명</td>
 						<td>
-							<input type="text" name="csCompanyName" value="${consultVO.csCompanyName }" readonly 
+							<input type="text" name="csCompanyName" value="${consultAndCshVO.csCompanyName }" readonly 
 							>
 						</td>
 						<td rowspan="3"></td>
 						<td class="tbl_subtitle">상담 신청일</td>
 						<td>
-							<input type="text" name="csDate" value="${consultVO.csDate }" readonly>
+							<input type="text" name="csDate" value="${consultAndCshVO.csDate }" readonly>
 						</td>
 						<td rowspan="3"></td>
 						<td class="tbl_subtitle">지역</td>
 						<td>
-							<input type="text" name="csArea" value="${consultVO.csArea }" readonly>
+							<input type="text" name="csArea" value="${consultAndCshVO.csArea }" readonly>
 						</td>
 						<td></td>
 					</tr>
@@ -48,17 +48,17 @@
 	<tr>
 						<td class="tbl_subtitle">담당자</td>
 						<td>
-							<input type="text" name="csName" value="${consultVO.csName }" readonly>
+							<input type="text" name="csName" value="${consultAndCshVO.csName }" readonly>
 						</td>
 						
 						<td class="tbl_subtitle">연락처</td>
 						<td>
-							<input type="text" name="csContact" value="${consultVO.csContact }" readonly>
+							<input type="text" name="csContact" value="${consultAndCshVO.csContact }" readonly>
 						</td>
 						
 						<td class="tbl_subtitle">이메일</td>
 						<td colspan="2" >
-							<input type="email" name="csEmail" value="${consultVO.csEmail }" readonly style="width:250px;">
+							<input type="email" name="csEmail" value="${consultAndCshVO.csEmail }" readonly style="width:250px;">
 						</td>
 						
 						
@@ -66,12 +66,12 @@
 					<tr>
 						<td class="tbl_subtitle">직원 수</td>
 						<td>
-							<input type="text" name="csEmpNum" value="${consultVO.csEmpNum }" readonly>
+							<input type="text" name="csEmpNum" value="${consultAndCshVO.csEmpNum }" readonly>
 						</td>
 						
 						<td class="tbl_subtitle">예상 예산</td>
 						<td>
-							<input type="text" name="csBdgt" value="${consultVO.csBdgt }" readonly>
+							<input type="text" name="csBdgt" value="${consultAndCshVO.csBdgt }" readonly>
 						</td>
 						
 						<td colspan="3"></td>
@@ -80,7 +80,7 @@
 					<tr>
 						<td class="tbl_subtitle">문의 내용</td>
 						<td colspan="8" id="inquiryDetails">
-						<textarea rows="10"  style="width: 95%; resize: none" readonly>${consultVO.csContent}</textarea>
+						<textarea rows="10"  style="width: 95%; resize: none" readonly>${consultAndCshVO.csContent}</textarea>
 						
 						</td>
 
@@ -101,19 +101,19 @@
 						<tr>
 						<td class="tbl_subtitle">영업 담당자</td>
 						<td><div class="input-with-image">
-						<input type="text" name="csEname" value="${consultVO.csEname }" readonly><a href="#" id="open_searchEname_modal">
+						<input type="text" name="csEname" value="${consultAndCshVO.csEname }" readonly><a href="#" id="open_searchEname_modal">
 						<input type="button" id="imgBtnSearchEname"></a>
 						</div></td>
 						<td></td>
 						<td class="tbl_subtitle">영업 상태</td>
 						<td>
 							<select name="csStatus" id="selectSalesStatus">
-							<option value="최초 인입" ${consultVO.csStatus eq '최초 인입' ? 'selected' : ''}>최초 인입</option>
-							<option value="응대 완료" ${consultVO.csStatus eq '응대 완료' ? 'selected' : ''}>응대 완료</option>
-							<option value="견적 발송 완료" ${consultVO.csStatus eq '견적 발송 완료' ? 'selected' : ''}>견적 발송 완료</option>
-							<option value="미팅 완료" ${consultVO.csStatus eq '미팅 완료' ? 'selected' : ''}>미팅 완료</option>
-							<option value="계약 완료" ${consultVO.csStatus eq '계약 완료' ? 'selected' : ''}>계약 완료</option>
-							<option value="계약 실패" ${consultVO.csStatus eq '계약 실패' ? 'selected' : ''}>계약 실패</option>
+							<option value="최초 인입" ${consultAndCshVO.csStatus eq '최초 인입' ? 'selected' : ''}>최초 인입</option>
+							<option value="응대 완료" ${consultAndCshVO.csStatus eq '응대 완료' ? 'selected' : ''}>응대 완료</option>
+							<option value="견적 발송 완료" ${consultAndCshVO.csStatus eq '견적 발송 완료' ? 'selected' : ''}>견적 발송 완료</option>
+							<option value="미팅 완료" ${consultAndCshVO.csStatus eq '미팅 완료' ? 'selected' : ''}>미팅 완료</option>
+							<option value="계약 완료" ${consultAndCshVO.csStatus eq '계약 완료' ? 'selected' : ''}>계약 완료</option>
+							<option value="계약 실패" ${consultAndCshVO.csStatus eq '계약 실패' ? 'selected' : ''}>계약 실패</option>
 							
 		
 							</select>
@@ -121,7 +121,7 @@
 						<td></td>
 						<td class="tbl_subtitle">응대일</td>
 						<td>
-							<input type="date" name="csResponseDate" placeholder="날짜 입력" value="${consultVO.csResponseDate }" >
+							<input type="date" name="csResponseDate" placeholder="날짜 입력" value="${consultAndCshVO.csResponseDate }" >
 						</td>
 						<td></td>
 					</tr>
@@ -136,13 +136,13 @@
 		            <tr>
 		                <td class="tbl_subtitle">날짜 </td>
 		                <td colspan="8">
-		                    <input type="date" name="cshDate1" placeholder="영업 날짜 선택" value="${cshVO.cshDate1 }" style="width: 150px">
+		                    <input type="date" name="cshDate1" placeholder="영업 날짜 선택" value="${consultAndCshVO.cshDate1 }" style="width: 150px">
 		                </td>
 		            </tr>
 		            <tr>
 		                <td class="tbl_subtitle">내용</td>
 		                <td colspan="8">
-		                    <textarea rows="10" placeholder="영업 내용 입력" style="width: 90%; resize: none" name="cshContent1">${cshVO.cshContent1 }</textarea>
+		                    <textarea rows="10" placeholder="영업 내용 입력" style="width: 90%; resize: none" name="cshContent1">${consultAndCshVO.cshContent1 }</textarea>
 		                </td>
 		            </tr>
 		        </table>
@@ -154,13 +154,13 @@
 		            <tr>
 		                <td class="tbl_subtitle">날짜 </td>
 		                <td colspan="8">
-		                    <input type="date" name="cshDate2" placeholder="영업 날짜 선택" value="${cshVO.cshDate2 }" style="width: 150px">
+		                    <input type="date" name="cshDate2" placeholder="영업 날짜 선택" value="${consultAndCshVO.cshDate2 }" style="width: 150px">
 		                </td>
 		            </tr>
 		            <tr>
 		                <td class="tbl_subtitle">내용</td>
 		                <td colspan="8">
-		                    <textarea rows="10" placeholder="영업 내용 입력" style="width: 90%; resize: none" name="cshContent2">${cshVO.cshContent2 }</textarea>
+		                    <textarea rows="10" placeholder="영업 내용 입력" style="width: 90%; resize: none" name="cshContent2">${consultAndCshVO.cshContent2 }</textarea>
 		                </td>
 		            </tr>
 		        </table>
@@ -170,13 +170,13 @@
 		            <tr>
 		                <td class="tbl_subtitle">날짜 </td>
 		                <td colspan="8">
-		                    <input type="date" name="cshDate3" placeholder="영업 날짜 선택" value="${cshVO.cshDate3 }" style="width: 150px">
+		                    <input type="date" name="cshDate3" placeholder="영업 날짜 선택" value="${consultAndCshVO.cshDate3 }" style="width: 150px">
 		                </td>
 		            </tr>
 		            <tr>
 		                <td class="tbl_subtitle">내용</td>
 		                <td colspan="8">
-		                    <textarea rows="10" placeholder="영업 내용 입력" style="width: 90%; resize: none" name="cshContent3">${cshVO.cshContent3 }</textarea>
+		                    <textarea rows="10" placeholder="영업 내용 입력" style="width: 90%; resize: none" name="cshContent3">${consultAndCshVO.cshContent3 }</textarea>
 		                </td>
 		            </tr>
 		        </table>
@@ -186,13 +186,13 @@
 		            <tr>
 		                <td class="tbl_subtitle">날짜 </td>
 		                <td colspan="8">
-		                    <input type="date" name="cshDate4" placeholder="영업 날짜 선택" value="${cshVO.cshDate4 }" style="width: 150px">
+		                    <input type="date" name="cshDate4" placeholder="영업 날짜 선택" value="${consultAndCshVO.cshDate4 }" style="width: 150px">
 		                </td>
 		            </tr>
 		            <tr>
 		                <td class="tbl_subtitle">내용</td>
 		                <td colspan="8">
-		                    <textarea rows="10" placeholder="영업 내용 입력" style="width: 90%; resize: none" name="cshContent4">${cshVO.cshContent4 }</textarea>
+		                    <textarea rows="10" placeholder="영업 내용 입력" style="width: 90%; resize: none" name="cshContent4">${consultAndCshVO.cshContent4 }</textarea>
 		                </td>
 		            </tr>
 		        </table>
@@ -202,13 +202,13 @@
 		            <tr>
 		                <td class="tbl_subtitle">날짜 </td>
 		                <td colspan="8">
-		                    <input type="date" name="cshDate5" placeholder="영업 날짜 선택" value="${cshVO.cshDate5 }" style="width: 150px">
+		                    <input type="date" name="cshDate5" placeholder="영업 날짜 선택" value="${consultAndCshVO.cshDate5 }" style="width: 150px">
 		                </td>
 		            </tr>
 		            <tr>
 		                <td class="tbl_subtitle">내용</td>
 		                <td colspan="8">
-		                    <textarea rows="10" placeholder="영업 내용 입력" style="width: 90%; resize: none" name="cshContent5">${cshVO.cshContent5 }</textarea>
+		                    <textarea rows="10" placeholder="영업 내용 입력" style="width: 90%; resize: none" name="cshContent5">${consultAndCshVO.cshContent5 }</textarea>
 		                </td>
 		            </tr>
 		        </table>
@@ -225,13 +225,13 @@
 						<td class="tbl_subtitle">계약 실패 사유</td>	
 						<td>
 							<select name="csFailReason" id="selectCsFailReason">
-								<option value="단가 불만족">단가 불만족</option>
-								<option value="상품 불만족">상품 불만족</option>
-								<option value="서비스 불만족">서비스 불만족</option>
-								<option value="경쟁사 이용">경쟁사 이용</option>
-								<option value="중복인입">중복인입</option>
-								<option value="허위인입">허위인입</option>
-								<option value="기타">기타</option>
+							<option value="단가 불만족" ${consultAndCshVO.csFailReason eq '단가 불만족' ? 'selected' : ''}>단가 불만족</option>
+							<option value="상품 불만족" ${consultAndCshVO.csFailReason eq '상품 불만족' ? 'selected' : ''}>상품 불만족</option>
+							<option value="서비스 불만족" ${consultAndCshVO.csFailReason eq '서비스 불만족' ? 'selected' : ''}>서비스 불만족</option>
+							<option value="경쟁사 이용" ${consultAndCshVO.csFailReason eq '경쟁사 이용' ? 'selected' : ''}>경쟁사 이용</option>
+							<option value="중복인입" ${consultAndCshVO.csFailReason eq '중복인입' ? 'selected' : ''}>중복인입</option>
+							<option value="허위인입" ${consultAndCshVO.csFailReason eq '허위인입' ? 'selected' : ''}>허위인입</option>
+							<option value="기타" ${consultAndCshVO.csFailReason eq '기타' ? 'selected' : ''}>기타</option>
 							</select>
 						</td>
 						<td colspan="7"></td>
@@ -241,7 +241,7 @@
 				<tr>
 						<td class="tbl_subtitle">내용</td>
 						<td colspan="8">
-						<textarea rows="10" style="width: 90%; resize: none" id="csFailDetailReason" placeholder="계약 실패 사유 상세 기재" name="csFailDetailReason"></textarea>
+						<textarea rows="10" style="width: 90%; resize: none" id="csFailDetailReason" placeholder="계약 실패 사유 상세 기재" name="csFailDetailReason">${consultAndCshVO.csFailDetailReason}</textarea>
 						</td>
 					
 					
@@ -253,8 +253,8 @@
 	
 		<div class="btn_div">
 		<input type="button" class="salesViewBtns" id="saveBtn" value="저장">
-		<input type="hidden" name="consultNo" value="${consultVO.consultNo }">
-		<input type="hidden" name="consultHistoryNo" value="${cshVO.consultHistoryNo }">
+		<input type="hidden" name="consultNo" value="${consultAndCshVO.consultNo }">
+		<input type="hidden" name="consultHistoryNo" value="${consultAndCshVO.consultHistoryNo }">
 		</div>
 </form>
 
