@@ -28,7 +28,11 @@
 
 			<form action="/updateCompany" method="post" id="companyRegisterForm" enctype="multipart/form-data">
 				<div class="companyMgmt_div">
-					<h5 class="companyMgmt_title" align="left">●기업 편집</h5>
+					<div align="left">
+						<div class="subject_title_div">●기업 편집
+						</div>
+					</div>
+				
 					<table class="companyMgmt_tbl">
 						<thead>
 							<tr>
@@ -62,19 +66,27 @@
 								<td></td>
 								<td class="companyMgmt_tbl_title" rowspan="2">사업자등록번호</td>
 								<td rowspan="2">
-								<div class="input-with-image">
-								<input type="text" name="comBizNum" id="comBizNum"  value="${companyVO.comBizNum }">
-								<input type="button"
-									id="imgBtnSearchBizNum"></div></td>
+						    <div class="input-with-image">
+						        <input type="text" name="comBizNum" id="comBizNum" placeholder="사업자등록번호 확인">
+						        <input type="button" id="imgBtnSearchBizNum">
+						    </div>
+						    <span id="bizNumValidationResult" class="validation-result"></span> 
+						</td>
 								
 							</tr>
 
 				
 							<tr>
-							   <td id="uploadedFileName">
-				        <a href="#" onclick="downloadFile('${companyVO.comBizLicenseFile}')">${companyVO.comBizLicenseFile}</a>
+							   <td id="uploadedFileName" colspan="2">
+							     <div class="uploadResult">
+							 	<ul>  										
+				       			<li> <a href="#" onclick="downloadFile('${companyVO.comBizLicenseFile}')">${companyVO.comBizLicenseFile}</a></li>
+								</ul>
+																			
+									</div>
 				   			 </td>
-				    		<td></td>
+				   			 
+				    		
 							   
 							</tr>
 

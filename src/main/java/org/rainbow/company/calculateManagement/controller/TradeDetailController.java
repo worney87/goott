@@ -66,15 +66,22 @@ public class TradeDetailController {
 	// 결제완료처리
 	@ResponseBody
 	@PostMapping(value = "/Payment.do", produces = MediaType.TEXT_PLAIN_VALUE)
-		public ResponseEntity<String> Payment (@RequestBody List<String> recNo) {
-	  	log.info(recNo);
-	  	int result = tService.paymentProcessing(recNo);
-	  	log.info(result);
-	  	
-	  	if(result >= 1 )
-	    return ResponseEntity.ok("Success");
-	  	else  return ResponseEntity.ok("Fail");
+	public ResponseEntity<String> Payment (@RequestBody List<String> recNo) {
+	    if (recNo == null || recNo.isEmpty()) {
+	    	return ResponseEntity.ok("Fail");
+	    }
+
+	    log.info(recNo);
+	    int result = tService.paymentProcessing(recNo);
+	    log.info(result);
+
+	    if (result >= 1) {
+	        return ResponseEntity.ok("Success");
+	    } else {
+	        return ResponseEntity.ok("Fail");
+	    }
 	}
+
 	  
 	// 대손 처리 
 	@ResponseBody
@@ -102,6 +109,12 @@ public class TradeDetailController {
     	 
     	List<tdDownVO> downlist = tService.tdDownList(sdto);
     	
+    	if (downlist == null || downlist.isEmpty()) {
+	        // 예를 들어, 적절한 응답을 클라이언트에게 보낼 수 있습니다.
+    		tdDownVO nvo = new tdDownVO();
+	        downlist.add(nvo);
+	        return;
+	    }
     	log.info(downlist);
     	
         // 리스트를 넣으면 엑셀화됨.
@@ -178,6 +191,12 @@ public class TradeDetailController {
     	System.out.println(sdto);
     	 
     	List<ucComDownVO> downlist = tService.ucComDown(sdto);
+    	if (downlist == null || downlist.isEmpty()) {
+	        // 예를 들어, 적절한 응답을 클라이언트에게 보낼 수 있습니다.
+    		ucComDownVO nvo = new ucComDownVO();
+	        downlist.add(nvo);
+	        return;
+	    }
     	
     	log.info(downlist);
     	
@@ -253,6 +272,12 @@ public class TradeDetailController {
     	 
     	List<ucBranchDownVO> downlist = tService.ucBranchDown(sdto);
     	
+    	if (downlist == null || downlist.isEmpty()) {
+	        // 예를 들어, 적절한 응답을 클라이언트에게 보낼 수 있습니다.
+    		ucBranchDownVO nvo = new ucBranchDownVO();
+	        downlist.add(nvo);
+	        return;
+	    }
     	log.info(downlist);
     	
         // 리스트를 넣으면 엑셀화됨.
@@ -295,6 +320,13 @@ public class TradeDetailController {
     	 
     	List<tdDownVO> downlist = tService.ucTdDown(sdto);
     	
+    	if (downlist == null) {
+	        // 예를 들어, 적절한 응답을 클라이언트에게 보낼 수 있습니다.
+    		tdDownVO nvo = new tdDownVO();
+	        downlist.add(nvo);
+	        return;
+	    }
+    	
     	log.info(downlist);
     	
         // 리스트를 넣으면 엑셀화됨.
@@ -324,7 +356,7 @@ public class TradeDetailController {
 		        return ResponseEntity.ok("Fail");
 		    }
 		
-		int result = tService.bigHandProcessing(recNo);
+		int result = tService.billMakeProcessing(recNo);
 		log.info(result);
 		
 		if(result >= 1 )

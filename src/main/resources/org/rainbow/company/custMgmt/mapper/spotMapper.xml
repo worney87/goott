@@ -5,11 +5,12 @@
  
 <!-- 지점 리스트 가져오기-->
 <select id="spotList" resultType="org.rainbow.company.custMgmt.domain.spotListVO">
-   
-    SELECT cc.comName, cs.spotNo, cs.companyNo, cs.spName, cs.spAddr, cs.spAgreementDate, cs.spStatus, cs.spChangeDate, cu.userName
-	FROM RAIN_cCompany_tbl cc
-	INNER JOIN RAIN_cSpot_tbl cs ON cc.companyNo = cs.companyNo
-	INNER JOIN RAIN_cUser_tbl cu ON cs.spotNo = cu.spotNo
+SELECT cc.comName, cs.spotNo, cs.companyNo, cs.spName, cs.spAddr, cs.spAgreementDate, cs.spStatus, cs.spChangeDate, cu.userName 
+FROM RAIN_cCompany_tbl cc 
+INNER JOIN RAIN_cSpot_tbl cs ON cc.companyNo = cs.companyNo 
+INNER JOIN RAIN_cUser_tbl cu ON cs.spotNo = cu.spotNo 
+ORDER BY cs.spotNo DESC
+
 
    
 </select>

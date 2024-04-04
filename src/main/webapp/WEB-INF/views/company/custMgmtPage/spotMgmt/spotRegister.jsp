@@ -46,11 +46,11 @@
 					</tr>
 
 					<tr>
-							<th rowspan="3">주소</th>
+							<th rowspan="2">주소</th>
 			
-						<td >
+						<td colspan="2">
 								    <div class="input-with-image">
-								        <input type="text" name="spAddr" id="spAddr" placeholder="주소" readonly>
+								        <input type="text" name="spAddr" id="spAddr" placeholder="주소" readonly >
 								        <input type="button" id="imgBtnSearchAddr" onclick="openAddressPopup()">
 								    </div>
 								</td>
@@ -58,9 +58,9 @@
 						<td></td>
 				
 						<tr>
-							<td colspan="2">
+							<td>
 							<input type="text" placeholder="상세 주소" name="spDetailAddr" id="detailedAddr"></td>
-						
+						<td></td>
 						
 						<th>연락처</th>
 						<td>
@@ -92,7 +92,12 @@
 				
 
 					<tr>
-						 <td id="uploadedFileName"></td>
+						 <td id="uploadedFileName">
+							        <div class="uploadResult">
+										<ul></ul>
+									
+									</div>
+							    </td>
 								<td></td>
 					</tr>
 
@@ -230,7 +235,7 @@
         <!-- 페이지 부분 제거 후 JS로 그릴 예정 -->
         <!-- page -->
         </div>
-        <div id="pagination" class="page-wrap" align="center" style="width: 1500px;">
+        <div id="pagination" class="page-wrap">
             <ul class="page-nation">
                 <!-- 페이지네이션은 이곳에 동적으로 생성될 것입니다. -->
             </ul>
@@ -259,6 +264,7 @@
             <table class="list_div_tbl_modal" id="takeCsName_tbl">
                 <thead>
                     <tr class="top_bar_of_list_modal">
+                    	<th>기업명</th>
                         <th>담당자명</th>
                     </tr>
                 </thead>

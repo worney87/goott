@@ -42,7 +42,7 @@ document.getElementById("imgBtnSearchEname").addEventListener('click', function(
                 msg += `
                     <tr class="list">
                     	 <td>${item.eno}</a></td>
-                        <td><a href="#" class="salesDepartment" data-name="${item.eName}">${item.eName}</a></td>
+                         <td><a href="#" class="salesDepartment" data-name="${item.ename}">${item.ename}</a></td>
                          <td>${item.job}</a></td>
                     </tr>
                 `;
@@ -101,7 +101,7 @@ document.getElementById("searchBtn").addEventListener('click', function() {
                 msg += `
                     <tr class="list">
                     	 <td>${item.eno}</a></td>
-                        <td><a href="#" class="salesDepartment" data-name="${item.eName}">${item.eName}</a></td>
+                         <td><a href="#" class="salesDepartment" data-name="${item.ename}">${item.ename}</a></td>
                          <td>${item.job}</a></td>
                     </tr>
                 `;

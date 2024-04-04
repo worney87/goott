@@ -51,78 +51,84 @@
 
 
 	 <!-- 상담 요청 내용 가져오기-->
-	  <select id="salesView" resultType="org.rainbow.company.custMgmt.domain.consultVO" parameterType="int">
-	  	select * from RAIN_consult_tbl where consultNo=#{consultNo}
+	  <select id="salesView" resultType="org.rainbow.company.custMgmt.domain.consultAndCshVO" parameterType="int">
+	  	SELECT *
+FROM RAIN_consult_tbl c
+LEFT JOIN RAIN_consultHistory_tbl ch ON c.consultNo = ch.consultNo
+WHERE c.consultNo = #{consultNo}
+
 	  </select>
 	  
  	<!-- 영업 히스토리 내용 가져오기 -->
-	  <select id="getCshVO" resultType="org.rainbow.company.custMgmt.domain.cshVO" parameterType="int">
-	  	select * from RAIN_consultHistory_tbl where consultNo=#{consultNo}
-	  </select>
- 
-	<!-- 영업 내용 저장(수정)하기 -->
-	<update id="saveSales" parameterType="org.rainbow.company.custMgmt.domain.consultAndCshVO">
-	    UPDATE RAIN_consult_tbl
-	    SET 
-	    csStatus = #{csStatus},
-	    csEname = #{csEname},
-	    csResponseDate = #{csResponseDate},
-	    <!-- csFailReason과 csFailDetailReason가 모두 존재하는 경우에만 업데이트 -->
-	    <if test="csFailReason != '' and csFailDetailReason != ''">
-	        csFailReason = #{csFailReason},
-	        csFailDetailReason = #{csFailDetailReason}
-	    </if>
-	    WHERE consultNo = #{consultNo}
-	</update>
-  	
-  <!-- 영업 히스토리 내용 저장하기 -->
-	<insert id="insertCsh" parameterType="java.util.Map">
-	    INSERT INTO RAIN_consultHistory_tbl (consultNo, cshDate1, cshContent1, cshDate2, cshContent2, 
-	    cshDate3, cshContent3, cshDate4, cshContent4, cshDate5, cshContent5)
-	    VALUES (
-	    #{vo.consultNo}, 
-	    <if test="vo.cshDate1 != null and vo.cshContent1 != null">
-	        #{vo.cshDate1}, #{vo.cshContent1},
-	    </if>
-	    <if test="vo.cshDate2 != null and vo.cshContent2 != null">
-	        #{vo.cshDate2}, #{vo.cshContent2},
-	    </if>
-	    <if test="vo.cshDate3 != null and vo.cshContent3 != null">
-	        #{vo.cshDate3}, #{vo.cshContent3},
-	    </if>
-	    <if test="vo.cshDate4 != null and vo.cshContent4 != null">
-	        #{vo.cshDate4}, #{vo.cshContent4},
-	    </if>
-	    <if test="vo.cshDate5 != null and vo.cshContent5 != null">
-	        #{vo.cshDate5}, #{vo.cshContent5},
-	    </if>
-	    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
-	    )
-	</insert>
-	
-	
-	
-	  <!-- 영업 히스토리 내용 수정하기 -->
-	<update id="updateCsh" parameterType="java.util.Map">
+    <select id="getCshVO" resultType="org.rainbow.company.custMgmt.domain.cshVO" parameterType="int">
+        SELECT * FROM RAIN_consultHistory_tbl WHERE consultNo=#{consultNo}
+    </select>
+    
+   <!-- 'salesView.jsp' 에서 영업 내용 저장(수정)하기 -->
+<update id="saveSales" parameterType="org.rainbow.company.custMgmt.domain.consultAndCshVO">
+    UPDATE RAIN_consult_tbl
+    SET 
+    csStatus = #{csStatus},
+    csEname = #{csEname},
+    csResponseDate = #{csResponseDate},
+    <!-- csFailReason과 csFailDetailReason가 모두 존재하는 경우에만 업데이트 -->
+    <if test="csFailReason != null and csFailDetailReason != null">
+        csFailReason = #{csFailReason},
+        csFailDetailReason = #{csFailDetailReason}
+    </if>
+    WHERE consultNo = #{consultNo}
+</update>
+
+<!-- 'salesView.jsp' 에서 영업 히스토리 저장하기 -->
+<insert id="insertCsh" parameterType="org.rainbow.company.custMgmt.domain.consultAndCshVO">
+    INSERT INTO RAIN_consultHistory_tbl (consultNo
+    <if test="cshDate1 != null">, cshDate1</if>
+    <if test="cshContent1 != null">, cshContent1</if>
+    <if test="cshDate2 != null">, cshDate2</if>
+    <if test="cshContent2 != null">, cshContent2</if>
+    <if test="cshDate3 != null">, cshDate3</if>
+    <if test="cshContent3 != null">, cshContent3</if>
+    <if test="cshDate4 != null">, cshDate4</if>
+    <if test="cshContent4 != null">, cshContent4</if>
+    <if test="cshDate5 != null">, cshDate5</if>
+    <if test="cshContent5 != null">, cshContent5</if>)
+    VALUES (#{consultNo}
+    <if test="cshDate1 != null">, #{cshDate1}</if>
+    <if test="cshContent1 != null">, #{cshContent1}</if>
+    <if test="cshDate2 != null">, #{cshDate2}</if>
+    <if test="cshContent2 != null">, #{cshContent2}</if>
+    <if test="cshDate3 != null">, #{cshDate3}</if>
+    <if test="cshContent3 != null">, #{cshContent3}</if>
+    <if test="cshDate4 != null">, #{cshDate4}</if>
+    <if test="cshContent4 != null">, #{cshContent4}</if>
+    <if test="cshDate5 != null">, #{cshDate5}</if>
+    <if test="cshContent5 != null">, #{cshContent5}</if>)
+</insert>
+
+
+<!-- 'salesView.jsp' 에서 영업 히스토리 수정하기 -->
+<update id="updateCsh" parameterType="org.rainbow.company.custMgmt.domain.consultAndCshVO">
     UPDATE RAIN_consultHistory_tbl
     SET
-    <if test="vo.cshDate1 != null and vo.cshContent1 != null">
-        cshDate1 = #{vo.cshDate1}, cshContent1 = #{vo.cshContent1},
+    <if test="cshDate1 != null and cshContent1 != null">
+        cshDate1 = #{cshDate1}, cshContent1 = #{cshContent1}
     </if>
-    <if test="vo.cshDate2 != null and vo.cshContent2 != null">
-        cshDate2 = #{vo.cshDate2}, cshContent2 = #{vo.cshContent2},
+    <if test="cshDate2 != null and cshContent2 != null">
+        , cshDate2 = #{cshDate2}, cshContent2 = #{cshContent2}
     </if>
-    <if test="vo.cshDate3 != null and vo.cshContent3 != null">
-        cshDate3 = #{vo.cshDate3}, cshContent3 = #{vo.cshContent3},
+    <if test="cshDate3 != null and cshContent3 != null">
+        , cshDate3 = #{cshDate3}, cshContent3 = #{cshContent3}
     </if>
-    <if test="vo.cshDate4 != null and vo.cshContent4 != null">
-        cshDate4 = #{vo.cshDate4}, cshContent4 = #{vo.cshContent4},
+    <if test="cshDate4 != null and cshContent4 != null">
+        , cshDate4 = #{cshDate4}, cshContent4 = #{cshContent4}
     </if>
-    <if test="vo.cshDate5 != null and vo.cshContent5 != null">
-        cshDate5 = #{vo.cshDate5}, cshContent5 = #{vo.cshContent5},
+    <if test="cshDate5 != null and cshContent5 != null">
+        , cshDate5 = #{cshDate5}, cshContent5 = #{cshContent5}
     </if>
-    WHERE consultHistoryNo = #{vo.consultHistoryNo}
+    WHERE consultHistoryNo = #{consultHistoryNo}
 </update>
+
+
 
 
 	 <!-- 영업부 사원 검색 모달창 : 영업부 사원 리스트 가져오기 -->
@@ -157,25 +163,23 @@
 		SELECT cs.consultNo, cs.csCompanyName
 		FROM RAIN_consult_tbl cs
 		WHERE cs.csStatus = '계약 완료'
-		AND cs.csCompanyName NOT IN (SELECT comName FROM RAIN_cCompany_tbl);
+		AND cs.csCompanyName NOT IN (SELECT comName FROM RAIN_cCompany_tbl) and cs.csCompanyName=#{companyName}
 
 	</select>
 	
-	 	 <!-- 담당자명  모달창 에서 담당자 리스트 가져오기 -->
+	 	<!-- 담당자명  모달창 에서 담당자 리스트 가져오기 -->
 	<select id="takeCsNameList" resultType="org.rainbow.company.custMgmt.domain.consultVO">
-		SELECT cs.csCompanyName, cs.csName
-		FROM RAIN_consult_tbl cs
-		INNER JOIN RAIN_cCompany_tbl com 
-		WHERE cs.csStatus = '계약 완료' AND com.comName IS NULL
+		SELECT csCompanyName, csName, csEmail
+		FROM RAIN_consult_tbl 
+		WHERE csStatus = '계약 완료'
 
 	</select>
 	
 	 	 <!-- 담당자명  모달창 에서 검색한 담당자명 가져오기 -->
 	<select id="searchTakeCsName" resultType="org.rainbow.company.custMgmt.domain.consultVO" parameterType="string">
-		SELECT cs.csCompanyName, cs.csName
-		FROM RAIN_consult_tbl cs
-		INNER JOIN RAIN_cCompany_tbl com 
-		WHERE cs.csStatus = '계약 완료' AND com.comName IS NULL AND cs.csName LIKE CONCAT('%', #{csName}, '%')
+		SELECT csCompanyName, csName, csEmail
+		FROM RAIN_consult_tbl 
+		WHERE csStatus = '계약 완료' AND csName LIKE CONCAT('%', #{csName}, '%')
 
 	</select>
 	

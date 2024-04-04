@@ -184,17 +184,17 @@ var openTakeCsNameModalBtn = document.getElementById('open_takeCsName_modal');
 var closeTakeCsNameModalBtn = document.getElementById('close_takeCsName_modal');
 
 
-/**기업 연결 모달창 열기 */ 
+/**담당자명 가져오기 모달창 열기 */ 
 openTakeCsNameModalBtn.onclick = function() {
 	takeCsNameModal.style.display = 'block';
 }
 
-/**기업 연결 모달창 닫기 */ 
+/**담당자명 가져오기 모달창 닫기 */ 
 closeTakeCsNameModalBtn.onclick = function() {
 	takeCsNameModal.style.display = 'none';
 }
 
-/**기업 연결 모달창 닫기 (딴 곳 누를 시)*/ 
+/**담당자명 가져오기 모달창 닫기 (딴 곳 누를 시)*/ 
 window.onclick = function(event) {
   if (event.target === takeCsNameModal) {
 	  takeCsNameModal.style.display = 'none';
@@ -220,8 +220,8 @@ document.getElementById("imgBtnTakeCsName").addEventListener('click', function()
             json.forEach(item => {
                 msg += `
                     <tr class="list">
-                        <td><a href="#" class="csNameLink" data-csName="${item.csName}" data-email="${item.csEmail}">${item.csName}</a></td>
-                        <td>${item.csCompanyName}</td>
+                		<td>${item.csCompanyName}</td>
+                        <td><a href="#" class="csNameLink" data-name="${item.csName}" data-mail="${item.csEmail}">${item.csName}</a></td>
                     </tr>
                 `;
             });
@@ -242,7 +242,7 @@ document.getElementById("imgBtnTakeCsName").addEventListener('click', function()
 });
 
 
-//기업명 찾기(모달창)에서 기업명 검색 기능 
+//담당자명 찾기(모달창)에서 기업명 검색 기능 
 document.getElementById("searchTakeCsNameBtn").addEventListener('click', function() {
 
     let csName = document.querySelector('input[name="searchTakeCsName"]').value;
@@ -271,8 +271,8 @@ document.getElementById("searchTakeCsNameBtn").addEventListener('click', functio
         	json.forEach(item => {
                 msg += `
                     <tr class="list">
-                      <td><a href="#" class="csNameLink" data-csName="${item.csName}" data-email="${item.csEmail}">${item.csName}</a></td>
-                	 <td>${item.csCompanyName}</td>
+                		<td>${item.csCompanyName}</td>
+                        <td><a href="#" class="csNameLink" data-name="${item.csName}" data-mail="${item.csEmail}">${item.csName}</a></td>
                         
                     </tr>
                 `;
@@ -280,7 +280,7 @@ document.getElementById("searchTakeCsNameBtn").addEventListener('click', functio
         } else {
             msg = `
                 <tr>
-                    <td>찾으시는 담당자명이 없습니다.</td>
+                    <td colspan="2">찾으시는 담당자명이 없습니다.</td>
                 </tr>
             `;
         }
@@ -304,10 +304,11 @@ function changeCsName(){
             let result = confirm("담당자명을 선택하시겠습니까?");
             if(result){
                 // 선택한 기업명을 가져와서 comName input 요소에 할당
-                let selectedCsName = this.dataset.company;
-                let selectedUserEmail = this.dataset.email;
+                let selectedCsName = this.dataset.name;
+                let selectedCsEmail = this.dataset.mail;
+                console.log(selectedCsName,selectedCsEmail);
                 document.querySelector('input[name="userName"]').value = selectedCsName;
-                document.querySelector('input[name="userEmail"]').value = selectedUserEmail;
+                document.querySelector('input[name="userEmail"]').value = selectedCsEmail;
             }
             document.querySelector('input[name="searchComName"]').value = ''; 
             takeCsNameModal.style.display = 'none'; 
@@ -316,5 +317,4 @@ function changeCsName(){
 	
 	
 };
-
 

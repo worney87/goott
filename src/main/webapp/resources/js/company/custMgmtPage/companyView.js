@@ -73,127 +73,154 @@ function openAddressPopup() {
 
 }
 
-//계약서 파일 업로드 버튼에 파일 업로드 기능 추가
-function updateFileName() {
-    const fileInput = document.getElementById('fileInput'); 
-    const fileListElement = document.getElementById('uploadedFileName'); 
+//기존 파일 목록을 저장하는 배열
+let existingFiles = [];
 
-    if (fileInput.files.length > 0) {
-        for (let i = 0; i < fileInput.files.length; i++) {
-            const file = fileInput.files[i]; 
-            const fileName = file.name; 
-            
-            // 파일을 다운로드할 수 있는 링크 생성
-            const downloadLink = document.createElement('a');
-            downloadLink.href = URL.createObjectURL(file);
-            downloadLink.download = fileName; // 다운로드 시 파일명 지정
-            downloadLink.textContent = fileName; // 링크 텍스트 설정
-            
-            // 파일 삭제 이미지 생성
-            const deleteImage = document.createElement('img');
-            deleteImage.src = '/resources/images/mt-cancel.svg'; // 삭제 이미지 URL 설정
-            deleteImage.width = 5;
-            deleteImage.style.cursor = 'pointer'; // 마우스 커서를 포인터로 변경
-            
-            // 파일 삭제 이벤트 리스너 추가
-            deleteImage.addEventListener('click', function() {
-                // 해당 파일 항목 삭제
-                fileItem.remove();
-            });
-            
-            // 파일명과 다운로드 링크를 담는 div 요소 생성
-            const fileItem = document.createElement('div');
-            fileItem.className = 'file-item'; // 파일 아이템에 클래스 추가
-            fileItem.appendChild(downloadLink);
-            fileItem.appendChild(deleteImage);
-            
-            // 파일 항목을 파일 목록 요소에 추가
-            fileListElement.appendChild(fileItem);
-        }
-    }
+// 기존 파일을 불러오는 함수
+function loadExistingFiles() {
+    // 서버에서 기존 파일 목록을 가져오는 fetch 또는 Ajax 요청을 수행합니다.
+    fetch('/getExistingFiles')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch existing files');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // 받아온 기존 파일 목록을 화면에 출력합니다.
+            const uploadResult = document.querySelector(".uploadResult ul");
+            const existingFilesList = uploadResult.querySelector(".existing-files");
+
+            // 기존 파일 목록이 있는 경우에만 출력합니다.
+            if (existingFilesList && data && data.length > 0) {
+                data.forEach(fileInfo => {
+                    const listItem = document.createElement('li');
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = `#`; // 파일 다운로드 링크 설정
+                    downloadLink.textContent = fileInfo.fileName; // 파일 이름 설정
+                    listItem.appendChild(downloadLink);
+                    existingFilesList.appendChild(listItem);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching existing files:', error);
+        });
 }
 
+//파일 입력 요소의 변경 이벤트 리스너 등록
+document.getElementById("fileInput").addEventListener('change', () => {
+    const files = document.getElementById('fileInput').files;
+    const newFiles = Array.from(files); // 새로운 파일 목록
 
-function downloadFile(filePath) {
-    // 파일 다운로드를 위한 URL 생성
-    var downloadUrl = '/download?filePath=' + filePath; // 다운로드를 처리하는 서버의 엔드포인트 URL을 적어주세요.
-
-    // 임시 링크 생성
-    var link = document.createElement('a');
-    link.href = downloadUrl;
-
-    // 파일 다운로드를 위한 설정
-    link.setAttribute('download', '');
-    document.body.appendChild(link);
-    
-    // 클릭 이벤트를 발생시켜 파일 다운로드를 시작합니다.
-    link.click();
-
-    // 임시 링크 삭제
-    document.body.removeChild(link);
-}
-
-
-document.getElementById('fileInput').addEventListener('change', function(event) {
-    const fileList = event.target.files;
-    console.log('Selected file:', fileList[0].name);
-
-    // 선택한 파일 정보를 vo 객체에 저장
-    f.spAgreementFile.value = fileList[0].name;
+    // 새로운 파일 목록을 기존 파일 목록 아래에 추가하고 화면에 표시
+    showUploadedFiles(newFiles);
 });
+
+//파일 삭제 함수
+function deleteFile(event) {
+  const fileName = event.target.getAttribute('data-file-name');
+  console.log("파일 삭제:", fileName);
+  
+  // 삭제할 파일을 화면에서 제거
+  const listItem = event.target.closest('li');
+  listItem.remove();
+  
+  // 배열에서도 해당 파일 제거
+  existingFiles = existingFiles.filter(file => file.name !== fileName);
+  console.log("existingFiles:", existingFiles); // existingFiles 배열을 콘솔에 출력
+}
+
+//업로드된 파일 목록을 출력하는 함수
+function showUploadedFiles(files) {
+    console.log(files); // 배열에 들어있는 파일들을 콘솔에 출력
+    console.log("Uploaded Files:");
+    const uploadResult = document.querySelector(".uploadResult ul");
+    
+    // 기존 목록 초기화 후 새로운 파일 목록을 출력
+    const newList = document.createElement('ul');
+    newList.classList.add('new-files');
+
+    if (!files || files.length === 0) {
+        return;
+    }
+
+    // 새로운 파일 목록 출력
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const listItem = document.createElement('li');
+
+        // 파일 객체에 다운로드 링크 추가
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(file);
+        downloadLink.download = file.name;
+        downloadLink.textContent = file.name;
+        listItem.appendChild(downloadLink);
+
+        // 파일 삭제 이미지 추가 및 이벤트 리스너 등록
+        const deleteImage = document.createElement('img');
+        deleteImage.src = '/resources/images/mt-cancel.svg'; // 삭제 이미지 URL 설정
+        deleteImage.style.width = '15px'; // 삭제 이미지 크기 조정
+        deleteImage.style.height = '15px'; // 추가: 이미지 높이도 조정
+        deleteImage.style.cursor = 'pointer'; // 마우스 커서를 포인터로 변경
+        deleteImage.setAttribute('data-file-name', file.name); // 삭제할 파일 이름을 데이터 속성으로 추가
+        deleteImage.addEventListener('click', deleteFile); // 삭제 버튼 클릭 이벤트 리스너 등록
+
+        listItem.appendChild(deleteImage);
+        newList.appendChild(listItem);
+    }
+
+    // 새로운 파일 목록을 기존 파일 목록 아래에 추가
+    const existingList = uploadResult.querySelector(".existing-files");
+    if (existingList) {
+        uploadResult.removeChild(existingList);
+    }
+    uploadResult.appendChild(newList);
+}
+
+
+
 
 /** 사업자등록번호 유효 API */
 document.getElementById("imgBtnSearchBizNum").addEventListener('click', () => {
-    const bizNum = document.querySelector('input[name="comBizNum"]').value;
-    console.log(bizNum);
-    searchBizNum([bizNum]); // 배열로 감싸서 전달
-});
 
-function searchBizNum(bizNumArray) {
-	var data = {
-	        "b_no": bizNumArray
-	    };
+	    	 $("#comBizNum").val($("#comBizNum").val().replace(/[^0-9]/g, ""));
+	    	 comBizNum = $("#comBizNum").val();
 
-    $.ajax({
-        url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=RcQTidl2gdgS/jYwj9Nwfy1D7bKtcwekloVeGJ+U4NxpCVbVTrc/dueJNvAJoSgWSe9fvIGz/JzX4Y/aOFkkHA==",
-        type: "POST",
-        data: JSON.stringify(data),
-        dataType: "JSON",
-        contentType: "application/json",
-        accept: "application/json",
-        success: function(result) {
-        	alert(JSON.stringify(result, null, 2));
-        },
-        error: function(result) {
-            alert(result.responseText);
-        }
-    });
-}
+	    	   
+	    	    var data = {
+	    	        "b_no": [comBizNum]
+	    	    };
+	    	    
+	    	    $.ajax({
+	    	        url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=RcQTidl2gdgS%2FjYwj9Nwfy1D7bKtcwekloVeGJ%2BU4NxpCVbVTrc%2FdueJNvAJoSgWSe9fvIGz%2FJzX4Y%2FaOFkkHA%3D%3D",  // serviceKey 값을 xxxxxx에 입력
+	    	        type: "POST",
+	    	        data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+	    	        dataType: "JSON",
+	    	        traditional: true,
+	    	        contentType: "application/json; charset:UTF-8",
+	    	        accept: "application/json",
+	    	        success: function(result) {
+	    	            console.log(result);
+	    	            if(result.match_cnt == "1") {
+	    	            	// 성공
+	    	            	// 성공
+	    	                $("#bizNumValidationResult").text("국세청에 등록된 사업자등록번호입니다.");
+	    	                $("#bizNumValidationResult").removeClass("error");
+	    	            } else {
+	    	            	  $("#bizNumValidationResult").text("국세청에 등록되지 않은 사업자등록번호입니다. 다시 확인바랍니다.");
+	    	                  $("#bizNumValidationResult").addClass("error");
+	    	                //alert(result.data[0]["tax_type"]);
+	    	            }
+	    	        },
+	    	        error: function(result) {
+	    	            console.log("error");
+	    	            console.log(result.responseText); //responseText의 에러메세지 확인
+	    	        }
+	    	    });
 
+	});
 
-function uploadedFileName(comNo){
-	
-	let jsonData = JSON.stringify(comNo);
-	//console.log(jsonData);
-	
-	fetch('/getCompanyLicenseFileURL',{
-			method: 'POST',
-	        headers: {
-	            'Content-Type': 'application/json'
-	        },
-	        body: jsonData
-	})
-    .then(response => response.json())
-    .then(url => {
-        // 서버로부터 받은 파일 다운로드 URL을 사용하여 다운로드 링크를 생성합니다.
-        const downloadLink = document.createElement('a');
-        downloadLink.href = url; // 서버에서 제공한 파일 다운로드 URL
-        downloadLink.download = '${companyVO.comBizLicenseFile}'; // 다운로드 시 파일명 설정
-        downloadLink.click(); // 링크 클릭하여 다운로드 시작
-    })
-    .catch(error => console.error('Error:', error));
-	
-};
 
 
 
