@@ -203,7 +203,20 @@ public class userAdminServiceImpl implements userAdminService {
 		
 	}
 	
+	@Override
+	public HashMap<String, Object> sendGift(int ordNo) {
+		return userMapper.sendGift(ordNo);
+	}
 	
+	@Override
+	public int updateOrderStep(int ordNo) {
+		return userMapper.updateOrderStep(ordNo);
+	}
+	
+	@Override
+	public List<HashMap<String, Object>> getDownUsageList(int spotNo) {
+		return userMapper.getDownUsageList(spotNo);
+	}
 
 
 }

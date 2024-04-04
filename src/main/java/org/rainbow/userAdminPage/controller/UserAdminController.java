@@ -2,14 +2,23 @@ package org.rainbow.userAdminPage.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.rainbow.domain.ExcelListener;
 import org.rainbow.userAdminPage.service.userAdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -472,62 +481,61 @@ public class UserAdminController {
 		List<HashMap<String, Object>> result = userService.getRecipients(inputValue);
 		return new ResponseEntity<List<HashMap<String, Object>>>(result, HttpStatus.OK);
 	}
-	
-	
 
+	private static final String FILE_NAME = "임직원일괄업로드양식.xlsx";
+	// 파일이 위치한 상대 경로
+	private static final String FILE_PATH = "/resources/images/";
 
-    private static final String FILE_NAME = "임직원일괄업로드양식.xlsx";
-    // 파일이 위치한 상대 경로
-    private static final String FILE_PATH = "/resources/images/";
+	@Autowired
+	private ServletContext servletContext;
 
-    @Autowired
-    private ServletContext servletContext;
+	@ResponseBody
+	@GetMapping("/download/excel")
+	public ResponseEntity<Resource> downloadExcelTemplate() {
+		// 상대 경로를 절대 경로로 변환
+		String absoluteFilePath = servletContext.getRealPath(FILE_PATH + FILE_NAME);
 
-    @ResponseBody
-    @GetMapping("/download/excel")
-    public ResponseEntity<Resource> downloadExcelTemplate() {
-        // 상대 경로를 절대 경로로 변환
-        String absoluteFilePath = servletContext.getRealPath(FILE_PATH + FILE_NAME);
+		try {
+			File file = new File(absoluteFilePath);
+			if (!file.exists()) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			}
 
-        try {
-            File file = new File(absoluteFilePath);
-            if (!file.exists()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            }
+			// 파일을 리소스로 읽기
+			Resource resource = new FileSystemResource(file);
 
-            // 파일을 리소스로 읽기
-            Resource resource = new FileSystemResource(file);
+			// 응답 헤더 설정
+			HttpHeaders headers = new HttpHeaders();
+			headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + FILE_NAME);
 
-            // 응답 헤더 설정
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + FILE_NAME);
+			// 파일의 Content-Type 지정
+			headers.setContentType(
+					MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
 
-            // 파일의 Content-Type 지정
-            headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+			// 응답 생성
+			return ResponseEntity.ok().headers(headers).body(resource);
+		} catch (Exception e) {
+			// 파일이 없는 경우
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+	}
 
-            // 응답 생성
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .body(resource);
-        } catch (Exception e) {
-            // 파일이 없는 경우
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
-    
-    @GetMapping("/userEmpGiftList/{ordNo}/{spotNo}")
-    public String moveuserEmpGiftList(@PathVariable int ordNo, @PathVariable int spotNo, Model model) {
-    	List<HashMap<String, Object>> result = userService.getCustomGift(spotNo);
-    	model.addAttribute("giftList", result);
-    	model.addAttribute("ordNo", ordNo);
-    	return "/userAdminPage/userEmpGiftList";
-    }
-    
-    @ResponseBody
-    @PostMapping("/orderGift")
-    public String orderGift(@RequestBody HashMap<String, Object> orderInfo){
-    	try {
+	@GetMapping("/userEmpGiftList/{ordNo}/{spotNo}")
+	public String moveuserEmpGiftList(@PathVariable int ordNo, @PathVariable int spotNo, Model model) {
+		List<HashMap<String, Object>> result = userService.getCustomGift(spotNo);
+		model.addAttribute("giftList", result);
+		model.addAttribute("ordNo", ordNo);
+		return "/userAdminPage/userEmpGiftList";
+	}
+
+	@ResponseBody
+	@PostMapping("/orderGift")
+	public String orderGift(@RequestBody HashMap<String, Object> orderInfo) {
+		try {
+			UUID uuid = UUID.randomUUID();
+			String serialNo = (orderInfo.get("prdNo") + uuid.toString()).replace("-", "");
+			orderInfo.put("serialNo", serialNo);
 			boolean result = userService.orderGift(orderInfo);
 			log.info(result);
 
@@ -540,6 +548,72 @@ public class UserAdminController {
 			e.printStackTrace();
 			return "error";
 		}
-    }
-    
+	}
+
+	@ResponseBody
+	@GetMapping("/downUsageList/{spotNo}")
+	public ResponseEntity<String> downUsageList(@PathVariable int spotNo, HttpServletResponse response) {
+		List<HashMap<String, Object>> usageList = userService.getDownUsageList(spotNo);
+		System.out.println(usageList);
+
+		try (Workbook workbook = new XSSFWorkbook()) {
+			Sheet sheet = workbook.createSheet("Usage List");
+			Row headerRow = sheet.createRow(0);
+
+			// 컬럼 순서를 직접 지정합니다.
+			String[] columns = { "기업명", "지점명", "주문일자", "주문자", "상품분류", "상품명", "총액", "공급액", "세액", "금액차감", "차감금액", "금액추가",
+					"추가금액" };
+
+			// 컬럼명을 엑셀에 기재합니다.
+			for (int i = 0; i < columns.length; i++) {
+				Cell cell = headerRow.createCell(i);
+				cell.setCellValue(columns[i]);
+			}
+
+			// Date 포맷을 지정할 패턴 설정
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+			// 데이터를 엑셀에 기재합니다.
+			int rowCount = 1;
+			for (HashMap<String, Object> row : usageList) {
+			    Row dataRow = sheet.createRow(rowCount++);
+			    int cellCount = 0;
+			    for (String column : columns) {
+			        Object value = row.get(column);
+			        Cell cell = dataRow.createCell(cellCount++);
+			        if (value != null) {
+			            if (value instanceof String) {
+			                cell.setCellValue((String) value);
+			            } else if (value instanceof Integer) {
+			                // 숫자 형식으로 변환하여 셀에 기재합니다.
+			                cell.setCellValue((Integer) value);
+			            } else if (value instanceof Double) {
+			                // 숫자 형식으로 변환하여 셀에 기재합니다.
+			                cell.setCellValue((Double) value);
+			            } else if (value instanceof Date) {
+			                // 날짜 형식으로 변환하여 셀에 기재합니다.
+			                cell.setCellValue(dateFormat.format((Date) value));
+			            } else {
+			                // 기타 형식일 경우 문자열로 처리합니다.
+			                cell.setCellValue(value.toString());
+			            }
+			        } else {
+			            // null인 경우 0으로 셀에 기재합니다.
+			            cell.setCellValue(0);
+			        }
+			    }
+			}
+
+			// Excel 파일을 생성하고 응답으로 전송합니다.
+			response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+			response.setHeader("Content-Disposition", "attachment; filename=usageList.xlsx");
+			workbook.write(response.getOutputStream());
+
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 }

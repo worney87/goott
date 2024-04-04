@@ -57,4 +57,10 @@ public interface userAdminService {
 	public int updateStep(int ordNo);
 	
 	public boolean orderGift(HashMap<String, Object> orderInfo);
+	
+	public HashMap<String, Object> sendGift(int ordNo);
+	
+	public int updateOrderStep(int ordNo);
+	
+	public List<HashMap<String, Object>> getDownUsageList(int spotNo);
 }

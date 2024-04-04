@@ -102,7 +102,7 @@
             <c:forEach var="gift" items="${giftList}">
                 <div class="col-1" style="width: 180px;">
                     <div class="form-check" style="width: 150px;">
-                        <input class="form-check-input" type="radio" name="gift" data-code="${gift.prdSal}" value="${gift.prdNo}" id="${gift.prdNo}" onchange="changeBackground(this)"/>
+                        <input class="form-check-input" type="radio" name="gift" data-code="${gift.prdSal}" value="${gift.prdNo}" id="${gift.prdNo}"/>
                         <label class="form-check-label" for="${gift.prdNo}">
                             <div class="card h-100" style="width: 150px;">
                                 <img src="${gift.prdImg}" class="card-img-top object-fit-fill border rounded"

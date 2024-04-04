@@ -40,7 +40,7 @@
 
 				<article>
 					<div class="text-end" style="margin-right: 10%;">
-						<button class="btn btn-primary">전체 거래명세서 내려받기</button>
+						<button class="btn btn-primary" id="downUsageList">전체 거래명세서 내려받기</button>
 					</div>
 				</article>
 

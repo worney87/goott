@@ -43,7 +43,7 @@ table {
 					<div
 						class="col my-3 px-2 d-flex flex-row-reverse align-items-center">
 						<!-- 엑셀 다운로드 버튼 -->
-						<button type="button" class="btn btn-primary">엑셀로 내려받기</button>
+						<!-- <button type="button" class="btn btn-primary">엑셀로 내려받기</button> -->
 					</div>
 				</div>
 

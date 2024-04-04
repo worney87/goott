@@ -1,4 +1,7 @@
 const okja = sessionStorage.getItem("Okja");
+if(okja == null){
+  location.href = "/userAdminPage/userLogin"
+}
 
 // 각 버튼 변수 설정
 const dashboard = document.querySelectorAll("#dashboard");
