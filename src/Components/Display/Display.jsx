@@ -32,6 +32,8 @@ function Display(props) {
 
     const [product, setProducts] = useState(data);
 
+    let a;
+
   return (
     <Container>
       <HeaderArea>
