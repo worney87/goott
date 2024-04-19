@@ -21,7 +21,7 @@ const Logo = styled.div`
   background-size: contain;
 `;
 
-
+const menus = ['로그인', '회원가입', '장바구니', '고객센터'];
 
 function Header(props) {
   return (

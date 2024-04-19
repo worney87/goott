@@ -1,9 +1,9 @@
 import React from 'react';
 
-function DetailBody(props) {
+function DetailBody({detail}) {
     return (
         <div>
-            
+            {detail}
         </div>
     );
 }

@@ -14,12 +14,40 @@ const MainBG = styled.div`
   background-repeat: no-repeat;
 `;
 
-function Main({ data }) {
+const LoadMoreButton = styled.button`
+  display: block;
+  margin: auto;
+  width: 50%;
+  padding: 10px 20px;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 60px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: white;
+  background-color: darkorange;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px 5px #e8e4e4;
+  & {
+    transition: all 0.1s linear;
+  }
+  &:hover {
+    background-color: orange;
+    cursor: pointer;
+    transform: scale(1.01);
+  }
+`;
+
+function Main({ data, handleLoadMore, loadMore }) {
   return (
     <Wrapper>
       <MainBG />
       {/* 상품 목록이 들어갈 예정 */}
       <ProductList data={data} />
+      {loadMore && (
+        <LoadMoreButton onClick={handleLoadMore}>더보기</LoadMoreButton>
+      )}
     </Wrapper>
   );
 }
