@@ -7,6 +7,7 @@ import data from "../../util/mock/data.js";
 import Detail from "../Detail/Detail.jsx";
 import axios from "axios";
 import Cart from "../Cart/Cart.jsx";
+import Recently from "../../Recently/Recently.jsx";
 
 const Container = styled.div`
   width: 100%;
@@ -109,15 +110,18 @@ function Display(props) {
           <Route
             path="/"
             element={
-              <Main
-                data={displayData}
-                handleLoadMore={handleLoadMore}
-                loadMore={loadMore}
-              />
+              <>
+                <Recently />
+                <Main
+                  data={displayData}
+                  handleLoadMore={handleLoadMore}
+                  loadMore={loadMore}
+                />
+              </>
             }
           />
           <Route path="/detail/:pId" element={<Detail data={products} />} />
-          <Route path='/cart' element={<Cart/>}/>
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </Body>
     </Container>
