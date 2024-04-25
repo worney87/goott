@@ -16,8 +16,10 @@ function PostList(props) {
     const getPosts = async () => {
       setLoading(true); // 데이터 로딩 시작
       const [postsResponse, totalCountResponse] = await axios.all([
-        axios.get(`/api/postList/${currentPage}/${amount}`),
-        axios.get(`/api/totalCount`),
+        axios.get(
+          process.env.REACT_APP_HOST + `/api/postList/${currentPage}/${amount}`
+        ),
+        axios.get(process.env.REACT_APP_HOST + `/api/totalCount`),
       ]);
       setPosts(postsResponse.data);
       setTotalCount(totalCountResponse.data);
