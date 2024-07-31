@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="org.rainbow.company.custMgmt.mapper.salesMapper">
+ 
+ 	<!-- 상담 요청 리스트 가져오기-->
+	<select id="salesList" resultType="org.rainbow.company.custMgmt.domain.consultVO">
+	   
+	    SELECT *
+	    FROM RAIN_consult_tbl ORDER by consultNo DESC
+	   
+	</select>
+ 
+   <!-- 서치바 - 키워드 검색 결과 가져오기 -->
+	
+	<select id="searchConsult" resultType="org.rainbow.company.custMgmt.domain.consultVO" parameterType="org.rainbow.company.custMgmt.domain.consultSearchDTO">
+   SELECT consultNo, csDate, csCompanyName, csName, csContact, csEmail, csBdgt, csStatus, csEname
+   FROM RAIN_consult_tbl
+   WHERE 1 = 1
+
+   <if test="keyword != null and keyword != ''">
+      AND (
+         csCompanyName = '${keyword}' 
+         OR csName LIKE CONCAT('%', #{keyword}, '%')
+         OR csEmail = '${keyword}'
+         OR csEname = '${keyword}' 
+      )
+   </if>
+   <if test="firDate != null and secDate != null">
+      AND csDate BETWEEN #{firDate} AND #{secDate}
+   </if>
+</select>
+
+<select id="downloadSalesExcel" parameterType="org.rainbow.company.custMgmt.domain.consultSearchDTO" resultType="org.rainbow.company.custMgmt.domain.salesDownVO">
+		  	SELECT * 
+		    FROM RAIN_consult_tbl 
+		    WHERE 
+		     csStatus IN
+			<foreach item="item" collection="checkedValues" open="(" separator="," close=")">
+		        #{item}
+		    </foreach>
+			<if test="keyword != null and keyword != ''">
+			    AND (
+			       csCompanyName = '${keyword}' 
+         OR csName LIKE CONCAT('%', #{keyword}, '%')
+         OR csEmail = '${keyword}'
+         OR csEname = '${keyword}'    
+			    )
+			</if>
+			</select>
+
+
+	 <!-- 상담 요청 내용 가져오기-->
+	  <select id="salesView" resultType="org.rainbow.company.custMgmt.domain.consultAndCshVO" parameterType="int">
+	  	SELECT *
+FROM RAIN_consult_tbl c
+LEFT JOIN RAIN_consultHistory_tbl ch ON c.consultNo = ch.consultNo
+WHERE c.consultNo = #{consultNo}
+
+	  </select>
+	  
+ 	<!-- 영업 히스토리 내용 가져오기 -->
+    <select id="getCshVO" resultType="org.rainbow.company.custMgmt.domain.cshVO" parameterType="int">
+        SELECT * FROM RAIN_consultHistory_tbl WHERE consultNo=#{consultNo}
+    </select>
+    
+   <!-- 'salesView.jsp' 에서 영업 내용 저장(수정)하기 -->
+<update id="saveSales" parameterType="org.rainbow.company.custMgmt.domain.consultAndCshVO">
+    UPDATE RAIN_consult_tbl
+    SET 
+    csStatus = #{csStatus},
+    csEname = #{csEname},
+    csResponseDate = #{csResponseDate},
+    <!-- csFailReason과 csFailDetailReason가 모두 존재하는 경우에만 업데이트 -->
+    <if test="csFailReason != null and csFailDetailReason != null">
+        csFailReason = #{csFailReason},
+        csFailDetailReason = #{csFailDetailReason}
+    </if>
+    WHERE consultNo = #{consultNo}
+</update>
+
+<!-- 'salesView.jsp' 에서 영업 히스토리 저장하기 -->
+<insert id="insertCsh" parameterType="org.rainbow.company.custMgmt.domain.consultAndCshVO">
+    INSERT INTO RAIN_consultHistory_tbl (consultNo
+    <if test="cshDate1 != null">, cshDate1</if>
+    <if test="cshContent1 != null">, cshContent1</if>
+    <if test="cshDate2 != null">, cshDate2</if>
+    <if test="cshContent2 != null">, cshContent2</if>
+    <if test="cshDate3 != null">, cshDate3</if>
+    <if test="cshContent3 != null">, cshContent3</if>
+    <if test="cshDate4 != null">, cshDate4</if>
+    <if test="cshContent4 != null">, cshContent4</if>
+    <if test="cshDate5 != null">, cshDate5</if>
+    <if test="cshContent5 != null">, cshContent5</if>)
+    VALUES (#{consultNo}
+    <if test="cshDate1 != null">, #{cshDate1}</if>
+    <if test="cshContent1 != null">, #{cshContent1}</if>
+    <if test="cshDate2 != null">, #{cshDate2}</if>
+    <if test="cshContent2 != null">, #{cshContent2}</if>
+    <if test="cshDate3 != null">, #{cshDate3}</if>
+    <if test="cshContent3 != null">, #{cshContent3}</if>
+    <if test="cshDate4 != null">, #{cshDate4}</if>
+    <if test="cshContent4 != null">, #{cshContent4}</if>
+    <if test="cshDate5 != null">, #{cshDate5}</if>
+    <if test="cshContent5 != null">, #{cshContent5}</if>)
+</insert>
+
+
+<!-- 'salesView.jsp' 에서 영업 히스토리 수정하기 -->
+<update id="updateCsh" parameterType="org.rainbow.company.custMgmt.domain.consultAndCshVO">
+    UPDATE RAIN_consultHistory_tbl
+    SET
+    <if test="cshDate1 != null and cshContent1 != null">
+        cshDate1 = #{cshDate1}, cshContent1 = #{cshContent1}
+    </if>
+    <if test="cshDate2 != null and cshContent2 != null">
+        , cshDate2 = #{cshDate2}, cshContent2 = #{cshContent2}
+    </if>
+    <if test="cshDate3 != null and cshContent3 != null">
+        , cshDate3 = #{cshDate3}, cshContent3 = #{cshContent3}
+    </if>
+    <if test="cshDate4 != null and cshContent4 != null">
+        , cshDate4 = #{cshDate4}, cshContent4 = #{cshContent4}
+    </if>
+    <if test="cshDate5 != null and cshContent5 != null">
+        , cshDate5 = #{cshDate5}, cshContent5 = #{cshContent5}
+    </if>
+    WHERE consultHistoryNo = #{consultHistoryNo}
+</update>
+
+
+
+
+	 <!-- 영업부 사원 검색 모달창 : 영업부 사원 리스트 가져오기 -->
+	<select id="getCsEnameListModal" resultType="org.rainbow.company.employeeSupervisePage.domain.rain_EmpVO">
+	SELECT eno,eName,job
+	FROM RAIN_EMP_tbl where deptNo = 3
+
+	</select>
+	
+	 <!-- 영업부 사원 검색 모달창 : 영업부 사원  검색 결과 가져오기 -->
+
+<select id="searchModalCsEname" parameterType="java.lang.String" resultType="org.rainbow.company.employeeSupervisePage.domain.rain_EmpVO">
+    SELECT e.eno, e.eName, e.job
+    FROM RAIN_EMP_tbl e 
+    WHERE e.deptNo = 3 AND (e.eName LIKE CONCAT('%', #{keyword}, '%') OR e.eno = #{keyword})
+</select>
+
+
+
+	
+	 <!-- 기업명 찾기 모달창 : 기업 리스트 가져오기 -->
+	<select id="searchCompanyListModal" resultType="org.rainbow.company.custMgmt.domain.consultVO">
+	SELECT cs.consultNo,cs.csCompanyName
+	FROM RAIN_consult_tbl cs
+	WHERE cs.csStatus = '계약 완료'
+	AND cs.csCompanyName NOT IN (SELECT comName FROM RAIN_cCompany_tbl)
+	</select>
+ 	
+ 	
+ 	 <!-- 기업명 찾기(모달창)에서 기업명 검색 기능 -->
+	<select id="searchModalComName" resultType="org.rainbow.company.custMgmt.domain.consultVO" parameterType="string">
+		SELECT cs.consultNo, cs.csCompanyName
+		FROM RAIN_consult_tbl cs
+		WHERE cs.csStatus = '계약 완료'
+		AND cs.csCompanyName NOT IN (SELECT comName FROM RAIN_cCompany_tbl) and cs.csCompanyName=#{companyName}
+
+	</select>
+	
+	 	<!-- 담당자명  모달창 에서 담당자 리스트 가져오기 -->
+	<select id="takeCsNameList" resultType="org.rainbow.company.custMgmt.domain.consultVO">
+		SELECT csCompanyName, csName, csEmail
+		FROM RAIN_consult_tbl 
+		WHERE csStatus = '계약 완료'
+
+	</select>
+	
+	 	 <!-- 담당자명  모달창 에서 검색한 담당자명 가져오기 -->
+	<select id="searchTakeCsName" resultType="org.rainbow.company.custMgmt.domain.consultVO" parameterType="string">
+		SELECT csCompanyName, csName, csEmail
+		FROM RAIN_consult_tbl 
+		WHERE csStatus = '계약 완료' AND csName LIKE CONCAT('%', #{csName}, '%')
+
+	</select>
+	
+	
+ 	
+ 
+ </mapper>

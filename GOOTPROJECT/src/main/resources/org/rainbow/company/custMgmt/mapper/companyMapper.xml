@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.rainbow.company.custMgmt.mapper.companyMapper">
+
+	<!-- 기업 리스트 가져오기-->
+	<select id="companyList"  resultType="org.rainbow.company.custMgmt.domain.companyVO">
+		SELECT * FROM RAIN_cCompany_tbl
+	</select>
+
+<!-- 서치바 - 키워드 검색 결과 가져오기 -->
+<!-- 	<select id="giveKeyword" resultType="org.rainbow.company.custMgmt.domain.companyVO" parameterType="org.rainbow.company.custMgmt.domain.companySearchDTO">
+   SELECT companyNo, comName, comBizNum, comBizType, comArea, comAddr, comContact, comBizStatus
+   FROM RAIN_cCompany_tbl
+   WHERE 1 = 1
+
+   <if test="keyword != null and keyword != ''">
+      AND (
+        comName = #{keyword} 
+         OR comBizNum = #{keyword} 
+         OR comAddr = #{keyword}
+         OR comContact = #{keyword} 
+      )
+   </if>
+  <if test="comBizType != null and comBizType != '' and comBizType != '선택'">
+  
+    AND comBizType = #{comBizType}
+</if>
+  <if test="comBizStatus != null and comBizStatus != '' and comBizStatus != '선택'">
+  
+    AND comBizStatus = #{comBizStatus}
+</if>
+</select>  -->
+
+	<select id="giveKeyword" parameterType="org.rainbow.domain.Criteria" resultType="org.rainbow.company.custMgmt.domain.companyVO">
+	      
+	        SELECT *
+			FROM RAIN_cCompany_tbl 
+			WHERE 
+					comName LIKE CONCAT('%', #{keyword}, '%') OR comBizNum = #{keyword} OR comAddr LIKE CONCAT('%', #{keyword}, '%') OR comContact = #{keyword}   
+
+			ORDER BY companyNo ASC;
+			
+	</select>
+
+ <!-- 기업 정보  가져오기-->
+<select id="companyView" resultType="org.rainbow.company.custMgmt.domain.companyVO" parameterType="int">
+	select * from RAIN_cCompany_tbl where companyNo=#{companyNo}
+</select>
+
+
+
+	<!-- 엑셀 파일 리스트로 받아서 인서트  -->
+	<insert id= "insertCompanyExcel" parameterType="org.rainbow.company.custMgmt.domain.companyInputVO">
+		insert into RAIN_cCompany_tbl values
+		(
+			#{companyNo}, #{consultNo}, #{comName} ,#{comBizLicenseFile},
+			#{comBizNum} ,#{comBizType} ,#{comArea} ,#{comAddr},	
+			#{comDetailAddr}, #{comBizStatus}, #{comBizCategory}, #{comCEO} ,#{comContact}, 
+			#{comEmail}, #{comOpenningDate}
+		)
+	</insert>
+
+
+		
+			<select id="downloadCompanyExcel" parameterType="org.rainbow.company.custMgmt.domain.companySearchDTO" resultType="org.rainbow.company.custMgmt.domain.companyDownVO">
+		  	SELECT * 
+		    FROM RAIN_cCompany_tbl 
+		    WHERE 
+		     comBizType IN
+			<foreach item="item" collection="checkedValues" open="(" separator="," close=")">
+		        #{item}
+		    </foreach>
+			<if test="keyword != null and keyword != ''">
+			    AND (
+			       comName LIKE CONCAT('%', #{keyword}, '%') OR comBizNum = #{keyword} OR comAddr LIKE CONCAT('%', #{keyword}, '%') OR comContact = #{keyword}   
+			    )
+			</if>
+			</select>
+		
+		
+		
+	<!--  db에 저장된 파일들 가져오기 및 파일 다운로드-->
+	<select id="getCompanyLicenseFileURL" resultType="org.rainbow.company.custMgmt.domain.companyVO" parameterType="string">
+		SELECT comBizLicenseFile FROM RAIN_cCompany_tbl where companyNo= #{jsonData}
+	</select>
+	
+<!-- 기업 정보 update -->
+
+	<update id="updateCompany" parameterType="org.rainbow.company.custMgmt.domain.companyVO">
+		 update RAIN_cCompany_tbl set comName=#{comName}, comBizLicenseFile=#{comBizLicenseFile},
+		 comBizNum=#{comBizNum}, comBizType=#{comBizType}, comArea=#{comArea}, comAddr=#{comAddr},
+		 comDetailAddr=#{comDetailAddr}, comBizStatus=#{comBizStatus}, comBizCategory=#{comBizCategory},
+		 comCEO=#{comCEO}, comContact=#{comContact}, comEmail=#{comEmail}, comOpenningDate=#{comOpenningDate} 
+		 where companyNo=#{companyNo}
+	</update>
+	
+		  <!-- 기업 연결 모달창 에서 기업 리스트 가져오기 -->
+	  <select id="takeComNameList" resultType="org.rainbow.company.custMgmt.domain.companyVO">
+	  	select companyNo,comName from RAIN_cCompany_tbl
+	  </select>
+	  
+	   <!-- 기업 연결 모달창에서 기업명 검색 기능 -->
+	<select id="searchTakeComName" resultType="org.rainbow.company.custMgmt.domain.companyVO" parameterType="string">
+		SELECT comName
+		FROM RAIN_cCompany_tbl
+		WHERE comName LIKE CONCAT('%', #{comName}, '%')
+
+	</select>
+	
+	
+	  <!-- 새로운 기업 등록하기-->
+		
+	<insert id="companyRegisterInsert" parameterType="org.rainbow.company.custMgmt.domain.companyVO">
+    INSERT INTO RAIN_cCompany_tbl (
+        <if test="consultNo != null">consultNo,</if>
+        comName,
+        <if test="comBizNum != null">comBizNum,</if>
+        comBizType,
+        comArea,
+        comAddr,
+        comDetailAddr,
+        comBizStatus,
+        comBizCategory,
+        <if test="comCEO != null">comCEO,</if>
+        <if test="comContact != null">comContact,</if>
+        <if test="comEmail != null">comEmail,</if>
+        <if test="comOpenningDate != null">comOpenningDate</if>
+    )
+    VALUES 
+    (
+        <if test="consultNo != null">#{consultNo},</if>
+        #{comName},
+        <if test="comBizNum != null">#{comBizNum},</if>
+        #{comBizType},
+        #{comArea},
+        #{comAddr},
+        #{comDetailAddr},
+        #{comBizStatus},
+        #{comBizCategory},
+        <if test="comCEO != null">#{comCEO},</if>
+        <if test="comContact != null">#{comContact},</if>
+        <if test="comEmail != null">#{comEmail},</if>
+        <if test="comOpenningDate != null">#{comOpenningDate}</if>
+    )
+</insert>
+
+
+<!-- 마지막 값 가져오기 -->
+	<select id="getCompanyNo" resultType="int">
+		SELECT LAST_INSERT_ID();
+	</select>
+
+</mapper>

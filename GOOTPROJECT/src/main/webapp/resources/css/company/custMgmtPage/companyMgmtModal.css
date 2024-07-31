@@ -1,0 +1,118 @@
+@charset "UTF-8";
+
+#searchCompany_modal {
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  box-sizing: border-box;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-alin:center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#searchBizStatus_modal {
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  box-sizing: border-box;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-alin:center;
+  background-color: rgba(0, 0, 0, 0.5);
+	
+}
+
+
+/** 모달창 시작*/
+
+
+.modal {
+   top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5);
+	
+}
+
+.modal-content {
+  box-sizing: border-box;
+  border: 1px solid #888;
+   top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+ 
+}
+
+.modal-top {
+	
+	 box-sizing: border-box;
+	  padding-top:10px;
+	  padding-bottom:10px;
+	 
+	  
+
+}
+
+
+.modal-bottom {
+	
+	 box-sizing: border-box;
+	  padding-top:10px;
+	  padding-bottom:10px;
+	  text-align:right;
+	  margin-right:10px;
+
+}
+
+.modal-footer {
+	
+	 box-sizing: border-box;
+	 
+}
+
+
+
+
+
+/** 게시글 목록 div*/
+.list_div_modal {
+	
+	box-sizing: border-box;
+	border : 5px solid #EEEEEE;
+
+  margin: 0 auto; /* 수평 가운데 정렬 */
+
+}
+
+.list_div_tbl_modal {
+	 
+	border : 5px solid white;
+	table-layout: auto;
+	table-layout: fixed;
+	width:100%;
+}
+
+.list_div_tbl_modal tr th {
+
+	font-size: 13px;
+	text-align: center;
+}
+
+.list_div_tbl_modal td{
+	text-align: center;
+	
+}
+
+/** 게시글 목록 상단 바*/
+.top_bar_of_list_modal {
+	border : 5px solid white;
+	
+	background-color:#EEEEEE;
+	font-size: 13px;
+	font-weight : bolder;
+
+}

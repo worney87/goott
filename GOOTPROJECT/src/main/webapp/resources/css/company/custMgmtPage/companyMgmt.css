@@ -1,0 +1,503 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@charset "UTF-8";
+
+/** ------------공통 --*/
+	
+	.notosanskr * { 
+		 font-family: 'Noto Sans KR', sans-serif;
+		}
+	
+	/* 변수 생성 */
+	:root {
+	  
+	  --bg-gray:#EEEEEE; 
+	  --blue:rgb(75, 91, 225);
+	  --basic-radius:3px;
+	  
+	}
+	body{
+		margin : 0;
+		padding : 0;
+	}
+	.navBar{
+		position: fixed;
+		width : 100%;
+		top : 0;
+	}
+	.entire{
+		width: 80%;
+	
+	}
+
+	/** 타이틀 */
+	.title h3{
+		font-weight : bolder;
+		
+	}
+	
+/** ------------공통 끝 --*/	
+	
+/** ------------기업 관리 (companyList.jsp) 페이지 시작--*/
+
+	.searchBar_div {
+		padding: 20px;
+	    border-radius: 10px;
+	    box-sizing: border-box;
+	    background-color:var(--bg-gray);
+	    padding-bottom:10px;
+		}
+	
+	.searchBar_tbl {
+	    width: 100%;
+	    border-spacing: 0px 10px; /** 테이블 내부 간격 조정 */
+	}
+	
+	.searchBar_tbl_title {
+		font-weight: bold;
+		letter-spacing: 1px; /* 텍스트 간격을 조절하는 값 */
+		width:100px;
+		
+	}	
+	
+	.searchBar_tbl th, .searchBar_tbl td {
+	  padding: 10px;
+	  
+	   
+	}
+	
+	.btn {
+	    padding: 6px 12px;
+	    font-size: 14px;
+	    border-radius: 5px;
+	}
+	
+	.searchBar_btns {
+		text-align : right;
+	}
+	
+	#searchBarSearchBtn {
+	    width: 80px; 
+	    margin-top: 10px;
+	    margin-right: 5px; 
+	    background-color: #007bff;
+	    color: #fff;
+	    border: none;
+	    cursor: pointer;
+	}
+	
+	#searchBarResetBtn:hover {
+	    background-color: #007bff;
+	    color: #fff;
+	}
+	
+	#searchBarResetBtn {
+	    background-color: #fff;
+	    color: #007bff;
+	    border: 1px solid #007bff;
+	    width: 80px;
+	    margin-top: 10px;
+	    margin-right: 5px; 
+	    cursor: pointer;
+	}
+
+	#searchBarSearchBtn:hover {
+		background-color:#fff;
+		color: #007bff;
+		border: 1px solid #007bff;
+	}
+	
+	.checkbox-container input[type="checkbox"] {
+	    margin-right: 5px;
+	}
+	
+	.datePick1, .datePick2 {
+	    width: 120px;
+	    padding: 5px;
+	}
+	
+	.dateBtn {
+	    margin-right: 5px;
+	    padding: 5px 10px;
+	    background-color: #007bff;
+	    color: #fff;
+	    border: none;
+	    border-radius: 5px;
+	    cursor: pointer;
+	}
+
+	.download_to_excel_btn_div {
+	    box-sizing: border-box;
+		text-align: right;
+		padding: 50px 5px 10px 5px;
+	}
+		
+	#downloadExcelBtn {
+		background-color: var(--blue);
+		color: rgb(255, 255, 255);
+		border-color:var(--blue);
+		border-radius: var(--basic-radius);
+		border: 5px 10px 5px 10px;
+		width:140px;
+	}
+	
+	.viewAFew_div {
+    box-sizing: border-box;
+    text-align:right;
+    padding: 0px 5px 10px 5px;
+	}
+
+	
+	.list_div {
+		box-sizing: border-box;
+		border : 5px solid var(--bg-gray);
+	}
+	
+	.list_div_tbl {
+		border : 5px solid white;
+		table-layout: auto;
+		table-layout: fixed;
+		width:100%;
+	}
+	
+	.list_div_tbl tr th {
+		font-size: 15px;
+		text-align: center;
+	}
+	
+	.list_div_tbl td{
+		text-align: center;
+	}
+	
+	
+	.top_bar_of_list {
+		border : 5px solid white;
+		background-color:var(--bg-gray);
+		font-size: 15px;
+		font-weight : bolder;
+	}
+	
+	
+	/*페이징 이미지사이즈  */
+	td img {height: 80px; width: 120px;}
+		.page-nation li{
+		list-style: none;
+	}
+			
+	.page-wrap{
+		text-align: center;
+		font-size: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.page-nation {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 20px;
+	}
+			
+	.page-nation a{
+		display: block;
+		margin: 0 3px;
+		flex: left;
+		border: 1px solid #e6e6e6;
+		width: 28px;
+		height: 28px;
+		line-height: 28px;
+		text-align: center;
+		background-color: #fff;
+		font-size: 13px;
+		color: black;
+		text-decoration: none;
+	}
+	
+	.page-nation a.active{
+		background-color: #0078ff;
+		color: #fff;
+	}
+	
+	.page-nation a:hover{
+		background-color: #0078ff;
+		color: #fff;
+	}
+	
+	.sort-btn{
+		background-color: #eaeaea;
+		border-color: white;
+	}
+
+
+#moveCompanyRegisterBtn {
+	box-sizing: border-box;
+	width:120px;
+	background-color: var(--blue);
+	color: rgb(255, 255, 255);
+	border-color:var(--blue);
+	border-radius: var(--basic-radius);
+	border: 5px 10px 5px 10px;
+	
+	
+}
+
+#moveCompanyRegisterBtn:hover {
+		background-color:#fff;
+		color: var(--blue);
+		border: 1px solid #007bff;
+	}
+
+input[type="text"],input[type="email"] {
+		border:none;
+		width:100%;
+		border-radius: 10px;
+		padding-left:10px;
+	}
+	
+	textarea{
+		border:none;
+		border-radius: 10px;
+	}
+	
+	select{
+		border:none;
+		border-radius: 10px;
+		text-align: center;
+	}
+
+/** ------------기업 관리 (companyList.jsp) 페이지 끝--*/
+
+
+
+
+
+
+
+/** ----------기업 등록,기업 수정 페이지 시작 ---------------*/
+
+li {
+    list-style-type: none;
+}
+
+.companyMgmt_div {
+
+	box-sizing: border-box;
+}
+
+.subject_title_div {
+		margin-top:30px;
+		margin-bottom :10px;
+		width:120px;
+		box-sizing: border-box;
+		
+		font-weight:bolder;
+		margin-left:0px;
+		font-size : 20px;
+		background-color: var(--bg-gray); 
+		border-radius: 15px;
+		text-align: center;
+	}
+
+.companyMgmt_tbl {
+	width: 100%;
+	background-color: var(--bg-gray);
+	table-layout: auto;
+	table-layout: fixed;
+	border: 7px solid var(--bg-gray);
+
+	
+}
+.companyMgmt_tbl_title {
+	width: 200px;
+	border: 10px solid var(--bg-gray);
+	font-weight: bold;
+
+}
+.companyMgmt_tbl tr {
+	width: 100%;
+
+}
+
+.companyMgmt_tbl td {
+	width: 100%;
+	border: 10px solid var(--bg-gray);
+	
+	
+}
+
+
+#imgBtnSearchComName {
+        background: url( "/resources/images/ul-search.svg" ) no-repeat;
+        border: none;
+      	  width: 25px;
+        height: 25px;
+        cursor: pointer;
+        background-size: contain;
+      }
+
+#imgBtnBizLicenseFileUpload{
+	background: url( "/resources/images/mt-file_upload.svg" ) no-repeat;
+        border: none;
+      	  width: 25px;
+        height: 25px;
+        cursor: pointer;
+        background-size: contain;
+	
+}
+
+#imgBtnSearchBizNum {
+	  background: url( "/resources/images/ul-search.svg" ) no-repeat;
+        border: none;
+      	  width: 25px;
+        height: 25px;
+        cursor: pointer;
+        background-size: contain;
+	
+}
+
+
+#imgBtnSearchAddr {
+	
+	background: url( "/resources/images/ul-search.svg" ) no-repeat;
+        border: none;
+      	  width: 25px;
+        height: 25px;
+        cursor: pointer;
+        background-size: contain;
+	
+}
+
+
+#detailedAddr{
+	height: 56px;
+}
+
+
+#imgBtnSearchBizStatus {
+	
+	background: url( "/resources/images/ul-search.svg" ) no-repeat;
+        border: none;
+      	  width: 25px;
+        height: 25px;
+        cursor: pointer;
+        background-size: contain;
+	
+}
+
+
+.btn_div {
+	width: var(--max-width);
+    box-sizing: border-box;
+	text-align: right;
+	padding-top:50px;
+}
+
+	
+#companyRegisterInsertBtn {
+	box-sizing: border-box;
+	width:120px;
+	background-color: var(--blue);
+	color: rgb(255, 255, 255);
+	border-color:var(--blue);
+	border-radius: var(--basic-radius);
+	border: 5px 10px 5px 10px;
+	
+	
+}
+
+#companyRegisterInsertBtn:hover {
+		background-color:#fff;
+		color: var(--blue);
+		border: 1px solid #007bff;
+	}
+
+
+
+#companyRegisterResetBtn{
+	background-color:rgb(255, 255, 255);
+	color:var(--blue);
+	border-color:rgb(255, 255, 255);
+	border-radius: var(--basic-radius);
+	border: 5px 10px 5px 10px;
+	width: 120px;
+	
+}
+
+#companyRegisterResetBtn:hover {
+	    background-color: var(--blue);
+	    color: #fff;
+	}
+
+
+
+.companyMgmt_tbl input[type="text"],
+.companyMgmt_tbl input[type="date"],
+.companyMgmt_tbl input[type="email"]
+ {
+	border: none;
+	width:100%;
+	
+}
+
+.input-with-image {
+    position: relative;
+}
+
+.input-with-image input[type="button"],#imgBtnBizLicenseFileUpload {
+    position: absolute;
+    top: 50%;
+    right: 5px; /* 텍스트 입력 상자 오른쪽에 위치시킵니다. */
+    transform: translateY(-50%);
+}
+
+
+#companyUpdateBtn {
+	box-sizing: border-box;
+	width:120px;
+	background-color: var(--blue);
+	color: rgb(255, 255, 255);
+	border-color:var(--blue);
+	border-radius: var(--basic-radius);
+	border: 5px 10px 5px 10px;
+	
+	
+}
+#companyUpdateBtn:hover {
+		background-color:#fff;
+		color: #007bff;
+		border: 1px solid #007bff;
+	}
+
+
+#companyUpdateResetBtn{
+	background-color:rgb(255, 255, 255);
+	color:var(--blue);
+	border-color:rgb(255, 255, 255);
+	border-radius: var(--basic-radius);
+	border: 5px 10px 5px 10px;
+	width: 120px;
+	
+}
+#companyUpdateResetBtn:hover {
+		background-color:var(--blue);
+		color: #007bff;
+		border: 1px solid #007bff;
+	}
+
+.validation-result {
+    font-size: 12px; /* 글자 크기를 작게 조정합니다. */
+    color: green; /* 기본적으로는 초록색으로 표시하도록 설정합니다. */
+}
+
+.validation-result.error {
+    color: red; /* 실패 시에는 빨간색으로 변경합니다. */
+}
+/** ----------기업 등록,기업 수정 페이지 끝---------------*/
+
+
+
+
+
+
+
+
+
